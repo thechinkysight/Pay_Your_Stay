@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Pay Your Stay</string>
+
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="analysis">Analysis</string>
+    <string name="calculator">Calculator</string>
+
+
+</resources>

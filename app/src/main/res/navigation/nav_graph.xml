@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/calculator">
+
+    <fragment
+        android:id="@+id/calculator"
+        android:name="thechinkysight.app.payyourstay.screens.Calculator"
+        android:label="@string/calculator" />
+
+    <fragment
+        android:id="@+id/analysis"
+        android:name="thechinkysight.app.payyourstay.screens.Analysis"
+        android:label="@string/analysis" />
+    <fragment
+        android:id="@+id/history"
+        android:name="thechinkysight.app.payyourstay.screens.History"
+        android:label="@string/history" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="thechinkysight.app.payyourstay.screens.Settings"
+        android:label="@string/settings" />
+
+</navigation>
