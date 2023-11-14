@@ -5,6 +5,10 @@
     <string name="settings">Settings</string>
     <string name="analysis">Analysis</string>
     <string name="calculator">Calculator</string>
+    <string name="navigate_to_calculator">Navigate to Calculator</string>
+    <string name="navigate_to_analysis">Navigate to Analysis</string>
+    <string name="navigate_to_history">Navigate to History</string>
+    <string name="navigate_to_settings">Navigate to Settings</string>
 
 
 </resources>

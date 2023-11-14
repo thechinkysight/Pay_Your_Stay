@@ -2,23 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/calculator">
+    app:startDestination="@id/calculator_fragment">
 
     <fragment
-        android:id="@+id/calculator"
+        android:id="@+id/calculator_fragment"
         android:name="thechinkysight.app.payyourstay.screens.Calculator"
         android:label="@string/calculator" />
 
     <fragment
-        android:id="@+id/analysis"
+        android:id="@+id/analysis_fragment"
         android:name="thechinkysight.app.payyourstay.screens.Analysis"
         android:label="@string/analysis" />
     <fragment
-        android:id="@+id/history"
+        android:id="@+id/history_fragment"
         android:name="thechinkysight.app.payyourstay.screens.History"
         android:label="@string/history" />
     <fragment
-        android:id="@+id/settings"
+        android:id="@+id/settings_fragment"
         android:name="thechinkysight.app.payyourstay.screens.Settings"
         android:label="@string/settings" />
 
