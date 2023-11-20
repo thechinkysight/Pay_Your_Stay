@@ -2,8 +2,9 @@ package thechinkysight.app.payyourstay
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,8 +18,8 @@ class SettingsTest {
 
         launchFragmentInContainer<Settings>()
 
-    onView(ViewMatchers.withText(R.string.settings))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(R.string.settings))
+            .check(matches(isDisplayed()))
 
     }
 

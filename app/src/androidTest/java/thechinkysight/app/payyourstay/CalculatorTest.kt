@@ -12,7 +12,7 @@ import thechinkysight.app.payyourstay.screens.Calculator
 @RunWith(AndroidJUnit4::class)
 class CalculatorTest {
     @Test
-    fun isMenuTextVisible() {
+    fun isCalculatorTextVisible() {
         launchFragmentInContainer<Calculator>()
         onView(ViewMatchers.withText(R.string.calculator))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
