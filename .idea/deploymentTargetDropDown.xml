@@ -5,6 +5,9 @@
       <entry key="NavigationTest">
         <State />
       </entry>
+      <entry key="app">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
