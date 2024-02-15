@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Pay Your Stay</string>
+
+    <string name="previous_elec_meter_reading">Previous Elec. Meter Reading</string>
+    <string name="current_elec_meter_reading">Current Elec. Meter Reading</string>
+    <string name="electricity_rate_per_unit">Electricity Rate Per Unit</string>
+    <string name="water_fee">Water Fee</string>
+    <string name="garbage_fee">Garbage Fee</string>
+    <string name="rent">Rent</string>
+    <string name="calculate">Calculate</string>
+    <string name="invoice">Invoice</string>
+    <string name="utilities">Utilities</string>
+    <string name="electricity_meter_reading">Electricity Meter Reading</string>
+    <string name="total">Total</string>
+    <string name="done">Done</string>
 </resources>
