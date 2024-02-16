@@ -13,4 +13,13 @@
     <string name="electricity_meter_reading">Electricity Meter Reading</string>
     <string name="total">Total</string>
     <string name="done">Done</string>
+
+    <!--Text fields error messages-->
+    <string name="error_message_for_empty_previous_reading">Previous reading can\'t be empty</string>
+    <string name="error_message_for_empty_current_reading">Current reading can\'t be empty</string>
+    <string name="error_message_for_current_reading_less_than_previous">Current reading can\'t be less than previous</string>
+    <string name="error_message_for_empty_electricity_rate">Electricity rate can\'t be empty</string>
+    <string name="error_message_for_empty_water_fee">Water fee can\'t be empty</string>
+    <string name="error_message_for_empty_garbage_fee">Garbage fee can\'t be empty</string>
+    <string name="error_message_for_empty_rent">Rent can\'t be empty</string>
 </resources>
