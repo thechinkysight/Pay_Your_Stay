@@ -52,7 +52,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
-
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     testImplementation("junit:junit:4.13.2")
 

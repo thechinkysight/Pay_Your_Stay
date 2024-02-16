@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay
+package thechinkysight.app.payyourstay.screens
 
 import androidx.fragment.app.Fragment
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="thechinkysight.app.payyourstay.CalculatorFragment"
+        android:name="thechinkysight.app.payyourstay.screens.CalculatorFragment"
         android:label="fragment_calculator"
         tools:layout="@layout/fragment_calculator" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/invoiceFragment"
-        android:name="thechinkysight.app.payyourstay.InvoiceFragment"
+        android:name="thechinkysight.app.payyourstay.screens.InvoiceFragment"
         android:label="fragment_invoice"
         tools:layout="@layout/fragment_invoice" />
 </navigation>

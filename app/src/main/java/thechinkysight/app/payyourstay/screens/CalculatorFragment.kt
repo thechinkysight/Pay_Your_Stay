@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay
+package thechinkysight.app.payyourstay.screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,15 +10,15 @@ import thechinkysight.app.payyourstay.databinding.FragmentCalculatorBinding
 
 class CalculatorFragment : Fragment() {
 
-    private lateinit var binding: FragmentCalculatorBinding
+    private lateinit var _binding: FragmentCalculatorBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCalculatorBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentCalculatorBinding.inflate(inflater)
+        return _binding.root
     }
 
 }
