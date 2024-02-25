@@ -38,81 +38,159 @@ class CalculatorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showErrorWhenTextFieldIsEmpty(
+        showProperErrorOnTextField(
             binding.previousElecMeterReadingTextField.editText,
-            R.string.error_message_for_empty_previous_reading
+            R.string.error_message_for_empty_previous_reading,
+            currentElecMeterReadingTextFieldTextInputEditText = binding.currentElecMeterReadingTextField.editText
         )
-        showErrorWhenTextFieldIsEmpty(
+        showProperErrorOnTextField(
             binding.currentElecMeterReadingTextField.editText,
-            R.string.error_message_for_empty_current_reading
+            R.string.error_message_for_empty_current_reading,
+            previousElecMeterReadingTextFieldTextInputEditText = binding.previousElecMeterReadingTextField.editText
         )
-        showErrorWhenTextFieldIsEmpty(
+        showProperErrorOnTextField(
             binding.electricityRatePerUnitTextField.editText,
             R.string.error_message_for_empty_electricity_rate
         )
 
 
 
-        showErrorWhenTextFieldIsEmpty(
+        showProperErrorOnTextField(
             binding.waterFeeTextField.editText,
             R.string.error_message_for_empty_water_fee
         )
-        showErrorWhenTextFieldIsEmpty(
+        showProperErrorOnTextField(
             binding.garbageFeeTextField.editText,
             R.string.error_message_for_empty_garbage_fee
         )
 
-        
 
-        showErrorWhenTextFieldIsEmpty(
+
+        showProperErrorOnTextField(
             binding.rentTextField.editText,
             R.string.error_message_for_empty_rent
         )
     }
 
-    private fun showErrorWhenTextFieldIsEmpty(
+    private fun showProperErrorOnTextField(
         textInputEditText: EditText?,
-        @StringRes errorMessageId: Int
-    ) {
-        showErrorWhenTextFieldIsEmptyAfterFocus(textInputEditText, errorMessageId)
-        showErrorWhenTextFieldIsEmptyAfterTextChange(textInputEditText, errorMessageId)
-    }
-
-    private fun showErrorWhenTextFieldIsEmptyAfterFocus(
-        textInputEditText: EditText?,
-        @StringRes errorMessageId: Int
+        @StringRes errorMessageId: Int,
+        previousElecMeterReadingTextFieldTextInputEditText: EditText? = null,
+        currentElecMeterReadingTextFieldTextInputEditText: EditText? = null
     ) {
 
-        textInputEditText?.setOnFocusChangeListener { v: View, hasFocus: Boolean ->
+        val isItPreviousElecMeterReadingTextField: Boolean =
+            currentElecMeterReadingTextFieldTextInputEditText != null
 
-            if (!hasFocus) {
-                val isTextFieldEmpty: Boolean = (v as TextInputEditText).text?.isEmpty() == true
-                if (isTextFieldEmpty) {
-                    v.error = getString(errorMessageId)
-                } else {
-                    v.error = null
+        val isItCurrentElecMeterReadingTextField: Boolean =
+            previousElecMeterReadingTextFieldTextInputEditText != null
+
+
+        textInputEditText?.apply {
+
+            setOnFocusChangeListener { v: View, hasFocus: Boolean ->
+                showErrorWhenTextFieldIsEmptyAfterFocus(
+                    errorMessageId,
+                    v,
+                    hasFocus
+                )
+
+                if (isItPreviousElecMeterReadingTextField || isItCurrentElecMeterReadingTextField) {
+
+                    if (isItPreviousElecMeterReadingTextField) {
+                        showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
+                            this,
+                            currentElecMeterReadingTextFieldTextInputEditText
+                        )
+                    } else {
+                        showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
+                            previousElecMeterReadingTextFieldTextInputEditText,
+                            this
+                        )
+                    }
                 }
             }
 
-        }
+            doAfterTextChanged { text: Editable? ->
+                showErrorWhenTextFieldIsEmptyAfterTextChange(
+                    textInputEditText,
+                    errorMessageId,
+                    text
+                )
 
+                if (isItPreviousElecMeterReadingTextField || isItCurrentElecMeterReadingTextField) {
+
+                    if (isItPreviousElecMeterReadingTextField) {
+                        showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
+                            this,
+                            currentElecMeterReadingTextFieldTextInputEditText
+                        )
+                    } else {
+                        showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
+                            previousElecMeterReadingTextFieldTextInputEditText,
+                            this
+                        )
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    private fun showErrorWhenTextFieldIsEmptyAfterFocus(
+        @StringRes errorMessageId: Int,
+        v: View,
+        hasFocus: Boolean
+    ) {
+        if (!hasFocus) {
+            val isTextFieldEmpty: Boolean = (v as TextInputEditText).text?.isEmpty() == true
+            if (isTextFieldEmpty) {
+                v.error = getString(errorMessageId)
+            } else {
+                v.error = null
+            }
+        }
     }
 
 
     private fun showErrorWhenTextFieldIsEmptyAfterTextChange(
         textInputEditText: EditText?,
-        @StringRes errorMessageId: Int
+        @StringRes errorMessageId: Int,
+        text: Editable?
     ) {
-        textInputEditText?.doAfterTextChanged { text: Editable? ->
+        if (text.toString().isEmpty()) {
+            textInputEditText?.error =
+                getString(errorMessageId)
+        } else {
+            textInputEditText?.error = null
+        }
+    }
 
-            if (text.toString().isEmpty()) {
-                textInputEditText.error =
-                    getString(errorMessageId)
+
+    private fun showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
+        previousElecMeterReadingTextFieldTextInputEditText: EditText?,
+        currentElecMeterReadingTextFieldTextInputEditText: EditText?
+    ) {
+        val previousElecMeterReading: String =
+            previousElecMeterReadingTextFieldTextInputEditText?.text.toString()
+
+        val currentElecMeterReading: String =
+            currentElecMeterReadingTextFieldTextInputEditText?.text.toString()
+
+        if (currentElecMeterReading.isNotEmpty()) {
+
+            if (currentElecMeterReading.toInt() < (previousElecMeterReading.toIntOrNull()
+                    ?: 0)
+            ) {
+                currentElecMeterReadingTextFieldTextInputEditText?.error =
+                    getString(R.string.error_message_for_current_reading_less_than_previous)
             } else {
-                textInputEditText.error = null
+                currentElecMeterReadingTextFieldTextInputEditText?.error = null
             }
 
         }
+
     }
 
 }
