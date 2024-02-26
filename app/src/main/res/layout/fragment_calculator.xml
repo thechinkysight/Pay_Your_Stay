@@ -51,7 +51,7 @@
                     android:visibility="invisible" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/previousElecMeterReadingTextField"
+                    android:id="@+id/previousElecMeterReadingTextFieldTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -69,7 +69,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/currentElecMeterReadingTextField"
+                    android:id="@+id/currentElecMeterReadingTextFieldTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -87,7 +87,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/electricityRatePerUnitTextField"
+                    android:id="@+id/electricityRatePerUnitTextFieldTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp"
@@ -104,7 +104,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/waterFeeTextField"
+                    android:id="@+id/waterFeeTextFieldTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -122,7 +122,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/garbageFeeTextField"
+                    android:id="@+id/garbageFeeTextFieldTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp"
@@ -139,7 +139,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/rentTextField"
+                    android:id="@+id/rentTextFieldTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp"

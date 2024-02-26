@@ -5,13 +5,12 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.databinding.FragmentCalculatorBinding
 import thechinkysight.app.payyourstay.viewmodels.CalculatorViewModel
@@ -39,59 +38,59 @@ class CalculatorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         showProperErrorOnTextField(
-            binding.previousElecMeterReadingTextField.editText,
+            binding.previousElecMeterReadingTextFieldTextInputLayout,
             R.string.error_message_for_empty_previous_reading,
-            currentElecMeterReadingTextFieldTextInputEditText = binding.currentElecMeterReadingTextField.editText
+            currentElecMeterReadingTextFieldTextInputLayout = binding.currentElecMeterReadingTextFieldTextInputLayout
         )
         showProperErrorOnTextField(
-            binding.currentElecMeterReadingTextField.editText,
+            binding.currentElecMeterReadingTextFieldTextInputLayout,
             R.string.error_message_for_empty_current_reading,
-            previousElecMeterReadingTextFieldTextInputEditText = binding.previousElecMeterReadingTextField.editText
+            previousElecMeterReadingTextFieldTextInputLayout = binding.previousElecMeterReadingTextFieldTextInputLayout
         )
         showProperErrorOnTextField(
-            binding.electricityRatePerUnitTextField.editText,
+            binding.electricityRatePerUnitTextFieldTextInputLayout,
             R.string.error_message_for_empty_electricity_rate
         )
 
 
 
         showProperErrorOnTextField(
-            binding.waterFeeTextField.editText,
+            binding.waterFeeTextFieldTextInputLayout,
             R.string.error_message_for_empty_water_fee
         )
         showProperErrorOnTextField(
-            binding.garbageFeeTextField.editText,
+            binding.garbageFeeTextFieldTextInputLayout,
             R.string.error_message_for_empty_garbage_fee
         )
 
 
 
         showProperErrorOnTextField(
-            binding.rentTextField.editText,
+            binding.rentTextFieldTextInputLayout,
             R.string.error_message_for_empty_rent
         )
     }
 
     private fun showProperErrorOnTextField(
-        textInputEditText: EditText?,
+        textInputLayout: TextInputLayout,
         @StringRes errorMessageId: Int,
-        previousElecMeterReadingTextFieldTextInputEditText: EditText? = null,
-        currentElecMeterReadingTextFieldTextInputEditText: EditText? = null
+        previousElecMeterReadingTextFieldTextInputLayout: TextInputLayout? = null,
+        currentElecMeterReadingTextFieldTextInputLayout: TextInputLayout? = null
     ) {
 
         val isItPreviousElecMeterReadingTextField: Boolean =
-            currentElecMeterReadingTextFieldTextInputEditText != null
+            currentElecMeterReadingTextFieldTextInputLayout != null
 
         val isItCurrentElecMeterReadingTextField: Boolean =
-            previousElecMeterReadingTextFieldTextInputEditText != null
+            previousElecMeterReadingTextFieldTextInputLayout != null
 
 
-        textInputEditText?.apply {
+        textInputLayout.editText?.apply {
 
-            setOnFocusChangeListener { v: View, hasFocus: Boolean ->
+            setOnFocusChangeListener { _: View, hasFocus: Boolean ->
                 showErrorWhenTextFieldIsEmptyAfterFocus(
                     errorMessageId,
-                    v,
+                    textInputLayout,
                     hasFocus
                 )
 
@@ -99,13 +98,13 @@ class CalculatorFragment : Fragment() {
 
                     if (isItPreviousElecMeterReadingTextField) {
                         showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
-                            this,
-                            currentElecMeterReadingTextFieldTextInputEditText
+                            textInputLayout,
+                            currentElecMeterReadingTextFieldTextInputLayout!!
                         )
                     } else {
                         showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
-                            previousElecMeterReadingTextFieldTextInputEditText,
-                            this
+                            previousElecMeterReadingTextFieldTextInputLayout!!,
+                            textInputLayout
                         )
                     }
                 }
@@ -113,7 +112,7 @@ class CalculatorFragment : Fragment() {
 
             doAfterTextChanged { text: Editable? ->
                 showErrorWhenTextFieldIsEmptyAfterTextChange(
-                    textInputEditText,
+                    textInputLayout,
                     errorMessageId,
                     text
                 )
@@ -122,13 +121,13 @@ class CalculatorFragment : Fragment() {
 
                     if (isItPreviousElecMeterReadingTextField) {
                         showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
-                            this,
-                            currentElecMeterReadingTextFieldTextInputEditText
+                            textInputLayout,
+                            currentElecMeterReadingTextFieldTextInputLayout!!
                         )
                     } else {
                         showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
-                            previousElecMeterReadingTextFieldTextInputEditText,
-                            this
+                            previousElecMeterReadingTextFieldTextInputLayout!!,
+                            textInputLayout
                         )
                     }
                 }
@@ -140,53 +139,53 @@ class CalculatorFragment : Fragment() {
 
     private fun showErrorWhenTextFieldIsEmptyAfterFocus(
         @StringRes errorMessageId: Int,
-        v: View,
+        textInputLayout: TextInputLayout,
         hasFocus: Boolean
     ) {
         if (!hasFocus) {
-            val isTextFieldEmpty: Boolean = (v as TextInputEditText).text?.isEmpty() == true
+            val isTextFieldEmpty: Boolean = textInputLayout.editText?.text?.isEmpty() == true
             if (isTextFieldEmpty) {
-                v.error = getString(errorMessageId)
+                textInputLayout.error = getString(errorMessageId)
             } else {
-                v.error = null
+                textInputLayout.error = null
             }
         }
     }
 
 
     private fun showErrorWhenTextFieldIsEmptyAfterTextChange(
-        textInputEditText: EditText?,
+        textInputLayout: TextInputLayout,
         @StringRes errorMessageId: Int,
         text: Editable?
     ) {
         if (text.toString().isEmpty()) {
-            textInputEditText?.error =
+            textInputLayout.error =
                 getString(errorMessageId)
         } else {
-            textInputEditText?.error = null
+            textInputLayout.error = null
         }
     }
 
 
     private fun showErrorWhenCurrentElecMeterReadingIsLessThanPreviousElecMeterReading(
-        previousElecMeterReadingTextFieldTextInputEditText: EditText?,
-        currentElecMeterReadingTextFieldTextInputEditText: EditText?
+        previousElecMeterReadingTextFieldTextInputLayout: TextInputLayout,
+        currentElecMeterReadingTextFieldTextInputLayout: TextInputLayout
     ) {
         val previousElecMeterReading: String =
-            previousElecMeterReadingTextFieldTextInputEditText?.text.toString()
+            previousElecMeterReadingTextFieldTextInputLayout.editText?.text.toString()
 
         val currentElecMeterReading: String =
-            currentElecMeterReadingTextFieldTextInputEditText?.text.toString()
+            currentElecMeterReadingTextFieldTextInputLayout.editText?.text.toString()
 
         if (currentElecMeterReading.isNotEmpty()) {
 
             if (currentElecMeterReading.toInt() < (previousElecMeterReading.toIntOrNull()
                     ?: 0)
             ) {
-                currentElecMeterReadingTextFieldTextInputEditText?.error =
+                currentElecMeterReadingTextFieldTextInputLayout.error =
                     getString(R.string.error_message_for_current_reading_less_than_previous)
             } else {
-                currentElecMeterReadingTextFieldTextInputEditText?.error = null
+                currentElecMeterReadingTextFieldTextInputLayout.error = null
             }
 
         }
