@@ -1,25 +1,3 @@
 <resources>
     <string name="app_name">Pay Your Stay</string>
-
-    <string name="previous_elec_meter_reading">Previous Elec. Meter Reading</string>
-    <string name="current_elec_meter_reading">Current Elec. Meter Reading</string>
-    <string name="electricity_rate_per_unit">Electricity Rate Per Unit</string>
-    <string name="water_fee">Water Fee</string>
-    <string name="garbage_fee">Garbage Fee</string>
-    <string name="rent">Rent</string>
-    <string name="calculate">Calculate</string>
-    <string name="invoice">Invoice</string>
-    <string name="utilities">Utilities</string>
-    <string name="electricity_meter_reading">Electricity Meter Reading</string>
-    <string name="total">Total</string>
-    <string name="done">Done</string>
-
-    <!--Text fields error messages-->
-    <string name="error_message_for_empty_previous_reading">Previous reading can\'t be empty</string>
-    <string name="error_message_for_empty_current_reading">Current reading can\'t be empty</string>
-    <string name="error_message_for_current_reading_less_than_previous">Current reading can\'t be less than previous</string>
-    <string name="error_message_for_empty_electricity_rate">Electricity rate can\'t be empty</string>
-    <string name="error_message_for_empty_water_fee">Water fee can\'t be empty</string>
-    <string name="error_message_for_empty_garbage_fee">Garbage fee can\'t be empty</string>
-    <string name="error_message_for_empty_rent">Rent can\'t be empty</string>
 </resources>
