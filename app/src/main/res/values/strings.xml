@@ -7,4 +7,12 @@
     <string name="garbage_fee">Garbage Fee</string>
     <string name="rent">Rent</string>
     <string name="calculate">calculate</string>
+
+    // Icons content descriptions
+    <string name="previous_elec_reading_icon_content_description">Icon representing a bolt, indicating the field for entering the previous electricity meter reading.</string>
+    <string name="current_elec_reading_icon_content_description">Icon representing a bolt, indicating the field for entering the current electricity meter reading.</string>
+    <string name="electricity_rate_icon_content_description">Icon representing money or payment, indicating the field for entering the electricity rate per unit.</string>
+    <string name="water_fee_icon_content_description">Icon representing a water drop, indicating the field for entering the water fee.</string>
+    <string name="garbage_fee_icon_content_description">Icon representing a garbage bin or delete symbol, indicating the field for entering the garbage fee.</string>
+    <string name="rent_icon_content_description">Icon representing money or payment, indicating the field for entering the rent.</string>
 </resources>
