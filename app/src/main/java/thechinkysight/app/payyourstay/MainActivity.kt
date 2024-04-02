@@ -3,6 +3,7 @@ package thechinkysight.app.payyourstay
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,8 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,11 +33,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PayYourStayTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    PayYourStayApp()
+                    Scaffold {
+                        PayYourStayApp(
+                            modifier = Modifier
+                                .padding(it)
+                                .padding(horizontal = 16.dp)
+                        )
+                    }
                 }
             }
         }
@@ -44,11 +50,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun PayYourStayApp() {
+fun PayYourStayApp(modifier: Modifier = Modifier) {
 
     val fillMaxWidthModifier: Modifier = Modifier.fillMaxWidth()
 
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+    Column(modifier = modifier) {
         ElectricityDataInputTextFields(modifier = fillMaxWidthModifier)
         Spacer(modifier = Modifier.height(60.dp))
         OtherUtilitiesDataInputTextFields(modifier = fillMaxWidthModifier)
@@ -60,7 +66,7 @@ fun PayYourStayApp() {
             modifier = fillMaxWidthModifier.height(56.dp),
             shape = RoundedCornerShape(4.dp)
         ) {
-            Text(text = stringResource(R.string.calculate).uppercase())
+            Text(text = stringResource(id = R.string.calculate).uppercase())
         }
     }
 
@@ -73,30 +79,21 @@ private fun ElectricityDataInputTextFields(modifier: Modifier = Modifier) {
 
         DataInputTextField(
             modifier = modifier, placeHolderStringResourceId = R.string.previous_elec_meter_reading,
-            leadingIconContent = mapOf(
-                "drawableId" to R.drawable.bolt_24,
-                "contentDescription" to R.string.previous_elec_reading_icon_content_description
-            ),
+            leadingIcon = R.drawable.bolt_24,
         )
 
         Spacer(modifier = Modifier.height(40.dp))
 
         DataInputTextField(
             modifier = modifier, placeHolderStringResourceId = R.string.current_elec_meter_reading,
-            leadingIconContent = mapOf(
-                "drawableId" to R.drawable.bolt_24,
-                "contentDescription" to R.string.current_elec_reading_icon_content_description
-            ),
+            leadingIcon = R.drawable.bolt_24,
         )
 
         Spacer(modifier = Modifier.height(40.dp))
 
         DataInputTextField(
             modifier = modifier, placeHolderStringResourceId = R.string.electricity_rate_per_unit,
-            leadingIconContent = mapOf(
-                "drawableId" to R.drawable.payment_24,
-                "contentDescription" to R.string.electricity_rate_icon_content_description
-            ),
+            leadingIcon = R.drawable.payment_24,
         )
     }
 
@@ -107,18 +104,12 @@ private fun ElectricityDataInputTextFields(modifier: Modifier = Modifier) {
 private fun OtherUtilitiesDataInputTextFields(modifier: Modifier = Modifier) {
     DataInputTextField(
         modifier = modifier, placeHolderStringResourceId = R.string.water_fee,
-        leadingIconContent = mapOf(
-            "drawableId" to R.drawable.water_drop_24,
-            "contentDescription" to R.string.water_fee_icon_content_description
-        ),
+        leadingIcon = R.drawable.water_drop_24,
     )
     Spacer(modifier = Modifier.height(40.dp))
     DataInputTextField(
         modifier = modifier, placeHolderStringResourceId = R.string.garbage_fee,
-        leadingIconContent = mapOf(
-            "drawableId" to R.drawable.delete_24,
-            "contentDescription" to R.string.garbage_fee_icon_content_description
-        ),
+        leadingIcon = R.drawable.delete_24,
     )
 }
 
@@ -127,10 +118,8 @@ private fun RentDataInputTextFields(modifier: Modifier = Modifier) {
     DataInputTextField(
         modifier = modifier,
         placeHolderStringResourceId = R.string.rent,
-        leadingIconContent = mapOf(
-            "drawableId" to R.drawable.payment_24,
-            "contentDescription" to R.string.rent_icon_content_description
-        ),
+        leadingIcon = R.drawable.payment_24,
+
         imeAction = ImeAction.Done
     )
 }
@@ -139,7 +128,7 @@ private fun RentDataInputTextFields(modifier: Modifier = Modifier) {
 private fun DataInputTextField(
     modifier: Modifier,
     @StringRes placeHolderStringResourceId: Int,
-    leadingIconContent: Map<String, Int>,
+    @DrawableRes leadingIcon: Int,
     imeAction: ImeAction = ImeAction.Next
 ) {
     OutlinedTextField(modifier = modifier,
@@ -148,8 +137,7 @@ private fun DataInputTextField(
         singleLine = true,
         leadingIcon = {
             Icon(
-                painter = painterResource(id = leadingIconContent["drawableId"]!!),
-                contentDescription = stringResource(id = leadingIconContent["contentDescription"]!!)
+                painter = painterResource(id = leadingIcon), contentDescription = null
             )
         },
         keyboardOptions = KeyboardOptions.Default.copy(
