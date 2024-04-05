@@ -14,11 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import thechinkysight.app.payyourstay.extension.surfaceContainer
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Scaffold {
+                    Scaffold(topBar = { TopAppBar() }) {
                         PayYourStayApp(
                             modifier = Modifier
                                 .padding(it)
@@ -49,12 +54,28 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBar(modifier: Modifier = Modifier) {
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = stringResource(R.string.calculator).uppercase()
+            )
+        }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            titleContentColor = MaterialTheme.colorScheme.onSurface
+        )
+    )
+}
+
 @Composable
 fun PayYourStayApp(modifier: Modifier = Modifier) {
 
     val fillMaxWidthModifier: Modifier = Modifier.fillMaxWidth()
 
     Column(modifier = modifier) {
+        Spacer(modifier = Modifier.height(30.dp))
         ElectricityDataInputTextFields(modifier = fillMaxWidthModifier)
         Spacer(modifier = Modifier.height(60.dp))
         OtherUtilitiesDataInputTextFields(modifier = fillMaxWidthModifier)
