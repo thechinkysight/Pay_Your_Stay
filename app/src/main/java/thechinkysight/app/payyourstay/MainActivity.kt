@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,8 +25,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -34,6 +38,8 @@ import thechinkysight.app.payyourstay.extension.surfaceContainer
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 
 class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -41,11 +47,15 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Scaffold(topBar = { TopAppBar() }) {
+                    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+                    Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                        topBar = { TopAppBar(scrollBehavior = scrollBehavior) }) {
                         PayYourStayApp(
                             modifier = Modifier
                                 .padding(it)
                                 .padding(horizontal = 16.dp)
+                                .verticalScroll(rememberScrollState())
                         )
                     }
                 }
@@ -56,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(modifier: Modifier = Modifier) {
+fun TopAppBar(modifier: Modifier = Modifier, scrollBehavior: TopAppBarScrollBehavior) {
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -65,7 +75,7 @@ fun TopAppBar(modifier: Modifier = Modifier) {
         }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
             titleContentColor = MaterialTheme.colorScheme.onSurface
-        )
+        ), scrollBehavior = scrollBehavior
     )
 }
 
@@ -77,11 +87,11 @@ fun PayYourStayApp(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Spacer(modifier = Modifier.height(30.dp))
         ElectricityDataInputTextFields(modifier = fillMaxWidthModifier)
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         OtherUtilitiesDataInputTextFields(modifier = fillMaxWidthModifier)
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         RentDataInputTextFields(modifier = fillMaxWidthModifier)
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Button(
             onClick = {},
             modifier = fillMaxWidthModifier.height(56.dp),
@@ -89,6 +99,7 @@ fun PayYourStayApp(modifier: Modifier = Modifier) {
         ) {
             Text(text = stringResource(id = R.string.calculate).uppercase())
         }
+        Spacer(modifier = Modifier.height(30.dp))
     }
 
 }
@@ -103,14 +114,14 @@ private fun ElectricityDataInputTextFields(modifier: Modifier = Modifier) {
             leadingIcon = R.drawable.bolt_24,
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(35.dp))
 
         DataInputTextField(
             modifier = modifier, placeHolderStringResourceId = R.string.current_elec_meter_reading,
             leadingIcon = R.drawable.bolt_24,
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(35.dp))
 
         DataInputTextField(
             modifier = modifier, placeHolderStringResourceId = R.string.electricity_rate_per_unit,
@@ -127,7 +138,7 @@ private fun OtherUtilitiesDataInputTextFields(modifier: Modifier = Modifier) {
         modifier = modifier, placeHolderStringResourceId = R.string.water_fee,
         leadingIcon = R.drawable.water_drop_24,
     )
-    Spacer(modifier = Modifier.height(40.dp))
+    Spacer(modifier = Modifier.height(35.dp))
     DataInputTextField(
         modifier = modifier, placeHolderStringResourceId = R.string.garbage_fee,
         leadingIcon = R.drawable.delete_24,
