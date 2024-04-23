@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay.extension
+package thechinkysight.app.payyourstay.ui.extension
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
