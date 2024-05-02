@@ -5,16 +5,7 @@
       <entry key="CalculatorTest">
         <State />
       </entry>
-      <entry key="ExampleInstrumentedTest">
-        <State />
-      </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="areAllComponentsPresent()">
-        <State />
-      </entry>
-      <entry key="isAllComponentsAvailable()">
         <State />
       </entry>
     </value>
