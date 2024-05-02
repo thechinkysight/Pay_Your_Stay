@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay.calculatorviewmodel.validateandupdatevaluefunction
+package thechinkysight.app.payyourstay.calculatorViewmodel.validateAndUpdateValue
 
 
 import junit.framework.TestCase.assertEquals
