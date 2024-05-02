@@ -13,10 +13,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import thechinkysight.app.payyourstay.ui.CalculatorPage
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 
 @RunWith(AndroidJUnit4::class)
-class CalculatorTest {
+class CalculatorPageTest {
 
     @get: Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -25,7 +26,7 @@ class CalculatorTest {
     fun setUp() {
         composeTestRule.setContent {
             PayYourStayTheme {
-                PayYourStayApp(modifier = Modifier.verticalScroll(rememberScrollState()))
+                CalculatorPage(modifier = Modifier.verticalScroll(rememberScrollState()))
             }
         }
     }
@@ -39,7 +40,7 @@ class CalculatorTest {
                     R.string.previous_elec_meter_reading
                 )
             )
-        ).assertExists()
+        ).assertExists()    
     }
 
     @Test
