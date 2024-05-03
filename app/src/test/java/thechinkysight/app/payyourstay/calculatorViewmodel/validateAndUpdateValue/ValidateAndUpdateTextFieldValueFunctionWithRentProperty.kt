@@ -6,7 +6,7 @@ import org.junit.Test
 import thechinkysight.app.payyourstay.ui.enum.TextField
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
-class ValidateAndUpdateValueFunctionWithRentProperty {
+class ValidateAndUpdateTextFieldValueFunctionWithRentProperty {
 
     private val calculatorViewModel = CalculatorViewModel()
 
@@ -22,7 +22,7 @@ class ValidateAndUpdateValueFunctionWithRentProperty {
 
         val currentValue = "5060"
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = null, TextField.Rent
         )
 
@@ -40,7 +40,7 @@ class ValidateAndUpdateValueFunctionWithRentProperty {
     @Test
     fun validateAndUpdateValue_validInputWithEmptyCurrentValue_updatesRentWithNull() {
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = "", oldValue = 5060, TextField.Rent
         )
 
@@ -61,7 +61,7 @@ class ValidateAndUpdateValueFunctionWithRentProperty {
 
         val oldValue = 5060
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.Rent
         )
 
@@ -82,7 +82,7 @@ class ValidateAndUpdateValueFunctionWithRentProperty {
 
         val oldValue = 5060
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.Rent
         )
 
@@ -104,7 +104,7 @@ class ValidateAndUpdateValueFunctionWithRentProperty {
         val oldValue = 5060
         val currentValue = "$oldValue,"
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.Rent
         )
 
@@ -117,7 +117,7 @@ class ValidateAndUpdateValueFunctionWithRentProperty {
         val oldValue = 5060
         val currentValue = "$oldValue."
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.Rent
         )
 
@@ -138,7 +138,7 @@ class ValidateAndUpdateValueFunctionWithRentProperty {
         // The value of `currentValue` is 2147483648 which is greater than `Int.MAX_VALUE`
         val currentValue = (oldValue.toLong() + 1).toString()
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.Rent
         )
 

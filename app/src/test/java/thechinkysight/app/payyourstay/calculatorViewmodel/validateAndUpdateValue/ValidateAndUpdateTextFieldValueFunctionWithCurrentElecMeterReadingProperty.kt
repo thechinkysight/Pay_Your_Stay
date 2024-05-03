@@ -5,7 +5,7 @@ import org.junit.Test
 import thechinkysight.app.payyourstay.ui.enum.TextField
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
-class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
+class ValidateAndUpdateTextFieldValueFunctionWithCurrentElecMeterReadingProperty {
 
     private val calculatorViewModel = CalculatorViewModel()
 
@@ -21,7 +21,7 @@ class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
 
         val currentValue = "5060"
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = null, TextField.CurrentElecMeterReading
         )
 
@@ -37,7 +37,7 @@ class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
     @Test
     fun validateAndUpdateValue_validInputWithEmptyCurrentValue_updatesCurrentElecMeterReadingWithNull() {
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = "", oldValue = 5060, TextField.CurrentElecMeterReading
         )
 
@@ -58,7 +58,7 @@ class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
 
         val oldValue = 5060
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.CurrentElecMeterReading
         )
 
@@ -77,7 +77,7 @@ class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
 
         val oldValue = 5060
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.CurrentElecMeterReading
         )
 
@@ -97,7 +97,7 @@ class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
         val oldValue = 5060
         val currentValue = "$oldValue,"
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.CurrentElecMeterReading
         )
 
@@ -111,7 +111,7 @@ class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
         val oldValue = 5060
         val currentValue = "$oldValue."
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.CurrentElecMeterReading
         )
 
@@ -132,7 +132,7 @@ class ValidateAndUpdateValueFunctionWithCurrentElecMeterReadingProperty {
         // The value of `currentValue` is 2147483648 which is greater than `Int.MAX_VALUE`
         val currentValue = (oldValue.toLong() + 1).toString()
 
-        calculatorViewModel.validateAndUpdateValue(
+        calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = currentValue, oldValue = oldValue, TextField.CurrentElecMeterReading
         )
 

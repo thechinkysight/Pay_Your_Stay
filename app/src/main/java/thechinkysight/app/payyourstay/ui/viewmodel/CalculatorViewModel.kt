@@ -13,15 +13,22 @@ class CalculatorViewModel : ViewModel() {
     private val _previousElecMeterReading: MutableStateFlow<Int?> = MutableStateFlow(null)
     val previousElecMeterReading: StateFlow<Int?> = _previousElecMeterReading.asStateFlow()
 
+
     private val _currentElecMeterReading: MutableStateFlow<Int?> = MutableStateFlow(null)
     val currentElecMeterReading: StateFlow<Int?> = _currentElecMeterReading.asStateFlow()
+
 
     private val _electricityRatePerUnit: MutableStateFlow<Int?> = MutableStateFlow(null)
     val electricityRatePerUnit: StateFlow<Int?> = _electricityRatePerUnit.asStateFlow()
 
 
+    private val _electricityExpense: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val electricityExpense: StateFlow<Int?> = _electricityExpense.asStateFlow()
+
+
     private val _waterFee: MutableStateFlow<Int?> = MutableStateFlow(null)
     val waterFee: StateFlow<Int?> = _waterFee.asStateFlow()
+
 
     private val _garbageFee: MutableStateFlow<Int?> = MutableStateFlow(null)
     val garbageFee: StateFlow<Int?> = _garbageFee.asStateFlow()
@@ -29,6 +36,10 @@ class CalculatorViewModel : ViewModel() {
 
     private val _rent: MutableStateFlow<Int?> = MutableStateFlow(null)
     val rent: StateFlow<Int?> = _rent.asStateFlow()
+
+
+    private val _total: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val total: StateFlow<Int?> = _total.asStateFlow()
 
 
     /**
@@ -51,7 +62,7 @@ class CalculatorViewModel : ViewModel() {
      *
      * Finally, the function calls `updateValue` with the new value (or the old value if the input was invalid) and the `textField` parameter to update the appropriate StateFlow.
      */
-    fun validateAndUpdateValue(currentValue: String, oldValue: Int?, textField: TextField) {
+    fun validateAndUpdateTextFieldValue(currentValue: String, oldValue: Int?, textField: TextField) {
         val value = if (currentValue.isEmpty()) {
             null
         } else if (currentValue.all { it.isDigit() } && currentValue.toLong() <= Int.MAX_VALUE) {
@@ -60,12 +71,12 @@ class CalculatorViewModel : ViewModel() {
             oldValue
         }
 
-        updateValue(value, textField)
+        updateTextFieldValue(value, textField)
 
     }
 
 
-    private fun updateValue(value: Int?, textField: TextField) {
+    private fun updateTextFieldValue(value: Int?, textField: TextField) {
         when (textField) {
             TextField.PreviousElecMeterReading -> _previousElecMeterReading.update { value }
             TextField.CurrentElecMeterReading -> _currentElecMeterReading.update { value }
@@ -76,5 +87,59 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
+
+    fun calculateTotal(
+        previousElecMeterReading: Int,
+        currentElecMeterReading: Int,
+        electricityRatePerUnit: Int,
+        waterFee: Int,
+        garbageFee: Int,
+        rent: Int
+    ) {
+
+        if (previousElecMeterReading < 0) {
+            throw IllegalArgumentException("Previous meter reading cannot be negative.")
+        }
+        if (currentElecMeterReading < 0) {
+            throw IllegalArgumentException("Current meter reading cannot be negative.")
+        }
+        if (electricityRatePerUnit < 0) {
+            throw IllegalArgumentException("Electricity rate per unit cannot be negative.")
+        }
+        if (waterFee < 0) {
+            throw IllegalArgumentException("Water fee cannot be negative.")
+        }
+        if (garbageFee < 0) {
+            throw IllegalArgumentException("Garbage fee cannot be negative.")
+        }
+        if (rent < 0) {
+            throw IllegalArgumentException("Rent cannot be negative.")
+        }
+
+        if (currentElecMeterReading < previousElecMeterReading) {
+            throw IllegalArgumentException("Current elec. meter reading cannot be less than previous elec. meter reading.")
+        }
+
+        val electricityExpense = calculateElectricityExpense(
+            previousElecMeterReading = previousElecMeterReading,
+            currentElecMeterReading = currentElecMeterReading,
+            electricityRatePerUnit = electricityRatePerUnit
+        )
+
+        _electricityExpense.update { electricityExpense }
+
+        _total.update { electricityExpense + waterFee + garbageFee + rent }
+    }
+
+    private fun calculateElectricityExpense(
+        previousElecMeterReading: Int,
+        currentElecMeterReading: Int,
+        electricityRatePerUnit: Int,
+    ): Int {
+
+        val electricityUnit: Int = currentElecMeterReading - previousElecMeterReading
+
+        return electricityUnit * electricityRatePerUnit
+    }
 
 }

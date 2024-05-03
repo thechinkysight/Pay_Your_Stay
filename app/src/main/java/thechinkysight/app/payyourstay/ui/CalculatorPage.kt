@@ -39,20 +39,20 @@ fun CalculatorPage(
             previousElecMeterReadingValue = calculatorViewModel.previousElecMeterReading.collectAsState().value,
             currentElecMeterReadingValue = calculatorViewModel.currentElecMeterReading.collectAsState().value,
             electricityRatePerUnitValue = calculatorViewModel.electricityRatePerUnit.collectAsState().value,
-            onValueChange = calculatorViewModel::validateAndUpdateValue
+            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
         )
         Spacer(modifier = Modifier.height(50.dp))
         OtherUtilitiesDataInputTextFields(
             modifier = fillMaxWidthModifier,
             garbageFeeValue = calculatorViewModel.garbageFee.collectAsState().value,
             waterFeeValue = calculatorViewModel.waterFee.collectAsState().value,
-            onValueChange = calculatorViewModel::validateAndUpdateValue
+            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
         )
         Spacer(modifier = Modifier.height(50.dp))
         RentDataInputTextFields(
             modifier = fillMaxWidthModifier,
             rentValue = calculatorViewModel.rent.collectAsState().value,
-            onValueChange = calculatorViewModel::validateAndUpdateValue
+            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
         )
         Spacer(modifier = Modifier.height(50.dp))
         Button(
