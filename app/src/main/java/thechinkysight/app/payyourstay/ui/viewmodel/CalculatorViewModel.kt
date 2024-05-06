@@ -62,7 +62,9 @@ class CalculatorViewModel : ViewModel() {
      *
      * Finally, the function calls `updateValue` with the new value (or the old value if the input was invalid) and the `textField` parameter to update the appropriate StateFlow.
      */
-    fun validateAndUpdateTextFieldValue(currentValue: String, oldValue: Int?, textField: TextField) {
+    fun validateAndUpdateTextFieldValue(
+        currentValue: String, oldValue: Int?, textField: TextField
+    ) {
         val value = if (currentValue.isEmpty()) {
             null
         } else if (currentValue.all { it.isDigit() } && currentValue.toLong() <= Int.MAX_VALUE) {
@@ -116,10 +118,6 @@ class CalculatorViewModel : ViewModel() {
             throw IllegalArgumentException("Rent cannot be negative.")
         }
 
-        if (currentElecMeterReading < previousElecMeterReading) {
-            throw IllegalArgumentException("Current elec. meter reading cannot be less than previous elec. meter reading.")
-        }
-
         val electricityExpense = calculateElectricityExpense(
             previousElecMeterReading = previousElecMeterReading,
             currentElecMeterReading = currentElecMeterReading,
@@ -128,18 +126,35 @@ class CalculatorViewModel : ViewModel() {
 
         _electricityExpense.update { electricityExpense }
 
-        _total.update { electricityExpense + waterFee + garbageFee + rent }
+        val sumTotal = electricityExpense.toLong() + waterFee + garbageFee + rent
+
+        if (sumTotal > Int.MAX_VALUE) {
+            throw IllegalArgumentException("The total exceeds the maximum integer value.")
+        }
+
+        _total.update { sumTotal.toInt() }
     }
 
+    
     private fun calculateElectricityExpense(
         previousElecMeterReading: Int,
         currentElecMeterReading: Int,
         electricityRatePerUnit: Int,
     ): Int {
 
+        if (currentElecMeterReading < previousElecMeterReading) {
+            throw IllegalArgumentException("Current elec. meter reading cannot be less than previous elec. meter reading.")
+        }
+
         val electricityUnit: Int = currentElecMeterReading - previousElecMeterReading
 
-        return electricityUnit * electricityRatePerUnit
+        val electricityExpense = electricityUnit.toLong() * electricityRatePerUnit
+
+        if (electricityExpense > Int.MAX_VALUE) {
+            throw IllegalArgumentException("The electricity expense exceeds the maximum integer value.")
+        }
+
+        return electricityExpense.toInt()
     }
 
 }

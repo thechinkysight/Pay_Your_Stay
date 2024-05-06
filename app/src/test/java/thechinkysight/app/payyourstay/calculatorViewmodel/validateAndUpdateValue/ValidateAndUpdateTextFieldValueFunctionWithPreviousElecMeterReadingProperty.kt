@@ -1,6 +1,6 @@
 package thechinkysight.app.payyourstay.calculatorViewmodel.validateAndUpdateValue
 
-import org.junit.Assert
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import thechinkysight.app.payyourstay.ui.enum.TextField
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
@@ -25,7 +25,7 @@ class ValidateAndUpdateTextFieldValueFunctionWithPreviousElecMeterReadingPropert
             currentValue = currentValue, oldValue = null, TextField.PreviousElecMeterReading
         )
 
-        Assert.assertEquals(
+        assertEquals(
             currentValue.toInt(), calculatorViewModel.previousElecMeterReading.value
         )
 
@@ -42,8 +42,7 @@ class ValidateAndUpdateTextFieldValueFunctionWithPreviousElecMeterReadingPropert
         calculatorViewModel.validateAndUpdateTextFieldValue(
             currentValue = "", oldValue = 5060, TextField.PreviousElecMeterReading
         )
-
-        Assert.assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
 
     }
 
@@ -64,7 +63,7 @@ class ValidateAndUpdateTextFieldValueFunctionWithPreviousElecMeterReadingPropert
             currentValue = currentValue, oldValue = oldValue, TextField.PreviousElecMeterReading
         )
 
-        Assert.assertEquals(
+        assertEquals(
             currentValue.toInt(), calculatorViewModel.previousElecMeterReading.value
         )
 
@@ -85,7 +84,7 @@ class ValidateAndUpdateTextFieldValueFunctionWithPreviousElecMeterReadingPropert
             currentValue = currentValue, oldValue = oldValue, TextField.PreviousElecMeterReading
         )
 
-        Assert.assertEquals(
+        assertEquals(
             currentValue.toInt(), calculatorViewModel.previousElecMeterReading.value
         )
     }
@@ -107,7 +106,7 @@ class ValidateAndUpdateTextFieldValueFunctionWithPreviousElecMeterReadingPropert
             currentValue = currentValue, oldValue = oldValue, TextField.PreviousElecMeterReading
         )
 
-        Assert.assertEquals(oldValue, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(oldValue, calculatorViewModel.previousElecMeterReading.value)
 
     }
 
@@ -121,7 +120,7 @@ class ValidateAndUpdateTextFieldValueFunctionWithPreviousElecMeterReadingPropert
             currentValue = currentValue, oldValue = oldValue, TextField.PreviousElecMeterReading
         )
 
-        Assert.assertEquals(oldValue, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(oldValue, calculatorViewModel.previousElecMeterReading.value)
 
     }
 
@@ -142,7 +141,7 @@ class ValidateAndUpdateTextFieldValueFunctionWithPreviousElecMeterReadingPropert
             currentValue = currentValue, oldValue = oldValue, TextField.PreviousElecMeterReading
         )
 
-        Assert.assertEquals(oldValue, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(oldValue, calculatorViewModel.previousElecMeterReading.value)
 
     }
 }
