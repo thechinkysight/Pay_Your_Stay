@@ -49,7 +49,7 @@ fun CalculatorPage(
             onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
         )
         Spacer(modifier = Modifier.height(50.dp))
-        RentDataInputTextFields(
+        RentDataInputTextField(
             modifier = fillMaxWidthModifier,
             rentValue = calculatorViewModel.rent.collectAsState().value,
             onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
@@ -155,7 +155,7 @@ private fun OtherUtilitiesDataInputTextFields(
 }
 
 @Composable
-private fun RentDataInputTextFields(
+private fun RentDataInputTextField(
     modifier: Modifier = Modifier, rentValue: Int?, onValueChange: (String, Int?, TextField) -> Unit
 ) {
     DataInputTextField(
@@ -191,6 +191,9 @@ private fun DataInputTextField(
                 painter = painterResource(id = leadingIcon), contentDescription = null
             )
         },
+//        trailingIcon = {
+//            Icon(painter = painterResource(id = R.drawable.cancel_24px), contentDescription = null)
+//        },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number, imeAction = imeAction
         ),
