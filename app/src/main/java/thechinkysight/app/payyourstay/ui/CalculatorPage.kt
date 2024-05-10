@@ -14,7 +14,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -39,26 +41,78 @@ fun CalculatorPage(
             previousElecMeterReadingValue = calculatorViewModel.previousElecMeterReading.collectAsState().value,
             currentElecMeterReadingValue = calculatorViewModel.currentElecMeterReading.collectAsState().value,
             electricityRatePerUnitValue = calculatorViewModel.electricityRatePerUnit.collectAsState().value,
-            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
+            isPreviousElecMeterReadingTextFieldInError = calculatorViewModel.isPreviousElecMeterReadingTextFieldInError.collectAsState().value,
+            errorTextForPreviousElecMeterReadingTextField = {
+                Text(
+                    text = stringResource(
+                        id = R.string.error_text_field_is_empty, "Previous reading"
+                    )
+                )
+            },
+            isCurrentElecMeterReadingTextFieldInError = calculatorViewModel.isCurrentElecMeterReadingTextFieldInError.collectAsState().value,
+            errorTextForCurrentElecMeterReadingTextField = {
+                Text(
+                    text = stringResource(
+                        id = R.string.error_text_field_is_empty, "Current reading"
+                    )
+                )
+            },
+            isElectricityRatePerUnitTextFieldInError = calculatorViewModel.isElectricityRatePerUnitTextFieldInError.collectAsState().value,
+            errorTextForElectricityRatePerUnitTextField = {
+                Text(
+                    text = stringResource(
+                        id = R.string.error_text_field_is_empty, "Electricity rate"
+                    )
+                )
+            },
+            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue,
+            updateErrorStatusForTextField = calculatorViewModel::updateErrorStatusForTextField
         )
         Spacer(modifier = Modifier.height(50.dp))
         OtherUtilitiesDataInputTextFields(
             modifier = fillMaxWidthModifier,
             garbageFeeValue = calculatorViewModel.garbageFee.collectAsState().value,
             waterFeeValue = calculatorViewModel.waterFee.collectAsState().value,
-            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
+            isWaterFeeTextFieldInError = calculatorViewModel.isWaterFeeTextFieldInError.collectAsState().value,
+            errorTextForWaterFeeTextField = {
+                Text(
+                    text = stringResource(
+                        id = R.string.error_text_field_is_empty, "Water fee"
+                    )
+                )
+            },
+            isGarbageFeeTextFieldInError = calculatorViewModel.isGarbageFeeTextFieldInError.collectAsState().value,
+            errorTextForGarbageFeeTextField = {
+                Text(
+                    text = stringResource(
+                        id = R.string.error_text_field_is_empty, "Garbage fee"
+                    )
+                )
+            },
+            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue,
+            updateErrorStatusForTextField = calculatorViewModel::updateErrorStatusForTextField
         )
         Spacer(modifier = Modifier.height(50.dp))
         RentDataInputTextField(
             modifier = fillMaxWidthModifier,
             rentValue = calculatorViewModel.rent.collectAsState().value,
-            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue
+            isRentTextFieldInError = calculatorViewModel.isRentTextFieldInError.collectAsState().value,
+            errorTextForRentTextField = {
+                Text(
+                    text = stringResource(
+                        id = R.string.error_text_field_is_empty, "Rent"
+                    )
+                )
+            },
+            onValueChange = calculatorViewModel::validateAndUpdateTextFieldValue,
+            updateErrorStatusForTextField = calculatorViewModel::updateErrorStatusForTextField
         )
         Spacer(modifier = Modifier.height(50.dp))
         Button(
             onClick = {},
             modifier = fillMaxWidthModifier.height(56.dp),
-            shape = RoundedCornerShape(4.dp)
+            shape = RoundedCornerShape(4.dp),
+            enabled = !(calculatorViewModel.isPreviousElecMeterReadingTextFieldInError.collectAsState().value || calculatorViewModel.isCurrentElecMeterReadingTextFieldInError.collectAsState().value || calculatorViewModel.isElectricityRatePerUnitTextFieldInError.collectAsState().value || calculatorViewModel.isWaterFeeTextFieldInError.collectAsState().value || calculatorViewModel.isGarbageFeeTextFieldInError.collectAsState().value || calculatorViewModel.isRentTextFieldInError.collectAsState().value)
         ) {
             Text(text = stringResource(id = R.string.calculate).uppercase())
         }
@@ -73,7 +127,14 @@ private fun ElectricityDataInputTextFields(
     previousElecMeterReadingValue: Int?,
     currentElecMeterReadingValue: Int?,
     electricityRatePerUnitValue: Int?,
-    onValueChange: (String, Int?, TextField) -> Unit
+    onValueChange: (String, Int?, TextField) -> Unit,
+    isPreviousElecMeterReadingTextFieldInError: Boolean,
+    errorTextForPreviousElecMeterReadingTextField: @Composable (() -> Unit),
+    isCurrentElecMeterReadingTextFieldInError: Boolean,
+    errorTextForCurrentElecMeterReadingTextField: @Composable (() -> Unit),
+    isElectricityRatePerUnitTextFieldInError: Boolean,
+    errorTextForElectricityRatePerUnitTextField: @Composable (() -> Unit),
+    updateErrorStatusForTextField: (TextField, Boolean) -> Unit
 ) {
 
     Column {
@@ -86,7 +147,11 @@ private fun ElectricityDataInputTextFields(
                     it, previousElecMeterReadingValue, TextField.PreviousElecMeterReading
                 )
             },
-            placeHolderStringResourceId = R.string.previous_elec_meter_reading,
+            isError = isPreviousElecMeterReadingTextFieldInError,
+            errorText = errorTextForPreviousElecMeterReadingTextField,
+            textField = TextField.PreviousElecMeterReading,
+            updateErrorStatusForTextField = updateErrorStatusForTextField,
+            labelStringResourceId = R.string.previous_elec_meter_reading,
             leadingIcon = R.drawable.bolt_24,
         )
 
@@ -100,7 +165,11 @@ private fun ElectricityDataInputTextFields(
                     it, currentElecMeterReadingValue, TextField.CurrentElecMeterReading
                 )
             },
-            placeHolderStringResourceId = R.string.current_elec_meter_reading,
+            isError = isCurrentElecMeterReadingTextFieldInError,
+            errorText = errorTextForCurrentElecMeterReadingTextField,
+            textField = TextField.CurrentElecMeterReading,
+            updateErrorStatusForTextField = updateErrorStatusForTextField,
+            labelStringResourceId = R.string.current_elec_meter_reading,
             leadingIcon = R.drawable.bolt_24,
         )
 
@@ -114,12 +183,14 @@ private fun ElectricityDataInputTextFields(
                     it, electricityRatePerUnitValue, TextField.ElectricityRatePerUnit
                 )
             },
-            placeHolderStringResourceId = R.string.electricity_rate_per_unit,
+            isError = isElectricityRatePerUnitTextFieldInError,
+            errorText = errorTextForElectricityRatePerUnitTextField,
+            textField = TextField.ElectricityRatePerUnit,
+            updateErrorStatusForTextField = updateErrorStatusForTextField,
+            labelStringResourceId = R.string.electricity_rate_per_unit,
             leadingIcon = R.drawable.payment_24,
         )
     }
-
-
 }
 
 @Composable
@@ -127,7 +198,12 @@ private fun OtherUtilitiesDataInputTextFields(
     modifier: Modifier = Modifier,
     waterFeeValue: Int?,
     garbageFeeValue: Int?,
-    onValueChange: (String, Int?, TextField) -> Unit
+    onValueChange: (String, Int?, TextField) -> Unit,
+    isWaterFeeTextFieldInError: Boolean,
+    errorTextForWaterFeeTextField: @Composable (() -> Unit),
+    isGarbageFeeTextFieldInError: Boolean,
+    errorTextForGarbageFeeTextField: @Composable (() -> Unit),
+    updateErrorStatusForTextField: (TextField, Boolean) -> Unit
 ) {
     DataInputTextField(
         modifier = modifier,
@@ -137,7 +213,11 @@ private fun OtherUtilitiesDataInputTextFields(
                 it, waterFeeValue, TextField.WaterFee
             )
         },
-        placeHolderStringResourceId = R.string.water_fee,
+        isError = isWaterFeeTextFieldInError,
+        errorText = errorTextForWaterFeeTextField,
+        textField = TextField.WaterFee,
+        updateErrorStatusForTextField = updateErrorStatusForTextField,
+        labelStringResourceId = R.string.water_fee,
         leadingIcon = R.drawable.water_drop_24,
     )
     Spacer(modifier = Modifier.height(35.dp))
@@ -149,14 +229,23 @@ private fun OtherUtilitiesDataInputTextFields(
                 it, garbageFeeValue, TextField.GarbageFee
             )
         },
-        placeHolderStringResourceId = R.string.garbage_fee,
+        isError = isGarbageFeeTextFieldInError,
+        errorText = errorTextForGarbageFeeTextField,
+        textField = TextField.GarbageFee,
+        updateErrorStatusForTextField = updateErrorStatusForTextField,
+        labelStringResourceId = R.string.garbage_fee,
         leadingIcon = R.drawable.delete_24,
     )
 }
 
 @Composable
 private fun RentDataInputTextField(
-    modifier: Modifier = Modifier, rentValue: Int?, onValueChange: (String, Int?, TextField) -> Unit
+    modifier: Modifier = Modifier,
+    rentValue: Int?,
+    onValueChange: (String, Int?, TextField) -> Unit,
+    isRentTextFieldInError: Boolean,
+    errorTextForRentTextField: @Composable (() -> Unit),
+    updateErrorStatusForTextField: (TextField, Boolean) -> Unit
 ) {
     DataInputTextField(
         modifier = modifier,
@@ -166,7 +255,11 @@ private fun RentDataInputTextField(
                 it, rentValue, TextField.Rent
             )
         },
-        placeHolderStringResourceId = R.string.rent,
+        textField = TextField.Rent,
+        updateErrorStatusForTextField = updateErrorStatusForTextField,
+        isError = isRentTextFieldInError,
+        errorText = errorTextForRentTextField,
+        labelStringResourceId = R.string.rent,
         leadingIcon = R.drawable.payment_24,
         imeAction = ImeAction.Done
     )
@@ -175,31 +268,51 @@ private fun RentDataInputTextField(
 
 @Composable
 private fun DataInputTextField(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    @StringRes placeHolderStringResourceId: Int,
+    textField: TextField,
+    isError: Boolean,
+    errorText: @Composable (() -> Unit),
+    updateErrorStatusForTextField: (TextField, Boolean) -> Unit,
+    @StringRes labelStringResourceId: Int,
     @DrawableRes leadingIcon: Int,
     imeAction: ImeAction = ImeAction.Next
 ) {
-    OutlinedTextField(modifier = modifier,
+    var isTextFieldInInitialFocusChange = remember {
+        true
+    }
+
+    OutlinedTextField(
+        modifier = modifier.onFocusEvent {
+            if (!isTextFieldInInitialFocusChange) {
+                if (!it.isFocused && value.isEmpty()) {
+                    updateErrorStatusForTextField(textField, true)
+                } else {
+                    updateErrorStatusForTextField(textField, false)
+                }
+            }
+
+            isTextFieldInInitialFocusChange = false
+        },
         value = value,
+        label = { Text(text = stringResource(labelStringResourceId)) },
         onValueChange = onValueChange,
         singleLine = true,
+        isError = isError,
+        supportingText = if (isError) {
+            errorText
+        } else null,
         leadingIcon = {
             Icon(
                 painter = painterResource(id = leadingIcon), contentDescription = null
             )
         },
-//        trailingIcon = {
-//            Icon(painter = painterResource(id = R.drawable.cancel_24px), contentDescription = null)
-//        },
+        //        trailingIcon = {
+        //            Icon(painter = painterResource(id = R.drawable.cancel_24px), contentDescription = null)
+        //        },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number, imeAction = imeAction
         ),
-        placeholder = {
-            Text(
-                text = stringResource(placeHolderStringResourceId)
-            )
-        })
+    )
 }

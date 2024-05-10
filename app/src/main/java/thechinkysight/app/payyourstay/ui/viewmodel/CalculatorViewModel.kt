@@ -42,6 +42,50 @@ class CalculatorViewModel : ViewModel() {
     val total: StateFlow<Int?> = _total.asStateFlow()
 
 
+    // Text field error state variables
+
+    private val _isPreviousElecMeterReadingTextFieldInError: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+    val isPreviousElecMeterReadingTextFieldInError: StateFlow<Boolean> =
+        _isPreviousElecMeterReadingTextFieldInError.asStateFlow()
+
+
+    private val _isCurrentElecMeterReadingTextFieldInError: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+    val isCurrentElecMeterReadingTextFieldInError: StateFlow<Boolean> =
+        _isCurrentElecMeterReadingTextFieldInError.asStateFlow()
+
+
+    private val _isElectricityRatePerUnitTextFieldInError: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+    val isElectricityRatePerUnitTextFieldInError: StateFlow<Boolean> =
+        _isElectricityRatePerUnitTextFieldInError.asStateFlow()
+
+
+    private val _isWaterFeeTextFieldInError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isWaterFeeTextFieldInError: StateFlow<Boolean> = _isWaterFeeTextFieldInError.asStateFlow()
+
+
+    private val _isGarbageFeeTextFieldInError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isGarbageFeeTextFieldInError: StateFlow<Boolean> =
+        _isGarbageFeeTextFieldInError.asStateFlow()
+
+
+    private val _isRentTextFieldInError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isRentTextFieldInError: StateFlow<Boolean> = _isRentTextFieldInError.asStateFlow()
+
+
+    fun updateErrorStatusForTextField(textField: TextField, showError: Boolean) {
+        when (textField) {
+            TextField.PreviousElecMeterReading -> _isPreviousElecMeterReadingTextFieldInError.update { showError }
+            TextField.CurrentElecMeterReading -> _isCurrentElecMeterReadingTextFieldInError.update { showError }
+            TextField.ElectricityRatePerUnit -> _isElectricityRatePerUnitTextFieldInError.update { showError }
+            TextField.WaterFee -> _isWaterFeeTextFieldInError.update { showError }
+            TextField.GarbageFee -> _isGarbageFeeTextFieldInError.update { showError }
+            TextField.Rent -> _isRentTextFieldInError.update { showError }
+        }
+    }
+
     /**
      * This function validates the input and updates the respective StateFlow.
      *
@@ -135,7 +179,7 @@ class CalculatorViewModel : ViewModel() {
         _total.update { sumTotal.toInt() }
     }
 
-    
+
     private fun calculateElectricityExpense(
         previousElecMeterReading: Int,
         currentElecMeterReading: Int,

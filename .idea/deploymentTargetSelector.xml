@@ -5,6 +5,18 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="CalculatorPageTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_waterFeeTextFieldWithNullAsValue_showsErrorOnTheTextFieldWhenUnfocusedAfterInitialFocus()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_garbageFeeTextFieldWithNullAsValue_showsErrorOnTheTextFieldWhenUnfocusedAfterInitialFocus()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_rentTextFieldWithNullAsValue_showsErrorOnTheTextFieldWhenUnfocusedAfterInitialFocus()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
