@@ -33,7 +33,7 @@ class CalculatorPageTest {
 
 
     @Test
-    fun calculatorPage_PreviousElecMeterReadingComponent_Exist() {
+    fun calculatorPage_PreviousElecMeterReadingTextField_Exist() {
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -44,7 +44,7 @@ class CalculatorPageTest {
     }
 
     @Test
-    fun calculatorPage_CurrentElecMeterReadingComponent_Exist() {
+    fun calculatorPage_CurrentElecMeterReadingTextField_Exist() {
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -55,7 +55,7 @@ class CalculatorPageTest {
     }
 
     @Test
-    fun calculatorPage_ElectricityRatePerUnitComponent_Exist() {
+    fun calculatorPage_ElectricityRatePerUnitTextField_Exist() {
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -66,7 +66,7 @@ class CalculatorPageTest {
     }
 
     @Test
-    fun calculatorPage_WaterFeeComponent_Exist() {
+    fun calculatorPage_WaterFeeTextField_Exist() {
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -77,7 +77,7 @@ class CalculatorPageTest {
     }
 
     @Test
-    fun calculatorPage_GarbageFeeComponent_Exist() {
+    fun calculatorPage_GarbageFeeTextField_Exist() {
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -88,7 +88,7 @@ class CalculatorPageTest {
     }
 
     @Test
-    fun calculatorPage_RentComponent_Exist() {
+    fun calculatorPage_RentTextField_Exist() {
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
