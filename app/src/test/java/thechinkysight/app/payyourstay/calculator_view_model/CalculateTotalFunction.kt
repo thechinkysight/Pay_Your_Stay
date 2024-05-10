@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay.calculatorViewmodel
+package thechinkysight.app.payyourstay.calculator_view_model
 
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
