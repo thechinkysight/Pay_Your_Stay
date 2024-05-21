@@ -200,6 +200,95 @@ class CalculatorPageTest {
         assertEquals(15000, calculatorViewModel.rent.value)
     }
 
+    @Test
+    fun calculatorPage_previousElecMeterReadingTextFieldWithValueGreaterThanINTMAXVALUE_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.previous_elec_meter_reading
+                )
+            )
+        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+
+        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+    }
+
+    @Test
+    fun calculatorPage_currentElecMeterReadingTextFieldWithValueGreaterThanINTMAXVALUE_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.current_elec_meter_reading
+                )
+            )
+        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+
+        assertEquals(null, calculatorViewModel.currentElecMeterReading.value)
+
+    }
+
+    @Test
+    fun calculatorPage_electricityRatePerUnitTextFieldWithValueGreaterThanINTMAXVALUE_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.electricity_rate_per_unit
+                )
+            )
+        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
+
+    }
+
+    @Test
+    fun calculatorPage_waterFeeTextFieldWithValueGreaterThanINTMAXVALUE_updatesTheWaterFeeVariableInTheCalculatorViewModelWithOldValue() {
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.water_fee
+                )
+            )
+        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+
+        assertEquals(null, calculatorViewModel.waterFee.value)
+
+    }
+
+    @Test
+    fun calculatorPage_garbageFeeTextFieldWithValueGreaterThanINTMAXVALUE_updatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.garbage_fee
+                )
+            )
+        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+
+        assertEquals(null, calculatorViewModel.garbageFee.value)
+
+    }
+
+    @Test
+    fun calculatorPage_rentTextFieldWithValueGreaterThanINTMAXVALUE_updatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.rent
+                )
+            )
+        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+
+        assertEquals(null, calculatorViewModel.rent.value)
+
+    }
+
     // Error Path
 
     /*
@@ -384,5 +473,171 @@ class CalculatorPageTest {
                 )
             )
         ).assertExists()
+    }
+
+
+    // Boundary case
+
+    // With minimum case
+    @Test
+    fun calculatorPage_previousElecMeterReadingTextFieldWithMinimumValidInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.previous_elec_meter_reading
+                )
+            )
+        ).performTextInput("0")
+
+        assertEquals(0, calculatorViewModel.previousElecMeterReading.value)
+    }
+
+    @Test
+    fun calculatorPage_currentElecMeterReadingTextFieldWithMinimumValidInput_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.current_elec_meter_reading
+                )
+            )
+        ).performTextInput("0")
+
+        assertEquals(0, calculatorViewModel.currentElecMeterReading.value)
+    }
+
+
+    @Test
+    fun calculatorPage_electricityRatePerUnitTextFieldWithMinimumValidInput_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.electricity_rate_per_unit
+                )
+            )
+        ).performTextInput("0")
+
+        assertEquals(0, calculatorViewModel.electricityRatePerUnit.value)
+    }
+
+
+    @Test
+    fun calculatorPage_waterFeeTextFieldWithMinimumValidInput_updatesTheWaterFeeVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.water_fee
+                )
+            )
+        ).performTextInput("0")
+
+        assertEquals(0, calculatorViewModel.waterFee.value)
+    }
+
+    @Test
+    fun calculatorPage_garbageFeeTextFieldWithMinimumValidInput_updatesTheGarbageFeeVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.garbage_fee
+                )
+            )
+        ).performTextInput("0")
+
+        assertEquals(0, calculatorViewModel.garbageFee.value)
+    }
+
+    @Test
+    fun calculatorPage_rentTextFieldWithMinimumValidInput_updatesTheRentVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.rent
+                )
+            )
+        ).performTextInput("0")
+
+        assertEquals(0, calculatorViewModel.rent.value)
+    }
+
+
+    // With maximum case
+    @Test
+    fun calculatorPage_previousElecMeterReadingTextFieldWithMaximumValidInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.previous_elec_meter_reading
+                )
+            )
+        ).performTextInput(Int.MAX_VALUE.toString())
+
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.previousElecMeterReading.value)
+    }
+
+    @Test
+    fun calculatorPage_currentElecMeterReadingTextFieldWithMaximumValidInput_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.current_elec_meter_reading
+                )
+            )
+        ).performTextInput(Int.MAX_VALUE.toString())
+
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.currentElecMeterReading.value)
+    }
+
+
+    @Test
+    fun calculatorPage_electricityRatePerUnitTextFieldWithMaximumValidInput_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.electricity_rate_per_unit
+                )
+            )
+        ).performTextInput(Int.MAX_VALUE.toString())
+
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.electricityRatePerUnit.value)
+    }
+
+
+    @Test
+    fun calculatorPage_waterFeeTextFieldWithMaximumValidInput_updatesTheWaterFeeVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.water_fee
+                )
+            )
+        ).performTextInput(Int.MAX_VALUE.toString())
+
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.waterFee.value)
+    }
+
+    @Test
+    fun calculatorPage_garbageFeeTextFieldWithMaximumValidInput_updatesTheGarbageFeeVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.garbage_fee
+                )
+            )
+        ).performTextInput(Int.MAX_VALUE.toString())
+
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.garbageFee.value)
+    }
+
+    @Test
+    fun calculatorPage_rentTextFieldWithMaximumValidInput_updatesTheRentVariableInTheCalculatorViewModel() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.rent
+                )
+            )
+        ).performTextInput(Int.MAX_VALUE.toString())
+
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.rent.value)
     }
 }
