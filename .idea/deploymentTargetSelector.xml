@@ -25,6 +25,9 @@
       <SelectionState runConfigName="calculatorPage_electricityRatePerUnitTextFieldWithValueGreaterThanINTMAXVALUE_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="calculatorPage_previousElecMeterReadingTextFieldWithNonDigitInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

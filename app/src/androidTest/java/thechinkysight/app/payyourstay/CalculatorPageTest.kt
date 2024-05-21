@@ -200,6 +200,8 @@ class CalculatorPageTest {
         assertEquals(15000, calculatorViewModel.rent.value)
     }
 
+
+    // Tests to test the behaviour when the input to the text fields is greater than `Int.MAX_VALUE`
     @Test
     fun calculatorPage_previousElecMeterReadingTextFieldWithValueGreaterThanINTMAXVALUE_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -287,6 +289,85 @@ class CalculatorPageTest {
 
         assertEquals(null, calculatorViewModel.rent.value)
 
+    }
+
+    // Tests to test the behaviour when the input to the text fields contains non-digit elements
+    @Test
+    fun calculatorPage_previousElecMeterReadingTextFieldWithNonDigitInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.previous_elec_meter_reading
+                )
+            )
+        ).performTextInput("1909,")
+
+        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+    }
+
+    @Test
+    fun calculatorPage_currentElecMeterReadingTextFieldWithNonDigitInput_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.current_elec_meter_reading
+                )
+            )
+        ).performTextInput("2091-")
+
+        assertEquals(null, calculatorViewModel.currentElecMeterReading.value)
+    }
+
+    @Test
+    fun calculatorPage_electricityRatePerUnitTextFieldWithNonDigitInput_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.electricity_rate_per_unit
+                )
+            )
+        ).performTextInput("14.")
+
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
+    }
+
+    @Test
+    fun calculatorPage_waterFeeTextFieldWithNonDigitInput_updatesTheWaterFeeVariableInTheCalculatorViewModelWithOldValue() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.water_fee
+                )
+            )
+        ).performTextInput("200,")
+
+        assertEquals(null, calculatorViewModel.waterFee.value)
+    }
+
+    @Test
+    fun calculatorPage_garbageFeeTextFieldWithNonDigitInput_updatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.garbage_fee
+                )
+            )
+        ).performTextInput("125-")
+
+        assertEquals(null, calculatorViewModel.garbageFee.value)
+    }
+
+    @Test
+    fun calculatorPage_rentTextFieldWithNonDigitInput_updatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.rent
+                )
+            )
+        ).performTextInput("15000.")
+
+        assertEquals(null, calculatorViewModel.rent.value)
     }
 
     // Error Path
