@@ -33,11 +33,12 @@ fun CalculatorPage(
 ) {
 
     val fillMaxWidthModifier: Modifier = Modifier.fillMaxWidth()
+    val isCurrentElecMeterReadingLessThanPreviousElecMeterReading =
+        calculatorViewModel.isCurrentElecMeterReadingLessThanPreviousElecMeterReading.collectAsState().value
 
     Column(modifier = modifier) {
         Spacer(modifier = Modifier.height(30.dp))
-        ElectricityDataInputTextFields(
-            modifier = fillMaxWidthModifier,
+        ElectricityDataInputTextFields(modifier = fillMaxWidthModifier,
             previousElecMeterReadingValue = calculatorViewModel.previousElecMeterReading.collectAsState().value,
             currentElecMeterReadingValue = calculatorViewModel.currentElecMeterReading.collectAsState().value,
             electricityRatePerUnitValue = calculatorViewModel.electricityRatePerUnit.collectAsState().value,
@@ -50,13 +51,26 @@ fun CalculatorPage(
                 )
             },
             isCurrentElecMeterReadingTextFieldInError = calculatorViewModel.isCurrentElecMeterReadingTextFieldInError.collectAsState().value,
-            errorTextForCurrentElecMeterReadingTextField = {
-                Text(
-                    text = stringResource(
-                        id = R.string.error_text_field_is_empty, "Current reading"
+            errorTextForCurrentElecMeterReadingTextField = if (isCurrentElecMeterReadingLessThanPreviousElecMeterReading) {
+                {
+                    Text(
+                        text = stringResource(
+                            id = R.string.error_current_elec_meter_reading_is_less_than_previous_elec_meter_reading
+                        )
                     )
-                )
+                }
+            } else {
+                {
+                    Text(
+                        text = stringResource(
+                            id = R.string.error_text_field_is_empty, "Current reading"
+                        )
+                    )
+                }
             },
+            updateElecMeterReadingComparison = calculatorViewModel::updateElecMeterReadingComparison,
+            validateTextFieldValue = calculatorViewModel::validateTextFieldValue,
+            isCurrentElecMeterReadingLessThanPreviousElecMeterReading = isCurrentElecMeterReadingLessThanPreviousElecMeterReading,
             isElectricityRatePerUnitTextFieldInError = calculatorViewModel.isElectricityRatePerUnitTextFieldInError.collectAsState().value,
             errorTextForElectricityRatePerUnitTextField = {
                 Text(
@@ -132,6 +146,9 @@ private fun ElectricityDataInputTextFields(
     errorTextForPreviousElecMeterReadingTextField: @Composable (() -> Unit),
     isCurrentElecMeterReadingTextFieldInError: Boolean,
     errorTextForCurrentElecMeterReadingTextField: @Composable (() -> Unit),
+    updateElecMeterReadingComparison: (Boolean) -> Unit,
+    validateTextFieldValue: (String, Int?) -> Int?,
+    isCurrentElecMeterReadingLessThanPreviousElecMeterReading: Boolean,
     isElectricityRatePerUnitTextFieldInError: Boolean,
     errorTextForElectricityRatePerUnitTextField: @Composable (() -> Unit),
     updateErrorStatusForTextField: (TextField, Boolean) -> Unit
@@ -146,6 +163,25 @@ private fun ElectricityDataInputTextFields(
                 onValueChange(
                     it, previousElecMeterReadingValue, TextField.PreviousElecMeterReading
                 )
+
+                val validatedPreviousElecMeterReadingValue =
+                    validateTextFieldValue(it, previousElecMeterReadingValue)
+
+                if (validatedPreviousElecMeterReadingValue != null && currentElecMeterReadingValue != null) {
+
+                    if (validatedPreviousElecMeterReadingValue > currentElecMeterReadingValue) {
+
+                        updateErrorStatusForTextField(TextField.CurrentElecMeterReading, true)
+
+                        updateElecMeterReadingComparison(true)
+
+                    } else {
+                        updateErrorStatusForTextField(TextField.CurrentElecMeterReading, false)
+                        updateElecMeterReadingComparison(false)
+                    }
+                } else {
+                    updateElecMeterReadingComparison(false)
+                }
             },
             isError = isPreviousElecMeterReadingTextFieldInError,
             errorText = errorTextForPreviousElecMeterReadingTextField,
@@ -164,7 +200,28 @@ private fun ElectricityDataInputTextFields(
                 onValueChange(
                     it, currentElecMeterReadingValue, TextField.CurrentElecMeterReading
                 )
+
+                val validatedCurrentElecMeterReadingValue =
+                    validateTextFieldValue(it, currentElecMeterReadingValue)
+
+                if (previousElecMeterReadingValue != null && validatedCurrentElecMeterReadingValue != null) {
+
+                    if (validatedCurrentElecMeterReadingValue < previousElecMeterReadingValue) {
+
+                        updateErrorStatusForTextField(TextField.CurrentElecMeterReading, true)
+
+                        updateElecMeterReadingComparison(true)
+
+                    } else {
+                        updateErrorStatusForTextField(TextField.CurrentElecMeterReading, false)
+                        updateElecMeterReadingComparison(false)
+                    }
+                } else {
+                    updateElecMeterReadingComparison(false)
+                }
+
             },
+            isCurrentElecMeterReadingLessThanPreviousElecMeterReading = isCurrentElecMeterReadingLessThanPreviousElecMeterReading,
             isError = isCurrentElecMeterReadingTextFieldInError,
             errorText = errorTextForCurrentElecMeterReadingTextField,
             textField = TextField.CurrentElecMeterReading,
@@ -273,31 +330,47 @@ private fun DataInputTextField(
     onValueChange: (String) -> Unit,
     textField: TextField,
     isError: Boolean,
+    isCurrentElecMeterReadingLessThanPreviousElecMeterReading: Boolean = false,
     errorText: @Composable (() -> Unit),
     updateErrorStatusForTextField: (TextField, Boolean) -> Unit,
     @StringRes labelStringResourceId: Int,
     @DrawableRes leadingIcon: Int,
     imeAction: ImeAction = ImeAction.Next
 ) {
-    var isTextFieldInInitialFocusChange = remember {
+    var isTextFieldInInitialFocusEventChange = remember {
         true
     }
 
+    val isTextFieldCurrentElecMeterReading = textField == TextField.CurrentElecMeterReading
+
     OutlinedTextField(
         modifier = modifier.onFocusEvent {
-            if (!isTextFieldInInitialFocusChange) {
-                if (!it.isFocused && value.isEmpty()) {
+
+            if (!isTextFieldInInitialFocusEventChange) {
+
+                if (value.isEmpty() || (isTextFieldCurrentElecMeterReading && isCurrentElecMeterReadingLessThanPreviousElecMeterReading)) {
                     updateErrorStatusForTextField(textField, true)
                 } else {
                     updateErrorStatusForTextField(textField, false)
                 }
+
+            } else {
+                isTextFieldInInitialFocusEventChange = false
             }
 
-            isTextFieldInInitialFocusChange = false
         },
         value = value,
         label = { Text(text = stringResource(labelStringResourceId)) },
-        onValueChange = onValueChange,
+        onValueChange = {
+
+            if (!isTextFieldInInitialFocusEventChange && it.isEmpty()) {
+                updateErrorStatusForTextField(textField, true)
+            } else {
+                updateErrorStatusForTextField(textField, false)
+            }
+
+            onValueChange(it)
+        },
         singleLine = true,
         isError = isError,
         supportingText = if (isError) {

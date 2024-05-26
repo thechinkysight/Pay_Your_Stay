@@ -55,6 +55,12 @@ class CalculatorViewModel : ViewModel() {
     val isCurrentElecMeterReadingTextFieldInError: StateFlow<Boolean> =
         _isCurrentElecMeterReadingTextFieldInError.asStateFlow()
 
+    private val _isCurrentElecMeterReadingLessThanPreviousElecMeterReading: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+
+    val isCurrentElecMeterReadingLessThanPreviousElecMeterReading =
+        _isCurrentElecMeterReadingLessThanPreviousElecMeterReading.asStateFlow()
+
 
     private val _isElectricityRatePerUnitTextFieldInError: MutableStateFlow<Boolean> =
         MutableStateFlow(false)
@@ -86,6 +92,12 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
+    fun updateElecMeterReadingComparison(
+        isCurrentElecMeterReadingLessThanPreviousElecMeterReading: Boolean
+    ) {
+        _isCurrentElecMeterReadingLessThanPreviousElecMeterReading.update { isCurrentElecMeterReadingLessThanPreviousElecMeterReading }
+    }
+
     /**
      * This function validates the input and updates the respective StateFlow.
      *
@@ -109,16 +121,20 @@ class CalculatorViewModel : ViewModel() {
     fun validateAndUpdateTextFieldValue(
         currentValue: String, oldValue: Int?, textField: TextField
     ) {
-        val value = if (currentValue.isEmpty()) {
+        val value = validateTextFieldValue(currentValue, oldValue)
+
+        updateTextFieldValue(value, textField)
+
+    }
+
+    fun validateTextFieldValue(currentValue: String, oldValue: Int?): Int? {
+        return if (currentValue.isEmpty()) {
             null
         } else if (currentValue.all { it.isDigit() } && currentValue.toLong() <= Int.MAX_VALUE) {
             currentValue.toInt()
         } else {
             oldValue
         }
-
-        updateTextFieldValue(value, textField)
-
     }
 
 
