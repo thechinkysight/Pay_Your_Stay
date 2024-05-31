@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -381,9 +382,20 @@ private fun DataInputTextField(
                 painter = painterResource(id = leadingIcon), contentDescription = null
             )
         },
-        //        trailingIcon = {
-        //            Icon(painter = painterResource(id = R.drawable.cancel_24px), contentDescription = null)
-        //        },
+        trailingIcon = {
+            if (!isError) IconButton(onClick = {}) {
+                Icon(
+                    painter = painterResource(id = R.drawable.cancel_24px),
+                    contentDescription = stringResource(id = R.string.reset_text_field)
+                )
+
+            } else Icon(
+                painter = painterResource(id = R.drawable.error_24),
+                contentDescription = stringResource(
+                    id = R.string.error_icon
+                )
+            )
+        },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number, imeAction = imeAction
         ),

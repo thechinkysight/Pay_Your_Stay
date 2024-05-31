@@ -9,6 +9,10 @@
     <string name="calculate">calculate</string>
     <string name="calculator">calculator</string>
 
+    <!-- Content description for icons -->
+    <string name="error_icon">Error icon</string>
+    <string name="reset_text_field">Reset text field</string>
+
     <!--Error message for text field-->
     <string name="error_text_field_is_empty">%1$s can\'t be empty.</string>
     <string name="error_current_elec_meter_reading_is_less_than_previous_elec_meter_reading">Current reading can\'t be less than previous.</string>

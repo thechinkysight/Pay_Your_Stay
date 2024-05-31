@@ -13,19 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="calculatorPage_rentTextFieldWithNullAsValue_showsErrorOnTheTextFieldOnInitialFocusAndUnfocusedAfterInitialFocusAndRefocus()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_theValueOfCurrentElecMeterReadingTextFieldIsSmallerThanTheValueOfPreviousElecMeterReadingTextField_showsErrorOnCurrentElecMeterReadingTextFieldWhenFocusedAndUnfocusedAndRefocused()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_theValueOfCurrentElecMeterReadingTextFieldIsSmallerThanTheValueOfPreviousElecMeterReadingTextFieldAfterUpdatingPreviousElecMeterReadingTextFieldValue_showsErrorOnCurrentElecMeterReadingTextField()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_theValueOfCurrentElecMeterReadingTextFieldIsSmallerThanTheValueOfPreviousElecMeterReadingTextFieldAfterUpdatingCurrentElecMeterReadingTextFieldValue_showsErrorOnCurrentElecMeterReadingTextField()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="CalculatorPageTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_RentTextFieldWithNullAsValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextFieldWhenFocusedAndUnfocusedAndRefocused()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_currentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingPreviousElecMeterReading_showsErrorOnCurrentElecMeterReadingTextField()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingCurrentElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextField()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
