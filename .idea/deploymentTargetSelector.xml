@@ -16,16 +16,7 @@
       <SelectionState runConfigName="CalculatorPageTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="calculatorPage_RentTextFieldWithNullAsValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextFieldWhenFocusedAndUnfocusedAndRefocused()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_currentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingPreviousElecMeterReading_showsErrorOnCurrentElecMeterReadingTextField()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingCurrentElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextField()">
+      <SelectionState runConfigName="calculatorPage_PreviousElecMeterReadingTextFieldWithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

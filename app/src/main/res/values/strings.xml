@@ -10,8 +10,8 @@
     <string name="calculator">calculator</string>
 
     <!-- Content description for icons -->
-    <string name="error_icon">Error icon</string>
-    <string name="reset_text_field">Reset text field</string>
+    <string name="text_field_error_icon">Error icon</string>
+    <string name="reset_text_field_button">Reset text field button</string>
 
     <!--Error message for text field-->
     <string name="error_text_field_is_empty">%1$s can\'t be empty.</string>

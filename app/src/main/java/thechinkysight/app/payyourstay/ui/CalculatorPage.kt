@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -383,16 +384,18 @@ private fun DataInputTextField(
             )
         },
         trailingIcon = {
-            if (!isError) IconButton(onClick = {}) {
+            // I think I need to disable the reset text field icon when the text field is null.
+            if (!isError) IconButton(modifier = Modifier.testTag(stringResource(id = R.string.reset_text_field_button)),
+                onClick = {}) {
                 Icon(
                     painter = painterResource(id = R.drawable.cancel_24px),
-                    contentDescription = stringResource(id = R.string.reset_text_field)
+                    contentDescription = null
                 )
 
             } else Icon(
                 painter = painterResource(id = R.drawable.error_24),
                 contentDescription = stringResource(
-                    id = R.string.error_icon
+                    id = R.string.text_field_error_icon
                 )
             )
         },

@@ -5,9 +5,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
@@ -31,6 +33,11 @@ class CalculatorPageTest {
 
     private val calculatorViewModel = CalculatorViewModel()
 
+    private lateinit var resetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
+
+    private lateinit var errorIconSemanticsMatcher: SemanticsMatcher
+
+
     @Before
     fun setUp() {
         composeTestRule.setContent {
@@ -42,6 +49,18 @@ class CalculatorPageTest {
                 )
             }
         }
+
+        resetTextFieldIconButtonSemanticsMatcher = hasTestTag(
+            composeTestRule.activity.getString(
+                R.string.reset_text_field_button
+            )
+        )
+
+        errorIconSemanticsMatcher = hasContentDescription(
+            composeTestRule.activity.getString(
+                R.string.text_field_error_icon
+            )
+        )
     }
 
     // Success path
@@ -121,8 +140,10 @@ class CalculatorPageTest {
         ).assertExists()
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_PreviousElecMeterReadingTextFieldWithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -132,10 +153,14 @@ class CalculatorPageTest {
         ).performTextInput("1909")
 
         assertEquals(1909, calculatorViewModel.previousElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_CurrentElecMeterReadingTextFieldWithValidInput_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
+
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -145,10 +170,14 @@ class CalculatorPageTest {
         ).performTextInput("2091")
 
         assertEquals(2091, calculatorViewModel.currentElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_ElectricityRatePerUnitTextFieldWithValidInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
+
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -158,10 +187,14 @@ class CalculatorPageTest {
         ).performTextInput("14")
 
         assertEquals(14, calculatorViewModel.electricityRatePerUnit.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_WaterFeeTextFieldWithValidInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModel() {
+
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -171,8 +204,11 @@ class CalculatorPageTest {
         ).performTextInput("200")
 
         assertEquals(200, calculatorViewModel.waterFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_GarbageFeeTextFieldWithValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -184,8 +220,11 @@ class CalculatorPageTest {
         ).performTextInput("125")
 
         assertEquals(125, calculatorViewModel.garbageFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_RentTextFieldWithValidInput_UpdatesTheRentVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -197,10 +236,9 @@ class CalculatorPageTest {
         ).performTextInput("15000")
 
         assertEquals(15000, calculatorViewModel.rent.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
-
-
-    // Error Path
 
     @Test
     fun calculatorPage_Initialization_NoErrorsInTextFields() {
@@ -262,6 +300,8 @@ class CalculatorPageTest {
         ).assertDoesNotExist()
     }
 
+    // Error Path
+
     // Tests to test the behaviours of the text fields when they're focused for the first time, then unfocused, and then refocus.
     @OptIn(ExperimentalTestApi::class)
     @Test
@@ -288,12 +328,6 @@ class CalculatorPageTest {
                 composeTestRule.activity.getString(
                     R.string.error_text_field_is_empty, "Current reading"
                 )
-            )
-        )
-
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
             )
         )
 
@@ -366,12 +400,6 @@ class CalculatorPageTest {
             )
         )
 
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
-            )
-        )
-
         currentElecMeterReadingTextField.performClick()
 
 
@@ -440,13 +468,6 @@ class CalculatorPageTest {
             )
         )
 
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
-            )
-        )
-
-
         electricityRatePerUnitTextField.performClick()
 
 
@@ -511,12 +532,6 @@ class CalculatorPageTest {
                 composeTestRule.activity.getString(
                     R.string.error_text_field_is_empty, "Garbage fee"
                 )
-            )
-        )
-
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
             )
         )
 
@@ -589,13 +604,6 @@ class CalculatorPageTest {
             )
         )
 
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
-            )
-        )
-
-
         garbageFeeTextField.performClick()
 
 
@@ -664,13 +672,6 @@ class CalculatorPageTest {
             )
         )
 
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
-            )
-        )
-
-
         rentTextField.performClick()
 
 
@@ -712,6 +713,7 @@ class CalculatorPageTest {
     }
 
     // Tests to test the behaviour when the input to the text fields is greater than `Int.MAX_VALUE`
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_PreviousElecMeterReadingTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -724,8 +726,11 @@ class CalculatorPageTest {
         ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
 
         assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_CurrentElecMeterReadingTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -739,8 +744,11 @@ class CalculatorPageTest {
 
         assertEquals(null, calculatorViewModel.currentElecMeterReading.value)
 
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
+
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_ElectricityRatePerUnitTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -754,8 +762,11 @@ class CalculatorPageTest {
 
         assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
 
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
+
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_WaterFeeTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesTheWaterFeeVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -769,8 +780,11 @@ class CalculatorPageTest {
 
         assertEquals(null, calculatorViewModel.waterFee.value)
 
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
+
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_GarbageFeeTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -784,8 +798,11 @@ class CalculatorPageTest {
 
         assertEquals(null, calculatorViewModel.garbageFee.value)
 
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
+
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_RentTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -799,9 +816,12 @@ class CalculatorPageTest {
 
         assertEquals(null, calculatorViewModel.rent.value)
 
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
+
     }
 
     // Tests to test the behaviour when the input to the text fields contains non-digit elements
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_PreviousElecMeterReadingTextFieldWithNonDigitInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
         composeTestRule.onNode(
@@ -813,8 +833,11 @@ class CalculatorPageTest {
         ).performTextInput("1909,")
 
         assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_CurrentElecMeterReadingTextFieldWithNonDigitInput_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
         composeTestRule.onNode(
@@ -826,8 +849,11 @@ class CalculatorPageTest {
         ).performTextInput("2091-")
 
         assertEquals(null, calculatorViewModel.currentElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_ElectricityRatePerUnitTextFieldWithNonDigitInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
         composeTestRule.onNode(
@@ -839,8 +865,11 @@ class CalculatorPageTest {
         ).performTextInput("14.")
 
         assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_WaterFeeTextFieldWithNonDigitInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModelWithOldValue() {
         composeTestRule.onNode(
@@ -852,8 +881,11 @@ class CalculatorPageTest {
         ).performTextInput("200,")
 
         assertEquals(null, calculatorViewModel.waterFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_GarbageFeeTextFieldWithNonDigitInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
         composeTestRule.onNode(
@@ -865,8 +897,11 @@ class CalculatorPageTest {
         ).performTextInput("125-")
 
         assertEquals(null, calculatorViewModel.garbageFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_RentTextFieldWithNonDigitInput_UpdatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
         composeTestRule.onNode(
@@ -878,6 +913,8 @@ class CalculatorPageTest {
         ).performTextInput("15000.")
 
         assertEquals(null, calculatorViewModel.rent.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
     // Tests for testing the behaviours when the value of "Current Elec. Meter Reading" text field is smaller than the value of "Previous Elec. Meter Reading" text field.
@@ -906,12 +943,6 @@ class CalculatorPageTest {
                 composeTestRule.activity.getString(
                     R.string.error_text_field_is_empty, "Electricity rate"
                 )
-            )
-        )
-
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
             )
         )
 
@@ -983,12 +1014,6 @@ class CalculatorPageTest {
             )
         )
 
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
-            )
-        )
-
         previousElecMeterReadingTextField.performTextInput("500")
 
         composeTestRule.onNode(
@@ -1037,13 +1062,6 @@ class CalculatorPageTest {
             )
         )
 
-        val errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.error_icon
-            )
-        )
-
-
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -1076,6 +1094,7 @@ class CalculatorPageTest {
     // Boundary case
 
     // With minimum case
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_previousElecMeterReadingTextFieldWithMinimumValidInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1087,8 +1106,11 @@ class CalculatorPageTest {
         ).performTextInput("0")
 
         assertEquals(0, calculatorViewModel.previousElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_currentElecMeterReadingTextFieldWithMinimumValidInput_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1100,9 +1122,12 @@ class CalculatorPageTest {
         ).performTextInput("0")
 
         assertEquals(0, calculatorViewModel.currentElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_electricityRatePerUnitTextFieldWithMinimumValidInput_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1114,9 +1139,12 @@ class CalculatorPageTest {
         ).performTextInput("0")
 
         assertEquals(0, calculatorViewModel.electricityRatePerUnit.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_waterFeeTextFieldWithMinimumValidInput_updatesTheWaterFeeVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1128,8 +1156,11 @@ class CalculatorPageTest {
         ).performTextInput("0")
 
         assertEquals(0, calculatorViewModel.waterFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_garbageFeeTextFieldWithMinimumValidInput_updatesTheGarbageFeeVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1141,8 +1172,11 @@ class CalculatorPageTest {
         ).performTextInput("0")
 
         assertEquals(0, calculatorViewModel.garbageFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_rentTextFieldWithMinimumValidInput_updatesTheRentVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1154,10 +1188,13 @@ class CalculatorPageTest {
         ).performTextInput("0")
 
         assertEquals(0, calculatorViewModel.rent.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
 
     // With maximum case
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_previousElecMeterReadingTextFieldWithMaximumValidInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1169,8 +1206,11 @@ class CalculatorPageTest {
         ).performTextInput(Int.MAX_VALUE.toString())
 
         assertEquals(Int.MAX_VALUE, calculatorViewModel.previousElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_currentElecMeterReadingTextFieldWithMaximumValidInput_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1182,9 +1222,12 @@ class CalculatorPageTest {
         ).performTextInput(Int.MAX_VALUE.toString())
 
         assertEquals(Int.MAX_VALUE, calculatorViewModel.currentElecMeterReading.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_electricityRatePerUnitTextFieldWithMaximumValidInput_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1196,9 +1239,12 @@ class CalculatorPageTest {
         ).performTextInput(Int.MAX_VALUE.toString())
 
         assertEquals(Int.MAX_VALUE, calculatorViewModel.electricityRatePerUnit.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_waterFeeTextFieldWithMaximumValidInput_updatesTheWaterFeeVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1210,8 +1256,11 @@ class CalculatorPageTest {
         ).performTextInput(Int.MAX_VALUE.toString())
 
         assertEquals(Int.MAX_VALUE, calculatorViewModel.waterFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_garbageFeeTextFieldWithMaximumValidInput_updatesTheGarbageFeeVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1223,8 +1272,11 @@ class CalculatorPageTest {
         ).performTextInput(Int.MAX_VALUE.toString())
 
         assertEquals(Int.MAX_VALUE, calculatorViewModel.garbageFee.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_rentTextFieldWithMaximumValidInput_updatesTheRentVariableInTheCalculatorViewModel() {
         composeTestRule.onNode(
@@ -1236,5 +1288,7 @@ class CalculatorPageTest {
         ).performTextInput(Int.MAX_VALUE.toString())
 
         assertEquals(Int.MAX_VALUE, calculatorViewModel.rent.value)
+
+        composeTestRule.waitUntilNodeCount(resetTextFieldIconButtonSemanticsMatcher, 6)
     }
 }
