@@ -191,6 +191,7 @@ private fun ElectricityDataInputTextFields(
             updateErrorStatusForTextField = updateErrorStatusForTextField,
             labelStringResourceId = R.string.previous_elec_meter_reading,
             leadingIcon = R.drawable.bolt_24,
+            onTrailingIconButtonClick = onValueChange
         )
 
         Spacer(modifier = Modifier.height(35.dp))
@@ -230,6 +231,7 @@ private fun ElectricityDataInputTextFields(
             updateErrorStatusForTextField = updateErrorStatusForTextField,
             labelStringResourceId = R.string.current_elec_meter_reading,
             leadingIcon = R.drawable.bolt_24,
+            onTrailingIconButtonClick = onValueChange
         )
 
         Spacer(modifier = Modifier.height(35.dp))
@@ -248,6 +250,7 @@ private fun ElectricityDataInputTextFields(
             updateErrorStatusForTextField = updateErrorStatusForTextField,
             labelStringResourceId = R.string.electricity_rate_per_unit,
             leadingIcon = R.drawable.payment_24,
+            onTrailingIconButtonClick = onValueChange
         )
     }
 }
@@ -278,6 +281,7 @@ private fun OtherUtilitiesDataInputTextFields(
         updateErrorStatusForTextField = updateErrorStatusForTextField,
         labelStringResourceId = R.string.water_fee,
         leadingIcon = R.drawable.water_drop_24,
+        onTrailingIconButtonClick = onValueChange
     )
     Spacer(modifier = Modifier.height(35.dp))
     DataInputTextField(
@@ -294,6 +298,7 @@ private fun OtherUtilitiesDataInputTextFields(
         updateErrorStatusForTextField = updateErrorStatusForTextField,
         labelStringResourceId = R.string.garbage_fee,
         leadingIcon = R.drawable.delete_24,
+        onTrailingIconButtonClick = onValueChange
     )
 }
 
@@ -315,6 +320,7 @@ private fun RentDataInputTextField(
             )
         },
         textField = TextField.Rent,
+        onTrailingIconButtonClick = onValueChange,
         updateErrorStatusForTextField = updateErrorStatusForTextField,
         isError = isRentTextFieldInError,
         errorText = errorTextForRentTextField,
@@ -335,6 +341,7 @@ private fun DataInputTextField(
     isCurrentElecMeterReadingLessThanPreviousElecMeterReading: Boolean = false,
     errorText: @Composable (() -> Unit),
     updateErrorStatusForTextField: (TextField, Boolean) -> Unit,
+    onTrailingIconButtonClick: (String, Int?, TextField) -> Unit,
     @StringRes labelStringResourceId: Int,
     @DrawableRes leadingIcon: Int,
     imeAction: ImeAction = ImeAction.Next
@@ -384,9 +391,11 @@ private fun DataInputTextField(
             )
         },
         trailingIcon = {
-            // I think I need to disable the reset text field icon when the text field is null.
-            if (!isError) IconButton(modifier = Modifier.testTag(stringResource(id = R.string.reset_text_field_button)),
-                onClick = {}) {
+            if (!isError) IconButton(
+                modifier = Modifier.testTag(stringResource(id = labelStringResourceId)), onClick = {
+                    onTrailingIconButtonClick("", null, textField)
+                }, enabled = value.isNotEmpty()
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.cancel_24px),
                     contentDescription = null

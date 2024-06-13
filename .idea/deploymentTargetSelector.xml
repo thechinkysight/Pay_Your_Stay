@@ -13,10 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="CalculatorPageTest">
+      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfCurrentElecMeterReadingTextFieldWithValidInput_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithNull()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="calculatorPage_PreviousElecMeterReadingTextFieldWithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel()">
+      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfElectricityRatePerUnitTextFieldWithValidInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithNull()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfWaterFeeTextFieldWithValidInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModelWithNull()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfGarbageFeeTextFieldWithValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithNull()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfRentTextFieldWithValidInput_UpdatesTheRentVariableInTheCalculatorViewModelWithNull()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
