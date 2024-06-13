@@ -393,7 +393,13 @@ private fun DataInputTextField(
         trailingIcon = {
             if (!isError) IconButton(
                 modifier = Modifier.testTag(stringResource(id = labelStringResourceId)), onClick = {
+
                     onTrailingIconButtonClick("", null, textField)
+
+                    if (!isTextFieldInInitialFocusEventChange) {
+                        updateErrorStatusForTextField(textField, true)
+                    }
+
                 }, enabled = value.isNotEmpty()
             ) {
                 Icon(
@@ -410,6 +416,6 @@ private fun DataInputTextField(
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number, imeAction = imeAction
-        ),
+        )
     )
 }
