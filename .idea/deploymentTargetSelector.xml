@@ -13,19 +13,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfElectricityRatePerUnitTextFieldWithValidInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithNull()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfWaterFeeTextFieldWithValidInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModelWithNull()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfGarbageFeeTextFieldWithValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithNull()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="calculatorPage_ClickedTheResetTextFieldIconButtonOfRentTextFieldWithValidInput_UpdatesTheRentVariableInTheCalculatorViewModelWithNull()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="CalculatorPageTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_ClickedTheCalculateButton_CalculatesResultProperly()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

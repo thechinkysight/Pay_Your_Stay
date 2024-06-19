@@ -630,6 +630,81 @@ class CalculatorPageTest {
 
     }
 
+    @Test
+    fun calculatorPage_ClickedTheCalculateButton_CalculatesResultProperly() {
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.previous_elec_meter_reading
+                )
+            )
+        ).performTextInput("1050")
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.current_elec_meter_reading
+                )
+            )
+        ).performTextInput("1100")
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.electricity_rate_per_unit
+                )
+            )
+        ).performTextInput("15")
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.water_fee
+                )
+            )
+        ).performTextInput("300")
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.garbage_fee
+                )
+            )
+        ).performTextInput("200")
+
+        composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    R.string.rent
+                )
+            )
+        ).performTextInput("15000")
+
+
+        composeTestRule.onNode(
+            hasClickAction() and hasText(
+                composeTestRule.activity.getString(R.string.calculate).uppercase()
+            )
+        ).performClick()
+
+        assertEquals(1050, calculatorViewModel.previousElecMeterReading.value)
+
+        assertEquals(1100, calculatorViewModel.currentElecMeterReading.value)
+
+        assertEquals(15, calculatorViewModel.electricityRatePerUnit.value)
+
+        assertEquals(300, calculatorViewModel.waterFee.value)
+
+        assertEquals(200, calculatorViewModel.garbageFee.value)
+
+        assertEquals(15000, calculatorViewModel.rent.value)
+
+        assertEquals(750, calculatorViewModel.electricityExpense.value)
+
+        assertEquals(16250, calculatorViewModel.total.value)
+    }
+
 // Error Path
 
     // Tests to test the behaviours of the text fields when they're focused for the first time, then unfocused, and then refocus.
