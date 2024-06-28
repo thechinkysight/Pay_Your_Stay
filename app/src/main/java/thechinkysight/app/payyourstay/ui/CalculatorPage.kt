@@ -318,7 +318,7 @@ private fun CalculateButton(modifier: Modifier, calculatorViewModel: CalculatorV
         },
         modifier = modifier.height(56.dp),
         shape = RoundedCornerShape(4.dp),
-
+        // Write test for the enability of the button
         enabled = !(isPreviousElecMeterReadingTextFieldInError || isCurrentElecMeterReadingTextFieldInError || isElectricityRatePerUnitTextFieldInError || isWaterFeeTextFieldInError || isGarbageFeeTextFieldInError || isRentTextFieldInError)
     ) {
         Text(text = stringResource(id = R.string.calculate).uppercase())

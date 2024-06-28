@@ -159,6 +159,8 @@ class CalculatorViewModel : ViewModel() {
         rent: Int
     ) {
 
+        // Handle the following exceptions and write tests for them.
+
         if (previousElecMeterReading < 0) {
             throw IllegalArgumentException("Previous meter reading cannot be negative.")
         }

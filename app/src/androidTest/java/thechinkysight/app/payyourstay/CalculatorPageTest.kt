@@ -36,8 +36,6 @@ class CalculatorPageTest {
 
     private val calculatorViewModel = CalculatorViewModel()
 
-    private lateinit var previousElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
-    private lateinit var currentElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var electricityRatePerUnitTextFieldResetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var waterFeeTextFieldResetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var garbageFeeTextFieldResetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
@@ -47,12 +45,7 @@ class CalculatorPageTest {
 
     @OptIn(ExperimentalTestApi::class)
     private fun assertTheExistenceOfAllResetTextFieldIconButtons() {
-        composeTestRule.waitUntilNodeCount(
-            previousElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher, 1
-        )
-        composeTestRule.waitUntilNodeCount(
-            currentElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher, 1
-        )
+
         composeTestRule.waitUntilNodeCount(
             electricityRatePerUnitTextFieldResetTextFieldIconButtonSemanticsMatcher, 1
         )
@@ -69,16 +62,6 @@ class CalculatorPageTest {
     }
 
     private fun assertThatAllResetTextFieldIconButtonsAreDisabled() {
-        composeTestRule.onNode(
-            previousElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher
-        ).assert(
-            isNotEnabled()
-        )
-        composeTestRule.onNode(
-            currentElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher
-        ).assert(
-            isNotEnabled()
-        )
         composeTestRule.onNode(
             electricityRatePerUnitTextFieldResetTextFieldIconButtonSemanticsMatcher
         ).assert(
@@ -102,16 +85,7 @@ class CalculatorPageTest {
     }
 
     private fun assertThatAllResetTextFieldIconButtonsAreEnabled() {
-        composeTestRule.onNode(
-            previousElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher
-        ).assert(
-            isEnabled()
-        )
-        composeTestRule.onNode(
-            currentElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher
-        ).assert(
-            isEnabled()
-        )
+
         composeTestRule.onNode(
             electricityRatePerUnitTextFieldResetTextFieldIconButtonSemanticsMatcher
         ).assert(
@@ -147,16 +121,6 @@ class CalculatorPageTest {
             }
         }
 
-        previousElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher = hasTestTag(
-            composeTestRule.activity.getString(
-                R.string.previous_elec_meter_reading
-            )
-        )
-        currentElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher = hasTestTag(
-            composeTestRule.activity.getString(
-                R.string.current_elec_meter_reading
-            )
-        )
         electricityRatePerUnitTextFieldResetTextFieldIconButtonSemanticsMatcher = hasTestTag(
             composeTestRule.activity.getString(
                 R.string.electricity_rate_per_unit
@@ -186,27 +150,7 @@ class CalculatorPageTest {
     }
 
     // Success path
-    @Test
-    fun calculatorPage_PreviousElecMeterReadingTextField_Exist() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).assertExists()
-    }
 
-    @Test
-    fun calculatorPage_CurrentElecMeterReadingTextField_Exist() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).assertExists()
-    }
 
     @Test
     fun calculatorPage_ElectricityRatePerUnitTextField_Exist() {
@@ -261,37 +205,6 @@ class CalculatorPageTest {
         ).assertExists()
     }
 
-    @Test
-    fun calculatorPage_PreviousElecMeterReadingTextFieldWithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("1909")
-
-        assertEquals(1909, calculatorViewModel.previousElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
-
-    @Test
-    fun calculatorPage_CurrentElecMeterReadingTextFieldWithValidInput_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput("2091")
-
-        assertEquals(2091, calculatorViewModel.currentElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
 
     @Test
     fun calculatorPage_ElectricityRatePerUnitTextFieldWithValidInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
@@ -421,21 +334,7 @@ class CalculatorPageTest {
 
     @Test
     fun calculatorPage_TextFieldsAreNotEmpty_ResetTextFieldIconButtonEnabled() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("1909")
 
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput("2000")
 
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
@@ -474,57 +373,6 @@ class CalculatorPageTest {
         assertThatAllResetTextFieldIconButtonsAreEnabled()
     }
 
-    @OptIn(ExperimentalTestApi::class)
-    @Test
-    fun calculatorPage_ClickedTheResetTextFieldIconButtonOfPreviousElecMeterReadingTextFieldWithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithNull() {
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("1909")
-
-        // First I am checking whether the node is present or not, and then I am performing the action e.g. click in this case.
-        composeTestRule.waitUntilNodeCount(
-            previousElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher, 1
-        )
-
-        composeTestRule.onNode(
-            previousElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher
-        ).performClick()
-
-
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
-
-    }
-
-    @OptIn(ExperimentalTestApi::class)
-    @Test
-    fun calculatorPage_ClickedTheResetTextFieldIconButtonOfCurrentElecMeterReadingTextFieldWithValidInput_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithNull() {
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput("2000")
-
-        // First I am checking whether the node is present or not, and then I am performing the action e.g. click in this case.
-        composeTestRule.waitUntilNodeCount(
-            currentElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher, 1
-        )
-
-        composeTestRule.onNode(
-            currentElecMeterReadingTextFieldResetTextFieldIconButtonSemanticsMatcher
-        ).performClick()
-
-
-        assertEquals(null, calculatorViewModel.currentElecMeterReading.value)
-
-    }
 
     @OptIn(ExperimentalTestApi::class)
     @Test
@@ -707,143 +555,6 @@ class CalculatorPageTest {
 
 // Error Path
 
-    // Tests to test the behaviours of the text fields when they're focused for the first time, then unfocused, and then refocus.
-    @OptIn(ExperimentalTestApi::class)
-    @Test
-    fun calculatorPage_PreviousElecMeterReadingTextFieldWithNullAsValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
-
-        val previousElecMeterReadingTextField = composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        )
-
-        val previousElecMeterReadingTextFiledErrorMessage = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Previous reading"
-                )
-            )
-        )
-
-        val currentElecMeterReadingTextFiledErrorMessage = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Current reading"
-                )
-            )
-        )
-
-        previousElecMeterReadingTextField.performClick()
-
-
-        previousElecMeterReadingTextFiledErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 1
-        )
-
-
-        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Previous Elec Meter Reading" text field.
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performClick()
-
-
-        previousElecMeterReadingTextFiledErrorMessage.assertExists()
-
-        currentElecMeterReadingTextFiledErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 2
-        )
-
-
-        previousElecMeterReadingTextField.performClick()
-
-
-        previousElecMeterReadingTextFiledErrorMessage.assertExists()
-
-        currentElecMeterReadingTextFiledErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 2
-        )
-    }
-
-    @OptIn(ExperimentalTestApi::class)
-    @Test
-    fun calculatorPage_CurrentElecMeterReadingTextFieldWithNullAsValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
-
-        val currentElecMeterReadingTextField = composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        )
-
-        val currentElecMeterReadingTextFieldErrorMessage = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Current reading"
-                )
-            )
-        )
-
-        val electricityRatePerUnitTextFieldErrorMessage = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Electricity rate"
-                )
-            )
-        )
-
-        currentElecMeterReadingTextField.performClick()
-
-
-        currentElecMeterReadingTextFieldErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 1
-        )
-
-        // Changing the focus to "Electricity Rate Per Unit" text field via taking the focus away from "Current Elec Meter Reading" text field.
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.electricity_rate_per_unit
-                )
-            )
-        ).performClick()
-
-
-        currentElecMeterReadingTextFieldErrorMessage.assertExists()
-
-        electricityRatePerUnitTextFieldErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 2
-        )
-
-
-        currentElecMeterReadingTextField.performClick()
-
-
-        currentElecMeterReadingTextFieldErrorMessage.assertExists()
-
-        electricityRatePerUnitTextFieldErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 2
-        )
-    }
 
     @OptIn(ExperimentalTestApi::class)
     @Test
@@ -1117,40 +828,9 @@ class CalculatorPageTest {
         )
     }
 
+
+
     // Tests to test the behaviour when the input to the text fields is greater than `Int.MAX_VALUE`
-    @Test
-    fun calculatorPage_PreviousElecMeterReadingTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
-
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
-
-    @Test
-    fun calculatorPage_CurrentElecMeterReadingTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
-
-        assertEquals(null, calculatorViewModel.currentElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-
-    }
-
     @Test
     fun calculatorPage_ElectricityRatePerUnitTextFieldWithValueGreaterThanINTMAXVALUE_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
 
@@ -1220,36 +900,6 @@ class CalculatorPageTest {
 
     // Tests to test the behaviour when the input to the text fields contains non-digit elements
     @Test
-    fun calculatorPage_PreviousElecMeterReadingTextFieldWithNonDigitInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("1909,")
-
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
-
-    @Test
-    fun calculatorPage_CurrentElecMeterReadingTextFieldWithNonDigitInput_UpdatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput("2091-")
-
-        assertEquals(null, calculatorViewModel.currentElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
-
-    @Test
     fun calculatorPage_ElectricityRatePerUnitTextFieldWithNonDigitInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
@@ -1311,211 +961,13 @@ class CalculatorPageTest {
     }
 
     // Tests for testing the behaviours when the value of "Current Elec. Meter Reading" text field is smaller than the value of "Previous Elec. Meter Reading" text field.
-    @OptIn(ExperimentalTestApi::class)
-    @Test
-    fun calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextFieldWhenFocusedAndUnfocusedAndRefocused() {
-
-        val currentElecMeterReadingTextField = composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        )
-
-        val currentElecMeterReadingTextFieldErrorMessage = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_current_elec_meter_reading_is_less_than_previous_elec_meter_reading
-                )
-            )
-        )
-
-        val electricityRateUnitTextFieldErrorMessage = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Electricity rate"
-                )
-            )
-        )
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("500")
-
-        currentElecMeterReadingTextField.performTextInput("400")
 
 
-        currentElecMeterReadingTextFieldErrorMessage.assertExists()
 
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 1
-        )
-
-        // Changing the focus to "Electricity Rate Per Unit" text field via taking the focus away from "Current Elec Meter Reading" text field.
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.electricity_rate_per_unit
-                )
-            )
-        ).performClick()
-
-
-        currentElecMeterReadingTextFieldErrorMessage.assertExists()
-
-        electricityRateUnitTextFieldErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 2
-        )
-
-
-        currentElecMeterReadingTextField.performClick()
-
-
-        currentElecMeterReadingTextFieldErrorMessage.assertExists()
-
-        electricityRateUnitTextFieldErrorMessage.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 2
-        )
-    }
-
-    @OptIn(ExperimentalTestApi::class)
-    @Test
-    fun calculatorPage_currentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingPreviousElecMeterReading_showsErrorOnCurrentElecMeterReadingTextField() {
-
-        val previousElecMeterReadingTextField = composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        )
-
-        val errorText = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_current_elec_meter_reading_is_less_than_previous_elec_meter_reading
-                )
-            )
-        )
-
-        previousElecMeterReadingTextField.performTextInput("500")
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput("600")
-
-
-        errorText.assertDoesNotExist()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 0
-        )
-
-        previousElecMeterReadingTextField.performTextClearance()
-
-        previousElecMeterReadingTextField.performTextInput("700")
-
-        errorText.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 1
-        )
-    }
-
-    @OptIn(ExperimentalTestApi::class)
-    @Test
-    fun calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingCurrentElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextField() {
-
-        val currentElecMeterReadingTextField = composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        )
-
-        val errorText = composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_current_elec_meter_reading_is_less_than_previous_elec_meter_reading
-                )
-            )
-        )
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("500")
-
-        currentElecMeterReadingTextField.performTextInput("600")
-
-
-        errorText.assertDoesNotExist()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 0
-        )
-
-        currentElecMeterReadingTextField.performTextClearance()
-
-        currentElecMeterReadingTextField.performTextInput("400")
-
-
-        errorText.assertExists()
-
-        composeTestRule.waitUntilNodeCount(
-            errorIconSemanticsMatcher, 1
-        )
-    }
 
 // Boundary case
 
     // With minimum case
-    @Test
-    fun calculatorPage_previousElecMeterReadingTextFieldWithMinimumValidInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("0")
-
-        assertEquals(0, calculatorViewModel.previousElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
-
-    @Test
-    fun calculatorPage_currentElecMeterReadingTextFieldWithMinimumValidInput_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput("0")
-
-        assertEquals(0, calculatorViewModel.currentElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
 
     @Test
     fun calculatorPage_electricityRatePerUnitTextFieldWithMinimumValidInput_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
@@ -1579,35 +1031,6 @@ class CalculatorPageTest {
 
 
     // With maximum case
-    @Test
-    fun calculatorPage_previousElecMeterReadingTextFieldWithMaximumValidInput_updatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput(Int.MAX_VALUE.toString())
-
-        assertEquals(Int.MAX_VALUE, calculatorViewModel.previousElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
-
-    @Test
-    fun calculatorPage_currentElecMeterReadingTextFieldWithMaximumValidInput_updatesTheCurrentElecMeterReadingVariableInTheCalculatorViewModel() {
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput(Int.MAX_VALUE.toString())
-
-        assertEquals(Int.MAX_VALUE, calculatorViewModel.currentElecMeterReading.value)
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-    }
 
     @Test
     fun calculatorPage_electricityRatePerUnitTextFieldWithMaximumValidInput_updatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {

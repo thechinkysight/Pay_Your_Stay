@@ -13,10 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="CalculatorPageTest">
+      <SelectionState runConfigName="currentElecMeterReadingTextField_WithValueSmallerThanPreviousElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextFieldWhenFocusedAndUnfocusedAndRefocused()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="calculatorPage_ClickedTheCalculateButton_CalculatesResultProperly()">
+      <SelectionState runConfigName="PreviousElecMeterReadingTextFieldTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="currentElecMeterReadingTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="currentElecMeterReadingTextField_WithValueSmallerThanPreviousElecMeterReading_AfterUpdatingPreviousElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextField()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingCurrentElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextField()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
