@@ -298,7 +298,6 @@ class CurrentElecMeterReadingTextFieldTest {
         assertTheExistenceOfNumberOfErrorIcons()
     }
 
-    @OptIn(ExperimentalTestApi::class)
     @Test
     fun calculatorPage_CurrentElecMeterReadingIsSmallerThanPreviousElecMeterReadingAfterUpdatingCurrentElecMeterReading_ShowsErrorOnCurrentElecMeterReadingTextField() {
 

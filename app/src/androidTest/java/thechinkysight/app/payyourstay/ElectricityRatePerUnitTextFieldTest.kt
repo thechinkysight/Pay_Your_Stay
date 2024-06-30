@@ -28,15 +28,15 @@ import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @RunWith(AndroidJUnit4::class)
-class PreviousElecMeterReadingTextFieldTest {
+class ElectricityRatePerUnitTextFieldTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val calculatorViewModel = CalculatorViewModel()
 
-    private lateinit var previousElecMeterReadingTextField: SemanticsNodeInteraction
-    private lateinit var previousElecMeterReadingTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
+    private lateinit var electricityRatePerUnitTextField: SemanticsNodeInteraction
+    private lateinit var electricityRatePerUnitTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
 
     private lateinit var resetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var errorIconSemanticsMatcher: SemanticsMatcher
@@ -86,25 +86,25 @@ class PreviousElecMeterReadingTextFieldTest {
             }
         }
 
-        previousElecMeterReadingTextField = composeTestRule.onNode(
+        electricityRatePerUnitTextField = composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
+                    R.string.electricity_rate_per_unit
                 )
             )
         )
 
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
                 composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Previous reading"
+                    R.string.error_text_field_is_empty, "Electricity rate"
                 )
             )
         )
 
         resetTextFieldIconButtonSemanticsMatcher = hasTestTag(
             composeTestRule.activity.getString(
-                R.string.previous_elec_meter_reading
+                R.string.electricity_rate_per_unit
             )
         )
 
@@ -118,9 +118,9 @@ class PreviousElecMeterReadingTextFieldTest {
     // Success path
 
     @Test
-    fun previousElecMeterReadingTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
+    fun electricityRatePerUnitTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
 
-        previousElecMeterReadingTextField.assertExists()
+        electricityRatePerUnitTextField.assertExists()
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
@@ -128,9 +128,9 @@ class PreviousElecMeterReadingTextFieldTest {
 
 
     @Test
-    fun previousElecMeterReadingTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
+    fun electricityRatePerUnitTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
 
-        previousElecMeterReadingTextField.performTextInput("1909")
+        electricityRatePerUnitTextField.performTextInput("1909")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
@@ -138,24 +138,24 @@ class PreviousElecMeterReadingTextFieldTest {
 
 
     @Test
-    fun previousElecMeterReadingTextField_WithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+    fun electricityRatePerUnitTextField_WithValidInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
 
-        previousElecMeterReadingTextField.performTextInput("1909")
+        electricityRatePerUnitTextField.performTextInput("13")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(1909, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(13, calculatorViewModel.electricityRatePerUnit.value)
     }
 
 
     @Test
-    fun previousElecMeterReadingTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithNull() {
+    fun electricityRatePerUnitTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithNull() {
 
-        previousElecMeterReadingTextField.performTextInput("1909")
+        electricityRatePerUnitTextField.performTextInput("13")
 
         assertThatResetTextFieldIconButtonIsEnabled().performClick()
 
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
 
     }
 
@@ -163,7 +163,7 @@ class PreviousElecMeterReadingTextFieldTest {
 
     // Test to test the behaviour of the text field when it's focused for the first time, then unfocused, and then refocus.
     @Test
-    fun previousElecMeterReadingTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
+    fun electricityRatePerUnitTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
 
         val currentElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
@@ -173,14 +173,14 @@ class PreviousElecMeterReadingTextFieldTest {
             )
         )
 
-        previousElecMeterReadingTextField.performClick()
+        electricityRatePerUnitTextField.performClick()
 
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons()
 
 
-        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Previous Elec Meter Reading" text field.
+        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Electricity Rate Per Unit" text field.
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -189,19 +189,19 @@ class PreviousElecMeterReadingTextFieldTest {
             )
         ).performClick()
 
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
-
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
 
 
-        // Refocusing to "Previous Elec Meter Reading" text field.
-        previousElecMeterReadingTextField.performClick()
-
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+        // Refocusing to "Electricity Rate Per Unit" text field.
+        electricityRatePerUnitTextField.performClick()
 
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
     }
@@ -209,49 +209,50 @@ class PreviousElecMeterReadingTextFieldTest {
 
     // Test to test the behaviour when the input to the text field is greater than `Int.MAX_VALUE`.
     @Test
-    fun previousElecMeterReadingTextField_WithValueGreaterThanINTMAXVALUE_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+    fun electricityRatePerUnitTextField_WithValueGreaterThanINTMAXVALUE_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
 
-        previousElecMeterReadingTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+        electricityRatePerUnitTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
 
     }
 
 
     // Test to test the behaviour when the input to the text field contains non-digit elements.
     @Test
-    fun previousElecMeterReadingTextField_WithNonDigitInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+    fun electricityRatePerUnitTextField_WithNonDigitInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
 
-        previousElecMeterReadingTextField.performTextInput("1909,")
+        electricityRatePerUnitTextField.performTextInput("13,")
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
     }
 
 
     // Boundary case
     @Test
-    fun previousElecMeterReadingTextField_WithMinimumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+    fun electricityRatePerUnitTextField_WithMinimumValidInput_UpdatesTheElectricityRatePerUnitTextFieldVariableInTheCalculatorViewModel() {
 
-        previousElecMeterReadingTextField.performTextInput("0")
+        electricityRatePerUnitTextField.performTextInput("0")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(0, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(0, calculatorViewModel.electricityRatePerUnit.value)
 
     }
 
     @Test
-    fun previousElecMeterReadingTextField_WithMaximumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+    fun electricityRatePerUnitTextField_WithMaximumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
 
-        previousElecMeterReadingTextField.performTextInput(Int.MAX_VALUE.toString())
+        electricityRatePerUnitTextField.performTextInput(Int.MAX_VALUE.toString())
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(Int.MAX_VALUE, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.electricityRatePerUnit.value)
 
     }
+
 }

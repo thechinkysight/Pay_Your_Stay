@@ -28,15 +28,15 @@ import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @RunWith(AndroidJUnit4::class)
-class PreviousElecMeterReadingTextFieldTest {
+class RentTextFieldTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val calculatorViewModel = CalculatorViewModel()
 
-    private lateinit var previousElecMeterReadingTextField: SemanticsNodeInteraction
-    private lateinit var previousElecMeterReadingTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
+    private lateinit var rentTextField: SemanticsNodeInteraction
+    private lateinit var rentTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
 
     private lateinit var resetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var errorIconSemanticsMatcher: SemanticsMatcher
@@ -86,25 +86,25 @@ class PreviousElecMeterReadingTextFieldTest {
             }
         }
 
-        previousElecMeterReadingTextField = composeTestRule.onNode(
+        rentTextField = composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
+                    R.string.rent
                 )
             )
         )
 
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
+        rentTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
                 composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Previous reading"
+                    R.string.rent, "Rent"
                 )
             )
         )
 
         resetTextFieldIconButtonSemanticsMatcher = hasTestTag(
             composeTestRule.activity.getString(
-                R.string.previous_elec_meter_reading
+                R.string.rent
             )
         )
 
@@ -118,9 +118,9 @@ class PreviousElecMeterReadingTextFieldTest {
     // Success path
 
     @Test
-    fun previousElecMeterReadingTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
+    fun rentTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
 
-        previousElecMeterReadingTextField.assertExists()
+        rentTextField.assertExists()
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
@@ -128,34 +128,33 @@ class PreviousElecMeterReadingTextFieldTest {
 
 
     @Test
-    fun previousElecMeterReadingTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
+    fun rentTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
 
-        previousElecMeterReadingTextField.performTextInput("1909")
+        rentTextField.performTextInput("1909")
 
         assertThatResetTextFieldIconButtonIsEnabled()
-
     }
 
 
     @Test
-    fun previousElecMeterReadingTextField_WithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+    fun rentTextField_WithValidInput_UpdatesTheRentVariableInTheCalculatorViewModel() {
 
-        previousElecMeterReadingTextField.performTextInput("1909")
+        rentTextField.performTextInput("15000")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(1909, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(15000, calculatorViewModel.rent.value)
     }
 
 
     @Test
-    fun previousElecMeterReadingTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithNull() {
+    fun rentTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesTheRentVariableInTheCalculatorViewModelWithNull() {
 
-        previousElecMeterReadingTextField.performTextInput("1909")
+        rentTextField.performTextInput("15000")
 
         assertThatResetTextFieldIconButtonIsEnabled().performClick()
 
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(null, calculatorViewModel.rent.value)
 
     }
 
@@ -163,7 +162,7 @@ class PreviousElecMeterReadingTextFieldTest {
 
     // Test to test the behaviour of the text field when it's focused for the first time, then unfocused, and then refocus.
     @Test
-    fun previousElecMeterReadingTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
+    fun rentTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
 
         val currentElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
@@ -173,14 +172,14 @@ class PreviousElecMeterReadingTextFieldTest {
             )
         )
 
-        previousElecMeterReadingTextField.performClick()
+        rentTextField.performClick()
 
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+        rentTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons()
 
 
-        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Previous Elec Meter Reading" text field.
+        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Rent" text field.
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -189,19 +188,19 @@ class PreviousElecMeterReadingTextFieldTest {
             )
         ).performClick()
 
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
-
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+
+        rentTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
 
 
-        // Refocusing to "Previous Elec Meter Reading" text field.
-        previousElecMeterReadingTextField.performClick()
-
-        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+        // Refocusing to "Rent" text field.
+        rentTextField.performClick()
 
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+
+        rentTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
     }
@@ -209,49 +208,50 @@ class PreviousElecMeterReadingTextFieldTest {
 
     // Test to test the behaviour when the input to the text field is greater than `Int.MAX_VALUE`.
     @Test
-    fun previousElecMeterReadingTextField_WithValueGreaterThanINTMAXVALUE_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+    fun rentTextField_WithValueGreaterThanINTMAXVALUE_UpdatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
 
-        previousElecMeterReadingTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+        rentTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(null, calculatorViewModel.rent.value)
 
     }
 
 
     // Test to test the behaviour when the input to the text field contains non-digit elements.
     @Test
-    fun previousElecMeterReadingTextField_WithNonDigitInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
+    fun rentTextField_WithNonDigitInput_UpdatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
 
-        previousElecMeterReadingTextField.performTextInput("1909,")
+        rentTextField.performTextInput("15000,")
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(null, calculatorViewModel.rent.value)
     }
 
 
     // Boundary case
     @Test
-    fun previousElecMeterReadingTextField_WithMinimumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+    fun rentTextField_WithMinimumValidInput_UpdatesTheRentVariableInTheCalculatorViewModel() {
 
-        previousElecMeterReadingTextField.performTextInput("0")
+        rentTextField.performTextInput("0")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(0, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(0, calculatorViewModel.rent.value)
 
     }
 
     @Test
-    fun previousElecMeterReadingTextField_WithMaximumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
+    fun rentTextField_WithMaximumValidInput_UpdatesTheRentVariableInTheCalculatorViewModel() {
 
-        previousElecMeterReadingTextField.performTextInput(Int.MAX_VALUE.toString())
+        rentTextField.performTextInput(Int.MAX_VALUE.toString())
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(Int.MAX_VALUE, calculatorViewModel.previousElecMeterReading.value)
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.rent.value)
 
     }
+
 }
