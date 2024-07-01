@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay
+package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
@@ -23,20 +23,21 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.ui.CalculatorPage
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @RunWith(AndroidJUnit4::class)
-class RentTextFieldTest {
+class GarbageFeeTextField {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val calculatorViewModel = CalculatorViewModel()
 
-    private lateinit var rentTextField: SemanticsNodeInteraction
-    private lateinit var rentTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
+    private lateinit var garbageFeeTextField: SemanticsNodeInteraction
+    private lateinit var garbageFeeTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
 
     private lateinit var resetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var errorIconSemanticsMatcher: SemanticsMatcher
@@ -86,25 +87,25 @@ class RentTextFieldTest {
             }
         }
 
-        rentTextField = composeTestRule.onNode(
+        garbageFeeTextField = composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
-                    R.string.rent
+                    R.string.garbage_fee
                 )
             )
         )
 
-        rentTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
+        garbageFeeTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
                 composeTestRule.activity.getString(
-                    R.string.rent, "Rent"
+                    R.string.garbage_fee, "Garbage fee"
                 )
             )
         )
 
         resetTextFieldIconButtonSemanticsMatcher = hasTestTag(
             composeTestRule.activity.getString(
-                R.string.rent
+                R.string.garbage_fee
             )
         )
 
@@ -118,9 +119,9 @@ class RentTextFieldTest {
     // Success path
 
     @Test
-    fun rentTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
+    fun garbageFeeTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
 
-        rentTextField.assertExists()
+        garbageFeeTextField.assertExists()
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
@@ -128,33 +129,33 @@ class RentTextFieldTest {
 
 
     @Test
-    fun rentTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
+    fun garbageFeeTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
 
-        rentTextField.performTextInput("1909")
+        garbageFeeTextField.performTextInput("1909")
 
         assertThatResetTextFieldIconButtonIsEnabled()
     }
 
 
     @Test
-    fun rentTextField_WithValidInput_UpdatesTheRentVariableInTheCalculatorViewModel() {
+    fun garbageFeeTextField_WithValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModel() {
 
-        rentTextField.performTextInput("15000")
+        garbageFeeTextField.performTextInput("200")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(15000, calculatorViewModel.rent.value)
+        assertEquals(200, calculatorViewModel.garbageFee.value)
     }
 
 
     @Test
-    fun rentTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesTheRentVariableInTheCalculatorViewModelWithNull() {
+    fun garbageFeeTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithNull() {
 
-        rentTextField.performTextInput("15000")
+        garbageFeeTextField.performTextInput("200")
 
         assertThatResetTextFieldIconButtonIsEnabled().performClick()
 
-        assertEquals(null, calculatorViewModel.rent.value)
+        assertEquals(null, calculatorViewModel.garbageFee.value)
 
     }
 
@@ -162,7 +163,7 @@ class RentTextFieldTest {
 
     // Test to test the behaviour of the text field when it's focused for the first time, then unfocused, and then refocus.
     @Test
-    fun rentTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
+    fun garbageFeeTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
 
         val currentElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
@@ -172,14 +173,14 @@ class RentTextFieldTest {
             )
         )
 
-        rentTextField.performClick()
+        garbageFeeTextField.performClick()
 
-        rentTextFieldIsEmptyErrorMessage.assertExists()
+        garbageFeeTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons()
 
 
-        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Rent" text field.
+        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Garbage Fee" text field.
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -190,17 +191,17 @@ class RentTextFieldTest {
 
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
-        rentTextFieldIsEmptyErrorMessage.assertExists()
+        garbageFeeTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
 
 
-        // Refocusing to "Rent" text field.
-        rentTextField.performClick()
+        // Refocusing to "Garbage Fee" text field.
+        garbageFeeTextField.performClick()
 
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
-        rentTextFieldIsEmptyErrorMessage.assertExists()
+        garbageFeeTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
     }
@@ -208,49 +209,49 @@ class RentTextFieldTest {
 
     // Test to test the behaviour when the input to the text field is greater than `Int.MAX_VALUE`.
     @Test
-    fun rentTextField_WithValueGreaterThanINTMAXVALUE_UpdatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
+    fun garbageFeeTextField_WithValueGreaterThanINTMAXVALUE_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
 
-        rentTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+        garbageFeeTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.rent.value)
+        assertEquals(null, calculatorViewModel.garbageFee.value)
 
     }
 
 
     // Test to test the behaviour when the input to the text field contains non-digit elements.
     @Test
-    fun rentTextField_WithNonDigitInput_UpdatesTheRentVariableInTheCalculatorViewModelWithOldValue() {
+    fun garbageFeeTextField_WithNonDigitInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
 
-        rentTextField.performTextInput("15000,")
+        garbageFeeTextField.performTextInput("200,")
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.rent.value)
+        assertEquals(null, calculatorViewModel.garbageFee.value)
     }
 
 
     // Boundary case
     @Test
-    fun rentTextField_WithMinimumValidInput_UpdatesTheRentVariableInTheCalculatorViewModel() {
+    fun garbageFeeTextField_WithMinimumValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModel() {
 
-        rentTextField.performTextInput("0")
+        garbageFeeTextField.performTextInput("0")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(0, calculatorViewModel.rent.value)
+        assertEquals(0, calculatorViewModel.garbageFee.value)
 
     }
 
     @Test
-    fun rentTextField_WithMaximumValidInput_UpdatesTheRentVariableInTheCalculatorViewModel() {
+    fun garbageFeeTextField_WithMaximumValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModel() {
 
-        rentTextField.performTextInput(Int.MAX_VALUE.toString())
+        garbageFeeTextField.performTextInput(Int.MAX_VALUE.toString())
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(Int.MAX_VALUE, calculatorViewModel.rent.value)
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.garbageFee.value)
 
     }
 

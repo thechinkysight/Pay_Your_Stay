@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay
+package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
@@ -23,20 +23,21 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.ui.CalculatorPage
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @RunWith(AndroidJUnit4::class)
-class WaterFeeTextFieldTest {
+class PreviousElecMeterReadingTextField {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val calculatorViewModel = CalculatorViewModel()
 
-    private lateinit var waterFeeTextField: SemanticsNodeInteraction
-    private lateinit var waterFeeTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
+    private lateinit var previousElecMeterReadingTextField: SemanticsNodeInteraction
+    private lateinit var previousElecMeterReadingTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
 
     private lateinit var resetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var errorIconSemanticsMatcher: SemanticsMatcher
@@ -86,25 +87,25 @@ class WaterFeeTextFieldTest {
             }
         }
 
-        waterFeeTextField = composeTestRule.onNode(
+        previousElecMeterReadingTextField = composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
-                    R.string.water_fee
+                    R.string.previous_elec_meter_reading
                 )
             )
         )
 
-        waterFeeTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
+        previousElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
                 composeTestRule.activity.getString(
-                    R.string.water_fee, "Water fee"
+                    R.string.error_text_field_is_empty, "Previous reading"
                 )
             )
         )
 
         resetTextFieldIconButtonSemanticsMatcher = hasTestTag(
             composeTestRule.activity.getString(
-                R.string.water_fee
+                R.string.previous_elec_meter_reading
             )
         )
 
@@ -118,9 +119,9 @@ class WaterFeeTextFieldTest {
     // Success path
 
     @Test
-    fun waterFeeTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
+    fun previousElecMeterReadingTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
 
-        waterFeeTextField.assertExists()
+        previousElecMeterReadingTextField.assertExists()
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
@@ -128,33 +129,34 @@ class WaterFeeTextFieldTest {
 
 
     @Test
-    fun waterFeeTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
+    fun previousElecMeterReadingTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
 
-        waterFeeTextField.performTextInput("1909")
+        previousElecMeterReadingTextField.performTextInput("1909")
 
         assertThatResetTextFieldIconButtonIsEnabled()
+
     }
 
 
     @Test
-    fun waterFeeTextField_WithValidInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModel() {
+    fun previousElecMeterReadingTextField_WithValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
 
-        waterFeeTextField.performTextInput("200")
+        previousElecMeterReadingTextField.performTextInput("1909")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(200, calculatorViewModel.waterFee.value)
+        assertEquals(1909, calculatorViewModel.previousElecMeterReading.value)
     }
 
 
     @Test
-    fun waterFeeTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesTheWaterFeeVariableInTheCalculatorViewModelWithNull() {
+    fun previousElecMeterReadingTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithNull() {
 
-        waterFeeTextField.performTextInput("200")
+        previousElecMeterReadingTextField.performTextInput("1909")
 
         assertThatResetTextFieldIconButtonIsEnabled().performClick()
 
-        assertEquals(null, calculatorViewModel.waterFee.value)
+        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
 
     }
 
@@ -162,7 +164,7 @@ class WaterFeeTextFieldTest {
 
     // Test to test the behaviour of the text field when it's focused for the first time, then unfocused, and then refocus.
     @Test
-    fun waterFeeTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
+    fun previousElecMeterReadingTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
 
         val currentElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
@@ -172,14 +174,14 @@ class WaterFeeTextFieldTest {
             )
         )
 
-        waterFeeTextField.performClick()
+        previousElecMeterReadingTextField.performClick()
 
-        waterFeeTextFieldIsEmptyErrorMessage.assertExists()
+        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons()
 
 
-        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Water Fee" text field.
+        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Previous Elec Meter Reading" text field.
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -188,19 +190,19 @@ class WaterFeeTextFieldTest {
             )
         ).performClick()
 
-        currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
+        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
-        waterFeeTextFieldIsEmptyErrorMessage.assertExists()
+        currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
 
 
-        // Refocusing to "Water Fee" text field.
-        waterFeeTextField.performClick()
+        // Refocusing to "Previous Elec Meter Reading" text field.
+        previousElecMeterReadingTextField.performClick()
+
+        previousElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
-
-        waterFeeTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
     }
@@ -208,50 +210,49 @@ class WaterFeeTextFieldTest {
 
     // Test to test the behaviour when the input to the text field is greater than `Int.MAX_VALUE`.
     @Test
-    fun waterFeeTextField_WithValueGreaterThanINTMAXVALUE_UpdatesTheWaterFeeVariableInTheCalculatorViewModelWithOldValue() {
+    fun previousElecMeterReadingTextField_WithValueGreaterThanINTMAXVALUE_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
 
-        waterFeeTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+        previousElecMeterReadingTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.waterFee.value)
+        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
 
     }
 
 
     // Test to test the behaviour when the input to the text field contains non-digit elements.
     @Test
-    fun waterFeeTextField_WithNonDigitInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModelWithOldValue() {
+    fun previousElecMeterReadingTextField_WithNonDigitInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModelWithOldValue() {
 
-        waterFeeTextField.performTextInput("200,")
+        previousElecMeterReadingTextField.performTextInput("1909,")
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.waterFee.value)
+        assertEquals(null, calculatorViewModel.previousElecMeterReading.value)
     }
 
 
     // Boundary case
     @Test
-    fun waterFeeTextField_WithMinimumValidInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModel() {
+    fun previousElecMeterReadingTextField_WithMinimumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
 
-        waterFeeTextField.performTextInput("0")
+        previousElecMeterReadingTextField.performTextInput("0")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(0, calculatorViewModel.waterFee.value)
+        assertEquals(0, calculatorViewModel.previousElecMeterReading.value)
 
     }
 
     @Test
-    fun waterFeeTextField_WithMaximumValidInput_UpdatesTheWaterFeeVariableInTheCalculatorViewModel() {
+    fun previousElecMeterReadingTextField_WithMaximumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
 
-        waterFeeTextField.performTextInput(Int.MAX_VALUE.toString())
+        previousElecMeterReadingTextField.performTextInput(Int.MAX_VALUE.toString())
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(Int.MAX_VALUE, calculatorViewModel.waterFee.value)
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.previousElecMeterReading.value)
 
     }
-
 }

@@ -1,18 +1,12 @@
-package thechinkysight.app.payyourstay
+package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.isEnabled
-import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -22,20 +16,18 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.ui.CalculatorPage
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @RunWith(AndroidJUnit4::class)
-class CalculatorPageTest {
+class CalculateButton {
 
     @get: Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val calculatorViewModel = CalculatorViewModel()
-
-
-    private lateinit var errorIconSemanticsMatcher: SemanticsMatcher
 
 
     @Before
@@ -49,18 +41,13 @@ class CalculatorPageTest {
                 )
             }
         }
-
-        errorIconSemanticsMatcher = hasContentDescription(
-            composeTestRule.activity.getString(
-                R.string.text_field_error_icon
-            )
-        )
     }
+
 
     // Success path
 
     @Test
-    fun calculatorPage_CalculateButton_Exist() {
+    fun calculateButton_Exist() {
         composeTestRule.onNode(
             hasClickAction() and hasText(
                 composeTestRule.activity.getString(R.string.calculate).uppercase()
@@ -70,71 +57,7 @@ class CalculatorPageTest {
 
 
     @Test
-    fun calculatorPage_Initialization_NoErrorsInTextFields() {
-        composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Previous reading"
-                )
-            )
-        ).assertDoesNotExist()
-
-        composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Current reading"
-                )
-            )
-        ).assertDoesNotExist()
-
-        composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Electricity rate"
-                )
-            )
-        ).assertDoesNotExist()
-
-        composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Water fee"
-                )
-            )
-        ).assertDoesNotExist()
-
-        composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Garbage fee"
-                )
-            )
-        ).assertDoesNotExist()
-
-
-        composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_text_field_is_empty, "Rent"
-                )
-            )
-        ).assertDoesNotExist()
-
-        composeTestRule.onNode(
-            hasText(
-                composeTestRule.activity.getString(
-                    R.string.error_current_elec_meter_reading_is_less_than_previous_elec_meter_reading
-                )
-            )
-        ).assertDoesNotExist()
-
-        assertTheExistenceOfAllResetTextFieldIconButtons()
-
-        assertThatAllResetTextFieldIconButtonsAreDisabled()
-    }
-
-    @Test
-    fun calculatorPage_ClickedTheCalculateButton_CalculatesResultProperly() {
+    fun calculateButton_CalculatesResultProperly() {
 
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
@@ -207,4 +130,10 @@ class CalculatorPageTest {
 
         assertEquals(16250, calculatorViewModel.total.value)
     }
+
+    /**
+     * TODO: Write tests to test whether exception is thrown or not in the unit test and tests to test the handling of the exception in the instrument test.
+     * TODO: Write tests to test whether calculate button is enabled or not based on the text fields error status.
+     */
+
 }

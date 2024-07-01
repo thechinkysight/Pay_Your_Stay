@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay
+package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
@@ -24,12 +24,13 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.ui.CalculatorPage
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @RunWith(AndroidJUnit4::class)
-class CurrentElecMeterReadingTextFieldTest {
+class CurrentElecMeterReadingTextField{
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()

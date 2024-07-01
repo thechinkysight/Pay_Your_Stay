@@ -1,4 +1,4 @@
-package thechinkysight.app.payyourstay
+package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
@@ -23,20 +23,21 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.ui.CalculatorPage
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @RunWith(AndroidJUnit4::class)
-class GarbageFeeTextFieldTest {
+class ElectricityRatePerUnitTextField {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val calculatorViewModel = CalculatorViewModel()
 
-    private lateinit var garbageFeeTextField: SemanticsNodeInteraction
-    private lateinit var garbageFeeTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
+    private lateinit var electricityRatePerUnitTextField: SemanticsNodeInteraction
+    private lateinit var electricityRatePerUnitTextFieldIsEmptyErrorMessage: SemanticsNodeInteraction
 
     private lateinit var resetTextFieldIconButtonSemanticsMatcher: SemanticsMatcher
     private lateinit var errorIconSemanticsMatcher: SemanticsMatcher
@@ -86,25 +87,25 @@ class GarbageFeeTextFieldTest {
             }
         }
 
-        garbageFeeTextField = composeTestRule.onNode(
+        electricityRatePerUnitTextField = composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
-                    R.string.garbage_fee
+                    R.string.electricity_rate_per_unit
                 )
             )
         )
 
-        garbageFeeTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
                 composeTestRule.activity.getString(
-                    R.string.garbage_fee, "Garbage fee"
+                    R.string.error_text_field_is_empty, "Electricity rate"
                 )
             )
         )
 
         resetTextFieldIconButtonSemanticsMatcher = hasTestTag(
             composeTestRule.activity.getString(
-                R.string.garbage_fee
+                R.string.electricity_rate_per_unit
             )
         )
 
@@ -118,9 +119,9 @@ class GarbageFeeTextFieldTest {
     // Success path
 
     @Test
-    fun garbageFeeTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
+    fun electricityRatePerUnitTextField_Initialization_ExistWithDisabledResetTextFieldIconButton() {
 
-        garbageFeeTextField.assertExists()
+        electricityRatePerUnitTextField.assertExists()
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
@@ -128,33 +129,34 @@ class GarbageFeeTextFieldTest {
 
 
     @Test
-    fun garbageFeeTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
+    fun electricityRatePerUnitTextField_WithValidInput_ResetTextFieldIconButtonEnabled() {
 
-        garbageFeeTextField.performTextInput("1909")
+        electricityRatePerUnitTextField.performTextInput("1909")
 
         assertThatResetTextFieldIconButtonIsEnabled()
+
     }
 
 
     @Test
-    fun garbageFeeTextField_WithValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModel() {
+    fun electricityRatePerUnitTextField_WithValidInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModel() {
 
-        garbageFeeTextField.performTextInput("200")
+        electricityRatePerUnitTextField.performTextInput("13")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(200, calculatorViewModel.garbageFee.value)
+        assertEquals(13, calculatorViewModel.electricityRatePerUnit.value)
     }
 
 
     @Test
-    fun garbageFeeTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithNull() {
+    fun electricityRatePerUnitTextField_WithValidInput_ResetTextFieldIconButtonClicked_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithNull() {
 
-        garbageFeeTextField.performTextInput("200")
+        electricityRatePerUnitTextField.performTextInput("13")
 
         assertThatResetTextFieldIconButtonIsEnabled().performClick()
 
-        assertEquals(null, calculatorViewModel.garbageFee.value)
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
 
     }
 
@@ -162,7 +164,7 @@ class GarbageFeeTextFieldTest {
 
     // Test to test the behaviour of the text field when it's focused for the first time, then unfocused, and then refocus.
     @Test
-    fun garbageFeeTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
+    fun electricityRatePerUnitTextField_WithNoValue_ShowsErrorOnTheTextFieldOnInitialFocusAndUnfocusAndRefocus() {
 
         val currentElecMeterReadingTextFieldIsEmptyErrorMessage = composeTestRule.onNode(
             hasText(
@@ -172,14 +174,14 @@ class GarbageFeeTextFieldTest {
             )
         )
 
-        garbageFeeTextField.performClick()
+        electricityRatePerUnitTextField.performClick()
 
-        garbageFeeTextFieldIsEmptyErrorMessage.assertExists()
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons()
 
 
-        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Garbage Fee" text field.
+        // Changing the focus to "Current Elec Meter Reading" text field via taking the focus away from "Electricity Rate Per Unit" text field.
         composeTestRule.onNode(
             hasSetTextAction() and hasText(
                 composeTestRule.activity.getString(
@@ -190,17 +192,17 @@ class GarbageFeeTextFieldTest {
 
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
-        garbageFeeTextFieldIsEmptyErrorMessage.assertExists()
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
 
 
-        // Refocusing to "Garbage Fee" text field.
-        garbageFeeTextField.performClick()
+        // Refocusing to "Electricity Rate Per Unit" text field.
+        electricityRatePerUnitTextField.performClick()
 
         currentElecMeterReadingTextFieldIsEmptyErrorMessage.assertExists()
 
-        garbageFeeTextFieldIsEmptyErrorMessage.assertExists()
+        electricityRatePerUnitTextFieldIsEmptyErrorMessage.assertExists()
 
         assertTheExistenceOfNumberOfErrorIcons(count = 2)
     }
@@ -208,49 +210,49 @@ class GarbageFeeTextFieldTest {
 
     // Test to test the behaviour when the input to the text field is greater than `Int.MAX_VALUE`.
     @Test
-    fun garbageFeeTextField_WithValueGreaterThanINTMAXVALUE_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
+    fun electricityRatePerUnitTextField_WithValueGreaterThanINTMAXVALUE_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
 
-        garbageFeeTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
+        electricityRatePerUnitTextField.performTextInput((Int.MAX_VALUE.toLong() + 1).toString())
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.garbageFee.value)
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
 
     }
 
 
     // Test to test the behaviour when the input to the text field contains non-digit elements.
     @Test
-    fun garbageFeeTextField_WithNonDigitInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModelWithOldValue() {
+    fun electricityRatePerUnitTextField_WithNonDigitInput_UpdatesTheElectricityRatePerUnitVariableInTheCalculatorViewModelWithOldValue() {
 
-        garbageFeeTextField.performTextInput("200,")
+        electricityRatePerUnitTextField.performTextInput("13,")
 
         assertThatResetTextFieldIconButtonIsDisabled()
 
-        assertEquals(null, calculatorViewModel.garbageFee.value)
+        assertEquals(null, calculatorViewModel.electricityRatePerUnit.value)
     }
 
 
     // Boundary case
     @Test
-    fun garbageFeeTextField_WithMinimumValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModel() {
+    fun electricityRatePerUnitTextField_WithMinimumValidInput_UpdatesTheElectricityRatePerUnitTextFieldVariableInTheCalculatorViewModel() {
 
-        garbageFeeTextField.performTextInput("0")
+        electricityRatePerUnitTextField.performTextInput("0")
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(0, calculatorViewModel.garbageFee.value)
+        assertEquals(0, calculatorViewModel.electricityRatePerUnit.value)
 
     }
 
     @Test
-    fun garbageFeeTextField_WithMaximumValidInput_UpdatesTheGarbageFeeVariableInTheCalculatorViewModel() {
+    fun electricityRatePerUnitTextField_WithMaximumValidInput_UpdatesThePreviousElecMeterReadingVariableInTheCalculatorViewModel() {
 
-        garbageFeeTextField.performTextInput(Int.MAX_VALUE.toString())
+        electricityRatePerUnitTextField.performTextInput(Int.MAX_VALUE.toString())
 
         assertThatResetTextFieldIconButtonIsEnabled()
 
-        assertEquals(Int.MAX_VALUE, calculatorViewModel.garbageFee.value)
+        assertEquals(Int.MAX_VALUE, calculatorViewModel.electricityRatePerUnit.value)
 
     }
 
