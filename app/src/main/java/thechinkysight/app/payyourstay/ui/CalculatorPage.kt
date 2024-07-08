@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,19 +28,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import thechinkysight.app.payyourstay.R
-import thechinkysight.app.payyourstay.ui.enum.TextField
+import thechinkysight.app.payyourstay.ui.enums.Screen
+import thechinkysight.app.payyourstay.ui.enums.TextField
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 @Composable
 fun CalculatorPage(
-    modifier: Modifier = Modifier, calculatorViewModel: CalculatorViewModel = viewModel()
+    modifier: Modifier = Modifier,
+    calculatorViewModel: CalculatorViewModel,
+    navController: NavHostController
 ) {
 
     val fillMaxWidthModifier: Modifier = Modifier.fillMaxWidth()
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .verticalScroll(
+                rememberScrollState()
+            )
+    ) {
 
         Spacer(modifier = Modifier.height(30.dp))
         ElectricityDataInputTextFields(
@@ -52,7 +64,11 @@ fun CalculatorPage(
             modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
         )
         Spacer(modifier = Modifier.height(50.dp))
-        CalculateButton(modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel)
+        CalculateButton(
+            modifier = fillMaxWidthModifier,
+            calculatorViewModel = calculatorViewModel,
+            navController = navController
+        )
         Spacer(modifier = Modifier.height(30.dp))
     }
 
@@ -296,7 +312,9 @@ private fun RentDataInputTextField(
 }
 
 @Composable
-private fun CalculateButton(modifier: Modifier, calculatorViewModel: CalculatorViewModel) {
+private fun CalculateButton(
+    modifier: Modifier, calculatorViewModel: CalculatorViewModel, navController: NavHostController
+) {
 
     val isPreviousElecMeterReadingTextFieldInError by calculatorViewModel.isPreviousElecMeterReadingTextFieldInError.collectAsState()
     val isCurrentElecMeterReadingTextFieldInError by calculatorViewModel.isCurrentElecMeterReadingTextFieldInError.collectAsState()
@@ -315,9 +333,10 @@ private fun CalculateButton(modifier: Modifier, calculatorViewModel: CalculatorV
                 garbageFee = calculatorViewModel.garbageFee.value ?: 0,
                 rent = calculatorViewModel.rent.value ?: 0
             )
-        },
-        modifier = modifier.height(56.dp),
-        shape = RoundedCornerShape(4.dp),
+
+            navController.navigate(route = Screen.InvoicePage.name)
+
+        }, modifier = modifier.height(56.dp), shape = RoundedCornerShape(4.dp),
         // Write test for the enability of the button
         enabled = !(isPreviousElecMeterReadingTextFieldInError || isCurrentElecMeterReadingTextFieldInError || isElectricityRatePerUnitTextFieldInError || isWaterFeeTextFieldInError || isGarbageFeeTextFieldInError || isRentTextFieldInError)
     ) {

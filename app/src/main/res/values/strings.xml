@@ -8,9 +8,15 @@
     <string name="rent">Rent</string>
     <string name="calculate">calculate</string>
     <string name="calculator">calculator</string>
+    <string name="invoice">Invoice</string>
+    <string name="electricity_meter_reading">Electricity Meter Reading</string>
+    <string name="utilities">Utilities</string>
+    <string name="electricity_expense">Electricity Expense</string>
+    <string name="total">Total</string>
 
     <!-- Content description for icons -->
     <string name="text_field_error_icon">Error icon</string>
+    <string name="back_button">Back</string>
 
     <!--Error message for text field-->
     <string name="error_text_field_is_empty">%1$s can\'t be empty.</string>

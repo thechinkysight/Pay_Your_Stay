@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import thechinkysight.app.payyourstay.ui.enum.TextField
+import thechinkysight.app.payyourstay.ui.enums.TextField
 
 class CalculatorViewModel : ViewModel() {
 
