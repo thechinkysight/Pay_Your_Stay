@@ -126,7 +126,7 @@ private fun RentSection(modifier: Modifier = Modifier, calculatorViewModel: Calc
         contents = arrayOf<@Composable () -> Unit>({
             InvoiceContent(
                 leadingIcon = R.drawable.payment_24,
-                contentTitle = R.string.rent,
+                contentTitle = R.string.monthly_rent,
                 contentValue = if (rent != null) rent.toString() else "0"
             )
         })
@@ -147,7 +147,7 @@ private fun InvoiceSection(
 
         Box(modifier = Modifier.height(18.dp))
 
-        Box(modifier = Modifier.padding(start = 16.dp)) {
+        Box(modifier = Modifier.padding(start = 9.27.dp)) {
             Column {
                 contents.forEachIndexed { index, content ->
                     content()
@@ -172,7 +172,7 @@ private fun InvoiceContent(
         Icon(
             painter = painterResource(id = leadingIcon), contentDescription = null,
         )
-        Box(modifier = Modifier.padding(start = 16.dp))
+        Box(modifier = Modifier.padding(start = 22.93.dp))
         Text(text = stringResource(id = contentTitle))
         Box(modifier = Modifier.weight(1f))
         Text(text = "NPR $contentValue")

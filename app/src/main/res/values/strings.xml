@@ -6,6 +6,7 @@
     <string name="water_fee">Water Fee</string>
     <string name="garbage_fee">Garbage Fee</string>
     <string name="rent">Rent</string>
+    <string name="monthly_rent">Monthly Rent</string>
     <string name="calculate">calculate</string>
     <string name="calculator">calculator</string>
     <string name="invoice">Invoice</string>
