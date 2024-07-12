@@ -2,7 +2,7 @@ package thechinkysight.app.payyourstay.calculator_view_model.validate_and_update
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
-import thechinkysight.app.payyourstay.ui.enum.TextField
+import thechinkysight.app.payyourstay.ui.enums.TextField
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
 class ValidateAndUpdateTextFieldValueFunctionWithElectricityRatePerUnitProperty {

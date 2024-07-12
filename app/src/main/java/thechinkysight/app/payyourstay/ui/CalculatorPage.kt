@@ -64,11 +64,25 @@ fun CalculatorPage(
             modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
         )
         Spacer(modifier = Modifier.height(50.dp))
-        CalculateButton(
-            modifier = fillMaxWidthModifier,
+        CalculateButton(modifier = fillMaxWidthModifier,
             calculatorViewModel = calculatorViewModel,
-            navController = navController
-        )
+            onClick = {
+
+                calculatorViewModel.calculateTotal(
+                    previousElecMeterReading = calculatorViewModel.previousElecMeterReading.value
+                        ?: 0,
+                    currentElecMeterReading = calculatorViewModel.currentElecMeterReading.value
+                        ?: 0,
+                    electricityRatePerUnit = calculatorViewModel.electricityRatePerUnit.value ?: 0,
+                    waterFee = calculatorViewModel.waterFee.value ?: 0,
+                    garbageFee = calculatorViewModel.garbageFee.value ?: 0,
+                    rent = calculatorViewModel.rent.value ?: 0
+                )
+
+                navController.navigate(route = Screen.InvoicePage.name)
+
+
+            })
         Spacer(modifier = Modifier.height(30.dp))
     }
 
@@ -195,8 +209,7 @@ private fun ElectricityDataInputTextFields(
 
         Spacer(modifier = Modifier.height(35.dp))
 
-        DataInputTextField(
-            modifier = modifier,
+        DataInputTextField(modifier = modifier,
             value = electricityRatePerUnit?.toString() ?: "",
             onValueChange = {
                 calculatorViewModel.validateAndUpdateTextFieldValue(
@@ -230,8 +243,7 @@ private fun OtherUtilitiesDataInputTextFields(
     val isWaterFeeTextFieldInError by calculatorViewModel.isWaterFeeTextFieldInError.collectAsState()
     val isGarbageFeeTextFieldInError by calculatorViewModel.isGarbageFeeTextFieldInError.collectAsState()
 
-    DataInputTextField(
-        modifier = modifier,
+    DataInputTextField(modifier = modifier,
         value = waterFee?.toString() ?: "",
         onValueChange = {
             calculatorViewModel.validateAndUpdateTextFieldValue(
@@ -253,8 +265,7 @@ private fun OtherUtilitiesDataInputTextFields(
         onTrailingIconButtonClick = calculatorViewModel::validateAndUpdateTextFieldValue
     )
     Spacer(modifier = Modifier.height(35.dp))
-    DataInputTextField(
-        modifier = modifier,
+    DataInputTextField(modifier = modifier,
         value = garbageFee?.toString() ?: "",
         onValueChange = {
             calculatorViewModel.validateAndUpdateTextFieldValue(
@@ -313,36 +324,44 @@ private fun RentDataInputTextField(
 
 @Composable
 private fun CalculateButton(
-    modifier: Modifier, calculatorViewModel: CalculatorViewModel, navController: NavHostController
+    modifier: Modifier,
+    calculatorViewModel: CalculatorViewModel,
+    onClick: () -> Unit,
 ) {
 
     val isPreviousElecMeterReadingTextFieldInError by calculatorViewModel.isPreviousElecMeterReadingTextFieldInError.collectAsState()
+    val previousElecMeterReading by calculatorViewModel.previousElecMeterReading.collectAsState()
+
     val isCurrentElecMeterReadingTextFieldInError by calculatorViewModel.isCurrentElecMeterReadingTextFieldInError.collectAsState()
+    val currentElecMeterReading by calculatorViewModel.currentElecMeterReading.collectAsState()
+
     val isElectricityRatePerUnitTextFieldInError by calculatorViewModel.isElectricityRatePerUnitTextFieldInError.collectAsState()
+    val electricityRatePerUnit by calculatorViewModel.electricityRatePerUnit.collectAsState()
+
+
     val isWaterFeeTextFieldInError by calculatorViewModel.isWaterFeeTextFieldInError.collectAsState()
+    val waterFee by calculatorViewModel.waterFee.collectAsState()
+
     val isGarbageFeeTextFieldInError by calculatorViewModel.isGarbageFeeTextFieldInError.collectAsState()
+    val garbageFee by calculatorViewModel.garbageFee.collectAsState()
+
     val isRentTextFieldInError by calculatorViewModel.isRentTextFieldInError.collectAsState()
+    val rent by calculatorViewModel.rent.collectAsState()
+
+
+    val shouldTheButtonBeEnable: Boolean =
+        !((isPreviousElecMeterReadingTextFieldInError || previousElecMeterReading == null) || (isCurrentElecMeterReadingTextFieldInError || currentElecMeterReading == null) || (isElectricityRatePerUnitTextFieldInError || electricityRatePerUnit == null) || (isWaterFeeTextFieldInError || waterFee == null) || (isGarbageFeeTextFieldInError || garbageFee == null) || (isRentTextFieldInError || rent == null))
+
 
     Button(
-        onClick = {
-            calculatorViewModel.calculateTotal(
-                previousElecMeterReading = calculatorViewModel.previousElecMeterReading.value ?: 0,
-                currentElecMeterReading = calculatorViewModel.currentElecMeterReading.value ?: 0,
-                electricityRatePerUnit = calculatorViewModel.electricityRatePerUnit.value ?: 0,
-                waterFee = calculatorViewModel.waterFee.value ?: 0,
-                garbageFee = calculatorViewModel.garbageFee.value ?: 0,
-                rent = calculatorViewModel.rent.value ?: 0
-            )
-
-            navController.navigate(route = Screen.InvoicePage.name)
-
-        }, modifier = modifier.height(56.dp), shape = RoundedCornerShape(4.dp),
-        // Write test for the enability of the button
-        enabled = !(isPreviousElecMeterReadingTextFieldInError || isCurrentElecMeterReadingTextFieldInError || isElectricityRatePerUnitTextFieldInError || isWaterFeeTextFieldInError || isGarbageFeeTextFieldInError || isRentTextFieldInError)
+        onClick = onClick, modifier = modifier.height(56.dp), shape = RoundedCornerShape(4.dp),
+        // TODO: Write test for the enablility of the button
+        enabled = shouldTheButtonBeEnable
     ) {
         Text(text = stringResource(id = R.string.calculate).uppercase())
     }
 }
+
 
 @Composable
 private fun DataInputTextField(
@@ -365,22 +384,21 @@ private fun DataInputTextField(
 
     val isTextFieldCurrentElecMeterReading = textField == TextField.CurrentElecMeterReading
 
-    OutlinedTextField(
-        modifier = modifier.onFocusEvent {
+    OutlinedTextField(modifier = modifier.onFocusEvent {
 
-            if (!isTextFieldInInitialFocusEventChange) {
+        if (!isTextFieldInInitialFocusEventChange) {
 
-                if (value.isEmpty() || (isTextFieldCurrentElecMeterReading && isCurrentElecMeterReadingLessThanPreviousElecMeterReading)) {
-                    updateErrorStatusForTextField(textField, true)
-                } else {
-                    updateErrorStatusForTextField(textField, false)
-                }
-
+            if (value.isEmpty() || (isTextFieldCurrentElecMeterReading && isCurrentElecMeterReadingLessThanPreviousElecMeterReading)) {
+                updateErrorStatusForTextField(textField, true)
             } else {
-                isTextFieldInInitialFocusEventChange = false
+                updateErrorStatusForTextField(textField, false)
             }
 
-        },
+        } else {
+            isTextFieldInInitialFocusEventChange = false
+        }
+
+    },
         value = value,
         label = { Text(text = stringResource(labelStringResourceId)) },
         onValueChange = {

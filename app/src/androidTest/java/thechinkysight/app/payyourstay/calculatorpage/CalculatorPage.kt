@@ -1,9 +1,6 @@
 package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
@@ -11,6 +8,7 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
 import org.junit.Rule
@@ -99,9 +97,8 @@ class CalculatorPage {
         composeTestRule.setContent {
             PayYourStayTheme {
                 CalculatorPage(
-                    modifier = Modifier.verticalScroll(
-                        rememberScrollState()
-                    ), calculatorViewModel = calculatorViewModel
+                    calculatorViewModel = calculatorViewModel,
+                    navController = rememberNavController()
                 )
             }
         }

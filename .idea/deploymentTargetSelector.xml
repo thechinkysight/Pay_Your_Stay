@@ -13,16 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="RentTextFieldTest">
+      <SelectionState runConfigName="WaterFeeTextField">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CalculateButton">
+      <SelectionState runConfigName="ElectricityRatePerUnitTextField">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CalculatorPage">
+      <SelectionState runConfigName="GarbageFeeTextField">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="Tests in 'thechinkysight.app.payyourstay.calculatorpage'">
+      <SelectionState runConfigName="PreviousElecMeterReadingTextField">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="RentTextField">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

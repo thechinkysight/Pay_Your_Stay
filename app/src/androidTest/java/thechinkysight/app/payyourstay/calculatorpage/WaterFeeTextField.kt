@@ -1,9 +1,6 @@
 package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
@@ -17,6 +14,7 @@ import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
@@ -80,9 +78,8 @@ class WaterFeeTextField {
         composeTestRule.setContent {
             PayYourStayTheme {
                 CalculatorPage(
-                    modifier = Modifier.verticalScroll(
-                        rememberScrollState()
-                    ), calculatorViewModel = calculatorViewModel
+                    calculatorViewModel = calculatorViewModel,
+                    navController = rememberNavController()
                 )
             }
         }

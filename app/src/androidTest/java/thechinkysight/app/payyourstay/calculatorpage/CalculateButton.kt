@@ -1,15 +1,13 @@
 package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
@@ -35,9 +33,8 @@ class CalculateButton {
         composeTestRule.setContent {
             PayYourStayTheme {
                 CalculatorPage(
-                    modifier = Modifier.verticalScroll(
-                        rememberScrollState()
-                    ), calculatorViewModel = calculatorViewModel
+                    calculatorViewModel = calculatorViewModel,
+                    navController = rememberNavController()
                 )
             }
         }
@@ -55,7 +52,7 @@ class CalculateButton {
         ).assertExists()
     }
 
-
+    //  TODO: Update the following test to incorporate navigation test.
     @Test
     fun calculateButton_CalculatesResultProperly() {
 
@@ -132,6 +129,7 @@ class CalculateButton {
     }
 
     /**
+     * TODO: Update or write test to test whether the calculate button is disable on start.
      * TODO: Write tests to test whether exception is thrown or not in the unit test and tests to test the handling of the exception in the instrument test.
      * TODO: Write tests to test whether calculate button is enabled or not based on the text fields error status.
      */
