@@ -8,8 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,22 +25,24 @@ import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 fun InvoicePage(
     modifier: Modifier = Modifier, calculatorViewModel: CalculatorViewModel
 ) {
-    Column(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .verticalScroll(
-                rememberScrollState()
-            )
+    LazyColumn(
+        modifier = modifier.padding(horizontal = 16.dp)
     ) {
-        ElectricityMeterReadingSection(
-            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
-        )
-        UtilitiesSection(
-            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
-        )
-        RentSection(
-            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
-        )
+        item {
+            ElectricityMeterReadingSection(
+                modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+            )
+        }
+        item {
+            UtilitiesSection(
+                modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+            )
+        }
+        item {
+            RentSection(
+                modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+            )
+        }
     }
 
 }
