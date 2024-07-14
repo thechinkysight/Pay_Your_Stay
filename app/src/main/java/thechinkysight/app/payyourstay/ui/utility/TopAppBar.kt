@@ -7,7 +7,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -22,8 +21,7 @@ import thechinkysight.app.payyourstay.ui.enums.Screen
 @Composable
 fun TopAppBar(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
-    scrollBehavior: TopAppBarScrollBehavior
+    navController: NavHostController
 ) {
 
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -51,6 +49,6 @@ fun TopAppBar(
                     )
                 }
             }
-        }, scrollBehavior = scrollBehavior
+        }
     )
 }
