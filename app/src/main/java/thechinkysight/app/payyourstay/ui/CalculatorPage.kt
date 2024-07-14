@@ -7,9 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,55 +43,51 @@ fun CalculatorPage(
 
     val fillMaxWidthModifier: Modifier = Modifier.fillMaxWidth()
 
-    LazyColumn(
-        modifier = modifier.padding(horizontal = 16.dp)
+    Column(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
-        item { Spacer(modifier = Modifier.height(30.dp)) }
+        Spacer(modifier = Modifier.height(30.dp))
 
-        item {
-            ElectricityDataInputTextFields(
-                modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
-            )
-        }
-        item { Spacer(modifier = Modifier.height(50.dp)) }
-        item {
-            OtherUtilitiesDataInputTextFields(
-                modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
-            )
-        }
-        item { Spacer(modifier = Modifier.height(50.dp)) }
-        item {
-            RentDataInputTextField(
-                modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
-            )
-        }
-        item { Spacer(modifier = Modifier.height(50.dp)) }
-        item {
-            CalculateButton(modifier = fillMaxWidthModifier,
-                calculatorViewModel = calculatorViewModel,
-                onClick = {
+        ElectricityDataInputTextFields(
+            modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
+        )
+        Spacer(modifier = Modifier.height(50.dp))
 
-                    calculatorViewModel.calculateTotal(
-                        previousElecMeterReading = calculatorViewModel.previousElecMeterReading.value
-                            ?: 0,
-                        currentElecMeterReading = calculatorViewModel.currentElecMeterReading.value
-                            ?: 0,
-                        electricityRatePerUnit = calculatorViewModel.electricityRatePerUnit.value
-                            ?: 0,
-                        waterFee = calculatorViewModel.waterFee.value ?: 0,
-                        garbageFee = calculatorViewModel.garbageFee.value ?: 0,
-                        rent = calculatorViewModel.rent.value ?: 0
-                    )
+        OtherUtilitiesDataInputTextFields(
+            modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
+        )
+        Spacer(modifier = Modifier.height(50.dp))
 
-                    navController.navigate(route = Screen.InvoicePage.name)
+        RentDataInputTextField(
+            modifier = fillMaxWidthModifier, calculatorViewModel = calculatorViewModel
+        )
+        Spacer(modifier = Modifier.height(50.dp))
+        CalculateButton(
+            modifier = fillMaxWidthModifier,
+            calculatorViewModel = calculatorViewModel,
+            onClick = {
+
+                calculatorViewModel.calculateTotal(
+                    previousElecMeterReading = calculatorViewModel.previousElecMeterReading.value
+                        ?: 0,
+                    currentElecMeterReading = calculatorViewModel.currentElecMeterReading.value
+                        ?: 0,
+                    electricityRatePerUnit = calculatorViewModel.electricityRatePerUnit.value ?: 0,
+                    waterFee = calculatorViewModel.waterFee.value ?: 0,
+                    garbageFee = calculatorViewModel.garbageFee.value ?: 0,
+                    rent = calculatorViewModel.rent.value ?: 0
+                )
+
+                navController.navigate(route = Screen.InvoicePage.name)
 
 
-                })
-        }
-        item { Spacer(modifier = Modifier.height(30.dp)) }
+            })
     }
-
+    Spacer(modifier = Modifier.height(30.dp))
 }
+
 
 @Composable
 private fun ElectricityDataInputTextFields(
@@ -402,55 +399,50 @@ private fun DataInputTextField(
             isTextFieldInInitialFocusEventChange = false
         }
 
-    },
-        value = value,
-        label = { Text(text = stringResource(labelStringResourceId)) },
-        onValueChange = {
-
-            if (!isTextFieldInInitialFocusEventChange && it.isEmpty()) {
-                updateErrorStatusForTextField(textField, true)
-            } else {
-                updateErrorStatusForTextField(textField, false)
-            }
-
-            onValueChange(it)
-        },
-        singleLine = true,
-        isError = isError,
-        supportingText = if (isError) {
-            errorText
-        } else null,
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = leadingIcon), contentDescription = null
-            )
-        },
-        trailingIcon = {
-            if (!isError) IconButton(
-                modifier = Modifier.testTag(stringResource(id = labelStringResourceId)), onClick = {
-
-                    onTrailingIconButtonClick("", null, textField)
-
-                    if (!isTextFieldInInitialFocusEventChange) {
-                        updateErrorStatusForTextField(textField, true)
-                    }
-
-                }, enabled = value.isNotEmpty()
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.cancel_24px),
-                    contentDescription = null
-                )
-
-            } else Icon(
-                painter = painterResource(id = R.drawable.error_24),
-                contentDescription = stringResource(
-                    id = R.string.text_field_error_icon
-                )
-            )
-        },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number, imeAction = imeAction
+    }, value = value, label = {
+        Text(
+            text = stringResource(labelStringResourceId)
         )
+    }, onValueChange = {
+
+        if (!isTextFieldInInitialFocusEventChange && it.isEmpty()) {
+            updateErrorStatusForTextField(textField, true)
+        } else {
+            updateErrorStatusForTextField(textField, false)
+        }
+
+        onValueChange(it)
+    }, singleLine = true, isError = isError, supportingText = if (isError) {
+        errorText
+    } else null, leadingIcon = {
+        Icon(
+            painter = painterResource(id = leadingIcon), contentDescription = null
+        )
+    }, trailingIcon = {
+        if (!isError) IconButton(
+            modifier = Modifier.testTag(stringResource(id = labelStringResourceId)), onClick = {
+
+                onTrailingIconButtonClick("", null, textField)
+
+                if (!isTextFieldInInitialFocusEventChange) {
+                    updateErrorStatusForTextField(textField, true)
+                }
+
+            }, enabled = value.isNotEmpty()
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.cancel_24px),
+                contentDescription = null
+            )
+
+        } else Icon(
+            painter = painterResource(id = R.drawable.error_24),
+            contentDescription = stringResource(
+                id = R.string.text_field_error_icon
+            )
+        )
+    }, keyboardOptions = KeyboardOptions.Default.copy(
+        keyboardType = KeyboardType.Number, imeAction = imeAction
+    )
     )
 }

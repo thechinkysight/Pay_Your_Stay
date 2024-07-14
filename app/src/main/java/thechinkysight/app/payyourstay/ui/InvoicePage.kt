@@ -5,11 +5,13 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,24 +30,22 @@ import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 fun InvoicePage(
     modifier: Modifier = Modifier, calculatorViewModel: CalculatorViewModel
 ) {
-    LazyColumn(
-        modifier = modifier.padding(horizontal = 16.dp)
+    Column(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
-        item {
-            ElectricityMeterReadingSection(
-                modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
-            )
-        }
-        item {
-            UtilitiesSection(
-                modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
-            )
-        }
-        item {
-            RentSection(
-                modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
-            )
-        }
+        ElectricityMeterReadingSection(
+            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+        )
+
+        UtilitiesSection(
+            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+        )
+
+        RentSection(
+            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+        )
     }
 
 }
@@ -152,7 +152,7 @@ private fun InvoiceSection(
             style = MaterialTheme.typography.titleMedium
         )
 
-        Box(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(18.dp))
 
         Box(modifier = Modifier.padding(start = 9.27.dp)) {
             Column {
@@ -174,21 +174,19 @@ private fun InvoiceContent(
     @StringRes contentTitle: Int,
     contentValue: String
 ) {
-
     Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Icon(
             painter = painterResource(id = leadingIcon),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Box(modifier = Modifier.padding(start = 12.dp))
+        Spacer(modifier = Modifier.padding(start = 12.dp))
         Text(
             modifier = Modifier.weight(1f),
             text = stringResource(id = contentTitle),
             style = MaterialTheme.typography.bodyLarge
         )
-        Box(modifier = Modifier.width(20.dp))
+        Spacer(modifier = Modifier.width(20.dp))
         Text(text = "NPR $contentValue", style = MaterialTheme.typography.bodyLarge)
     }
-
 }

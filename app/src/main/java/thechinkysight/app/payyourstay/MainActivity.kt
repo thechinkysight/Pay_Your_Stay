@@ -39,18 +39,19 @@ private fun PayYourStayApp(
     navController: NavHostController = rememberNavController()
 ) {
     PayYourStayTheme {
-        Surface(
-            modifier = modifier.fillMaxSize()
-        ) {
-            Scaffold(topBar = {
-                TopAppBar(
-                    navController = navController
-                )
-            }) { innerPadding ->
+
+        Scaffold(modifier = modifier.fillMaxSize(), topBar = {
+            TopAppBar(
+                navController = navController
+            )
+        }) { innerPadding ->
+            Surface(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+            ) {
                 NavHost(
-                    modifier = Modifier.padding(innerPadding),
-                    navController = navController,
-                    startDestination = Screen.CalculatorPage.name
+                    navController = navController, startDestination = Screen.CalculatorPage.name
                 ) {
                     composable(route = Screen.CalculatorPage.name) {
                         CalculatorPage(
