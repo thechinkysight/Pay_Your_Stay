@@ -27,9 +27,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PayYourStayTheme {
-                PayYourStayApp()
-            }
+            PayYourStayApp()
         }
     }
 }
@@ -40,29 +38,30 @@ private fun PayYourStayApp(
     calculatorViewModel: CalculatorViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-
-    Surface(
-        modifier = modifier.fillMaxSize()
-    ) {
-        Scaffold(topBar = {
-            TopAppBar(
-                navController = navController
-            )
-        }) { innerPadding ->
-            NavHost(
-                modifier = Modifier.padding(innerPadding),
-                navController = navController,
-                startDestination = Screen.CalculatorPage.name
-            ) {
-                composable(route = Screen.CalculatorPage.name) {
-                    CalculatorPage(
-                        calculatorViewModel = calculatorViewModel, navController = navController
-                    )
-                }
-                composable(route = Screen.InvoicePage.name) {
-                    InvoicePage(
-                        calculatorViewModel = calculatorViewModel
-                    )
+    PayYourStayTheme {
+        Surface(
+            modifier = modifier.fillMaxSize()
+        ) {
+            Scaffold(topBar = {
+                TopAppBar(
+                    navController = navController
+                )
+            }) { innerPadding ->
+                NavHost(
+                    modifier = Modifier.padding(innerPadding),
+                    navController = navController,
+                    startDestination = Screen.CalculatorPage.name
+                ) {
+                    composable(route = Screen.CalculatorPage.name) {
+                        CalculatorPage(
+                            calculatorViewModel = calculatorViewModel, navController = navController
+                        )
+                    }
+                    composable(route = Screen.InvoicePage.name) {
+                        InvoicePage(
+                            calculatorViewModel = calculatorViewModel
+                        )
+                    }
                 }
             }
         }

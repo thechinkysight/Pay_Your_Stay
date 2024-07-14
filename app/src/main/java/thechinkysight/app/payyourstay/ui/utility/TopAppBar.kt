@@ -20,8 +20,7 @@ import thechinkysight.app.payyourstay.ui.enums.Screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(
-    modifier: Modifier = Modifier,
-    navController: NavHostController
+    modifier: Modifier = Modifier, navController: NavHostController
 ) {
 
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -30,25 +29,26 @@ fun TopAppBar(
         backStackEntry?.destination?.route ?: Screen.CalculatorPage.name
     )
 
-    CenterAlignedTopAppBar(
-        modifier = modifier, title = {
-            Text(
-                text = stringResource(currentScreen.title).uppercase()
-            )
-        }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-            titleContentColor = MaterialTheme.colorScheme.onSurface
-        ), navigationIcon = {
-            if (navController.previousBackStackEntry != null) {
-                IconButton(onClick = {
-                    navController.navigateUp()
-                }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.left_arrow),
-                        contentDescription = stringResource(id = R.string.back_button)
-                    )
-                }
+    CenterAlignedTopAppBar(modifier = modifier, title = {
+        Text(
+            text = stringResource(currentScreen.title).uppercase()
+        )
+    }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+        titleContentColor = MaterialTheme.colorScheme.onSurface
+    ), navigationIcon = {
+        if (navController.previousBackStackEntry != null) {
+            IconButton(onClick = {
+                navController.navigateUp()
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.left_arrow),
+                    contentDescription = stringResource(id = R.string.back_button)
+                )
             }
         }
-    )
+    })
 }
+
+
+

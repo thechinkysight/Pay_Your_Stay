@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import thechinkysight.app.payyourstay.ui.extension.surfaceContainer
 
 private val lightColorScheme = lightColorScheme(
     primary = primaryLight,
@@ -36,6 +34,13 @@ private val lightColorScheme = lightColorScheme(
     onErrorContainer = onErrorContainerLight,
     background = backgroundLight,
     onBackground = onBackgroundLight,
+    surfaceContainer = surfaceContainerLight,
+    surfaceDim = surfaceDimLight,
+    surfaceBright = surfaceBrightLight,
+    surfaceContainerLowest = surfaceContainerLowestLight,
+    surfaceContainerLow = surfaceContainerLowLight,
+    surfaceContainerHigh = surfaceContainerHighLight,
+    surfaceContainerHighest = surfaceContainerHighestLight,
     surface = surfaceLight,
     onSurface = onSurfaceLight,
     surfaceVariant = surfaceVariantLight,
@@ -68,6 +73,13 @@ private val darkColorScheme = darkColorScheme(
     onErrorContainer = onErrorContainerDark,
     background = backgroundDark,
     onBackground = onBackgroundDark,
+    surfaceContainer = surfaceContainerDark,
+    surfaceDim = surfaceDimDark,
+    surfaceBright = surfaceBrightDark,
+    surfaceContainerLowest = surfaceContainerLowestDark,
+    surfaceContainerLow = surfaceContainerLowDark,
+    surfaceContainerHigh = surfaceContainerHighDark,
+    surfaceContainerHighest = surfaceContainerHighestDark,
     surface = surfaceDark,
     onSurface = onSurfaceDark,
     surfaceVariant = surfaceVariantDark,
@@ -87,9 +99,6 @@ fun PayYourStayTheme(
     dynamicColor: Boolean = false, content: @Composable () -> Unit
 ) {
 
-    val statusBarColor = colorScheme.surfaceContainer
-
-
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -99,6 +108,9 @@ fun PayYourStayTheme(
         useDarkTheme -> darkColorScheme
         else -> lightColorScheme
     }
+
+    val statusBarColor = colorScheme.surfaceContainer
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
