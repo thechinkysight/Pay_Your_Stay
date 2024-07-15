@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
@@ -55,6 +57,32 @@ fun InvoicePage(
             calculatorViewModel = calculatorViewModel,
             currencyFormat = currencyFormat
         )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 12.5.dp))
+
+        Spacer(modifier = Modifier.height(35.dp))
+
+        Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 9.27.dp),
+                text = stringResource(id = R.string.total).uppercase(),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(
+                text = currencyFormat.format(calculatorViewModel.total.value ?: 0),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        }
+
     }
 
 }
