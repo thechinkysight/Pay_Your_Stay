@@ -25,11 +25,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import thechinkysight.app.payyourstay.R
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun InvoicePage(
     modifier: Modifier = Modifier, calculatorViewModel: CalculatorViewModel
 ) {
+
+    val currencyFormat = NumberFormat.getCurrencyInstance(Locale("en", "NP"))
+
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp)
@@ -40,11 +45,15 @@ fun InvoicePage(
         )
 
         UtilitiesSection(
-            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+            modifier = Modifier.padding(top = 35.dp),
+            calculatorViewModel = calculatorViewModel,
+            currencyFormat = currencyFormat
         )
 
         RentSection(
-            modifier = Modifier.padding(top = 35.dp), calculatorViewModel = calculatorViewModel
+            modifier = Modifier.padding(top = 35.dp),
+            calculatorViewModel = calculatorViewModel,
+            currencyFormat = currencyFormat
         )
     }
 
@@ -66,13 +75,13 @@ private fun ElectricityMeterReadingSection(
             InvoiceContent(
                 leadingIcon = R.drawable.bolt_24,
                 contentTitle = R.string.previous_elec_meter_reading,
-                contentValue = if (previousElecMeterReading != null) previousElecMeterReading.toString() else "0"
+                contentValue = previousElecMeterReading ?: 0
             )
         }, {
             InvoiceContent(
                 leadingIcon = R.drawable.bolt_24,
                 contentTitle = R.string.current_elec_meter_reading,
-                contentValue = if (currentElecMeterReading != null) currentElecMeterReading.toString() else "0"
+                contentValue = currentElecMeterReading ?: 0
             )
         })
     )
@@ -80,7 +89,9 @@ private fun ElectricityMeterReadingSection(
 
 @Composable
 private fun UtilitiesSection(
-    modifier: Modifier = Modifier, calculatorViewModel: CalculatorViewModel
+    modifier: Modifier = Modifier,
+    calculatorViewModel: CalculatorViewModel,
+    currencyFormat: NumberFormat
 ) {
     val electricityRatePerUnit by calculatorViewModel.electricityRatePerUnit.collectAsState()
     val electricityExpense by calculatorViewModel.electricityExpense.collectAsState()
@@ -92,27 +103,31 @@ private fun UtilitiesSection(
         sectionTitle = R.string.utilities,
         contents = arrayOf<@Composable () -> Unit>({
             InvoiceContent(
+                currencyFormat = currencyFormat,
                 leadingIcon = R.drawable.payment_24,
                 contentTitle = R.string.electricity_rate_per_unit,
-                contentValue = if (electricityRatePerUnit != null) electricityRatePerUnit.toString() else "0"
+                contentValue = electricityRatePerUnit ?: 0
             )
         }, {
             InvoiceContent(
+                currencyFormat = currencyFormat,
                 leadingIcon = R.drawable.payment_24,
                 contentTitle = R.string.electricity_expense,
-                contentValue = if (electricityRatePerUnit != null) electricityExpense.toString() else "0"
+                contentValue = electricityExpense ?: 0
             )
         }, {
             InvoiceContent(
+                currencyFormat = currencyFormat,
                 leadingIcon = R.drawable.water_drop_24,
                 contentTitle = R.string.water_fee,
-                contentValue = if (electricityRatePerUnit != null) waterFee.toString() else "0"
+                contentValue = waterFee ?: 0
             )
         }, {
             InvoiceContent(
+                currencyFormat = currencyFormat,
                 leadingIcon = R.drawable.delete_24,
                 contentTitle = R.string.garbage_fee,
-                contentValue = if (electricityRatePerUnit != null) garbageFee.toString() else "0"
+                contentValue = garbageFee ?: 0
             )
         })
     )
@@ -120,7 +135,11 @@ private fun UtilitiesSection(
 
 
 @Composable
-private fun RentSection(modifier: Modifier = Modifier, calculatorViewModel: CalculatorViewModel) {
+private fun RentSection(
+    modifier: Modifier = Modifier,
+    calculatorViewModel: CalculatorViewModel,
+    currencyFormat: NumberFormat
+) {
 
     val rent by calculatorViewModel.rent.collectAsState()
 
@@ -129,9 +148,10 @@ private fun RentSection(modifier: Modifier = Modifier, calculatorViewModel: Calc
         sectionTitle = R.string.rent,
         contents = arrayOf<@Composable () -> Unit>({
             InvoiceContent(
+                currencyFormat = currencyFormat,
                 leadingIcon = R.drawable.payment_24,
                 contentTitle = R.string.monthly_rent,
-                contentValue = if (rent != null) rent.toString() else "0"
+                contentValue = rent ?: 0
             )
         })
     )
@@ -146,7 +166,6 @@ private fun InvoiceSection(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-
         Text(
             text = stringResource(id = sectionTitle).uppercase(),
             style = MaterialTheme.typography.titleMedium
@@ -170,10 +189,12 @@ private fun InvoiceSection(
 @Composable
 private fun InvoiceContent(
     modifier: Modifier = Modifier,
+    currencyFormat: NumberFormat? = null,
     @DrawableRes leadingIcon: Int,
     @StringRes contentTitle: Int,
-    contentValue: String
+    contentValue: Int
 ) {
+
     Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Icon(
             painter = painterResource(id = leadingIcon),
@@ -187,6 +208,10 @@ private fun InvoiceContent(
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.width(20.dp))
-        Text(text = "NPR $contentValue", style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = if (currencyFormat == null) contentValue.toString() else currencyFormat.format(
+                contentValue
+            ), style = MaterialTheme.typography.bodyLarge
+        )
     }
 }

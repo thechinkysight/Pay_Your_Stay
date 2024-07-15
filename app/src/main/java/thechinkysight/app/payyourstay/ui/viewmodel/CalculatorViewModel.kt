@@ -124,7 +124,6 @@ class CalculatorViewModel : ViewModel() {
         val value = validateTextFieldValue(currentValue, oldValue)
 
         updateTextFieldValue(value, textField)
-
     }
 
     fun validateTextFieldValue(currentValue: String, oldValue: Int?): Int? {
