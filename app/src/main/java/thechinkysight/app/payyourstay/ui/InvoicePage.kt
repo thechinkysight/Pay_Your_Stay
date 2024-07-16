@@ -60,7 +60,7 @@ fun InvoicePage(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        HorizontalDivider(modifier = Modifier.padding(horizontal = 12.5.dp))
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 9.27.dp))
 
         Spacer(modifier = Modifier.height(35.dp))
 
@@ -82,6 +82,8 @@ fun InvoicePage(
                 )
             )
         }
+
+        Spacer(modifier = Modifier.height(30.dp))
 
     }
 
