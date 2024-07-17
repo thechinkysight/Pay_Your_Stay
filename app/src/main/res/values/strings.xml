@@ -14,6 +14,7 @@
     <string name="utilities">Utilities</string>
     <string name="electricity_expense">Electricity Expense</string>
     <string name="total">Total</string>
+    <string name="share">Share</string>
 
     <!-- Content description for icons -->
     <string name="text_field_error_icon">Error icon</string>

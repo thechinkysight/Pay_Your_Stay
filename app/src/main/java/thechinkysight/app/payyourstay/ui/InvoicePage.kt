@@ -2,6 +2,7 @@ package thechinkysight.app.payyourstay.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -82,11 +85,28 @@ fun InvoicePage(
                 )
             )
         }
+        Spacer(modifier = Modifier.height(50.dp))
 
+        Button(
+            modifier = modifier
+                .height(56.dp)
+                .fillMaxWidth(),
+            onClick = { /*TODO*/ },
+            shape = RoundedCornerShape(4.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.share_24px), contentDescription = null
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(id = R.string.share).uppercase())
+            }
+        }
         Spacer(modifier = Modifier.height(30.dp))
-
     }
-
 }
 
 @Composable
