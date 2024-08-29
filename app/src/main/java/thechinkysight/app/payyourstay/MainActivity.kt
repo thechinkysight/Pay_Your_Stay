@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun PayYourStayApp(
+fun PayYourStayApp(
     modifier: Modifier = Modifier,
     calculatorViewModel: CalculatorViewModel = viewModel(),
     navController: NavHostController = rememberNavController()

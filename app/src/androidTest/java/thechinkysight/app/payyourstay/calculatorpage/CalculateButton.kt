@@ -2,6 +2,7 @@ package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -11,16 +12,17 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.ComposeNavigator
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import thechinkysight.app.payyourstay.PayYourStayApp
 import thechinkysight.app.payyourstay.R
-import thechinkysight.app.payyourstay.ui.CalculatorPage
+import thechinkysight.app.payyourstay.ui.enums.Screen
 import thechinkysight.app.payyourstay.ui.theme.PayYourStayTheme
 import thechinkysight.app.payyourstay.ui.viewmodel.CalculatorViewModel
 
@@ -31,15 +33,20 @@ class CalculateButton {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val calculatorViewModel = CalculatorViewModel()
+    private lateinit var testNavController: TestNavHostController
 
 
     @Before
     fun setUp() {
         composeTestRule.setContent {
+
+            testNavController = TestNavHostController(LocalContext.current).apply {
+                navigatorProvider.addNavigator(ComposeNavigator())
+            }
+
             PayYourStayTheme {
-                CalculatorPage(
-                    calculatorViewModel = calculatorViewModel,
-                    navController = rememberNavController()
+                PayYourStayApp(
+                    calculatorViewModel = calculatorViewModel, navController = testNavController
                 )
             }
         }
@@ -81,9 +88,6 @@ class CalculateButton {
         assertCalculateButtonIsDisabled()
     }
 
-
-    //  TODO: Update the following test to incorporate navigation test.
-    @Ignore
     @Test
     fun calculateButton_CalculatesResultProperly() {
 
@@ -93,6 +97,8 @@ class CalculateButton {
         searchTextField(R.string.water_fee).performTextInput("300")
         searchTextField(R.string.garbage_fee).performTextInput("200")
         searchTextField(R.string.rent).performTextInput("15000")
+
+        calculateButtonSemanticsNodeInteraction().assertIsEnabled()
 
         calculateButtonSemanticsNodeInteraction().performClick()
 
@@ -111,11 +117,11 @@ class CalculateButton {
         assertEquals(750, calculatorViewModel.electricityExpense.value)
 
         assertEquals(16250, calculatorViewModel.total.value)
-    }
 
-    /**
-     * TODO: Write tests to test whether exception is thrown or not in the unit test and tests to test the handling of the exception in the instrument test.
-     */
+        assertEquals(
+            Screen.InvoicePage.name, testNavController.currentBackStackEntry?.destination?.route
+        )
+    }
 
 
     // Error path
@@ -253,22 +259,6 @@ class CalculateButton {
     fun calculateButton_OnlyRentTextFieldHasValueAfterInitialisation_IsDisabled() {
         searchTextField(R.string.rent).performTextInput("15000")
         assertCalculateButtonIsDisabled()
-    }
-
-
-    // Boundary case
-
-    // TODO: Merge the following test with `calculateButton_CalculatesResultProperly()` tests
-    @Test
-    fun calculateButton_allTextFieldHasNoError_calculateButtonIsEnabled() {
-        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1000")
-        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
-        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
-        searchTextField(R.string.water_fee).performTextInput("300")
-        searchTextField(R.string.garbage_fee).performTextInput("200")
-        searchTextField(R.string.rent).performTextInput("15000")
-
-        calculateButtonSemanticsNodeInteraction().assertIsEnabled()
     }
 
 }
