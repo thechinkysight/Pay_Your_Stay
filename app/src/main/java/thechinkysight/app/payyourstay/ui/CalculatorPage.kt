@@ -68,7 +68,6 @@ fun CalculatorPage(
             modifier = fillMaxWidthModifier,
             calculatorViewModel = calculatorViewModel,
             onClick = {
-
                 calculatorViewModel.calculateTotal(
                     previousElecMeterReading = calculatorViewModel.previousElecMeterReading.value
                         ?: 0,
@@ -82,11 +81,9 @@ fun CalculatorPage(
 
                 navController.navigate(route = Screen.InvoicePage.name)
 
-
             })
         Spacer(modifier = Modifier.height(30.dp))
     }
-
 }
 
 
@@ -357,7 +354,6 @@ private fun CalculateButton(
 
     Button(
         onClick = onClick, modifier = modifier.height(56.dp), shape = RoundedCornerShape(4.dp),
-        // TODO: Write test for the enablility of the button
         enabled = shouldTheButtonBeEnable
     ) {
         Text(text = stringResource(id = R.string.calculate).uppercase())

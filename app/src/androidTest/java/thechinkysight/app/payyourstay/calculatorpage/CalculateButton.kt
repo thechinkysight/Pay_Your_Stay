@@ -1,6 +1,10 @@
 package thechinkysight.app.payyourstay.calculatorpage
 
 import androidx.activity.ComponentActivity
+import androidx.annotation.StringRes
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasText
@@ -11,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,75 +46,55 @@ class CalculateButton {
     }
 
 
+    private fun searchTextField(@StringRes textField: Int): SemanticsNodeInteraction {
+        return composeTestRule.onNode(
+            hasSetTextAction() and hasText(
+                composeTestRule.activity.getString(
+                    textField
+                )
+            )
+        )
+    }
+
+    private fun calculateButtonSemanticsNodeInteraction(): SemanticsNodeInteraction {
+        return composeTestRule.onNode(
+            hasClickAction() and hasText(
+                composeTestRule.activity.getString(R.string.calculate).uppercase()
+            )
+        )
+    }
+
+    private fun assertCalculateButtonIsDisabled() {
+        calculateButtonSemanticsNodeInteraction().assertIsNotEnabled()
+    }
+
+
     // Success path
 
     @Test
     fun calculateButton_Exist() {
-        composeTestRule.onNode(
-            hasClickAction() and hasText(
-                composeTestRule.activity.getString(R.string.calculate).uppercase()
-            )
-        ).assertExists()
+        calculateButtonSemanticsNodeInteraction().assertExists()
     }
 
+    @Test
+    fun calculateButton_Initialization_IsDisabled() {
+        assertCalculateButtonIsDisabled()
+    }
+
+
     //  TODO: Update the following test to incorporate navigation test.
+    @Ignore
     @Test
     fun calculateButton_CalculatesResultProperly() {
 
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.previous_elec_meter_reading
-                )
-            )
-        ).performTextInput("1050")
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1050")
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        searchTextField(R.string.water_fee).performTextInput("300")
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        searchTextField(R.string.rent).performTextInput("15000")
 
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.current_elec_meter_reading
-                )
-            )
-        ).performTextInput("1100")
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.electricity_rate_per_unit
-                )
-            )
-        ).performTextInput("15")
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.water_fee
-                )
-            )
-        ).performTextInput("300")
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.garbage_fee
-                )
-            )
-        ).performTextInput("200")
-
-        composeTestRule.onNode(
-            hasSetTextAction() and hasText(
-                composeTestRule.activity.getString(
-                    R.string.rent
-                )
-            )
-        ).performTextInput("15000")
-
-
-        composeTestRule.onNode(
-            hasClickAction() and hasText(
-                composeTestRule.activity.getString(R.string.calculate).uppercase()
-            )
-        ).performClick()
+        calculateButtonSemanticsNodeInteraction().performClick()
 
         assertEquals(1050, calculatorViewModel.previousElecMeterReading.value)
 
@@ -129,9 +114,161 @@ class CalculateButton {
     }
 
     /**
-     * TODO: Update or write test to test whether the calculate button is disable on start.
      * TODO: Write tests to test whether exception is thrown or not in the unit test and tests to test the handling of the exception in the instrument test.
-     * TODO: Write tests to test whether calculate button is enabled or not based on the text fields error status.
      */
+
+
+    // Error path
+
+    // The following tests assert that the `Calculate` button remains disabled
+    // when at least one text field contains an error.
+    @Test
+    fun calculateButton_PreviousElecMeterReadingTextFieldHasError_IsDisabled() {
+
+        searchTextField(R.string.previous_elec_meter_reading).performClick()
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        searchTextField(R.string.water_fee).performTextInput("300")
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        searchTextField(R.string.rent).performTextInput("15000")
+
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_CurrentElecMeterReadingTextFieldHasError_IsDisabled() {
+
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1050")
+        searchTextField(R.string.current_elec_meter_reading).performClick()
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        searchTextField(R.string.water_fee).performTextInput("300")
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        searchTextField(R.string.rent).performTextInput("15000")
+
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_ElectricityRatePerUnitTextFieldHasError_IsDisabled() {
+
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1050")
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        searchTextField(R.string.electricity_rate_per_unit).performClick()
+        searchTextField(R.string.water_fee).performTextInput("300")
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        searchTextField(R.string.rent).performTextInput("15000")
+
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_WaterFeeTextFieldHasError_IsDisabled() {
+
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1050")
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        searchTextField(R.string.water_fee).performClick()
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        searchTextField(R.string.rent).performTextInput("15000")
+
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_GarbageFeeTextFieldHasError_IsDisabled() {
+
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1050")
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        searchTextField(R.string.water_fee).performTextInput("300")
+        searchTextField(R.string.garbage_fee).performClick()
+        searchTextField(R.string.rent).performTextInput("15000")
+
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_RentTextFieldHasError_IsDisabled() {
+
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1050")
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        searchTextField(R.string.water_fee).performTextInput("300")
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        searchTextField(R.string.rent).performClick()
+
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_AllTextFieldsHaveError_IsDisabled() {
+
+        searchTextField(R.string.previous_elec_meter_reading).performClick()
+        searchTextField(R.string.current_elec_meter_reading).performClick()
+        searchTextField(R.string.electricity_rate_per_unit).performClick()
+        searchTextField(R.string.water_fee).performClick()
+        searchTextField(R.string.garbage_fee).performClick()
+        searchTextField(R.string.rent).performClick()
+
+        assertCalculateButtonIsDisabled()
+    }
+
+
+    // Upon initialization of the `CalculatorPage`, all text fields are empty,
+    // and the `Calculate` button is disabled. Even after entering a value into
+    // a text field, the `Calculate` button will remain disabled until all text
+    // fields are filled with valid, error-free input.
+    // The following tests validate this behavior.
+    @Test
+    fun calculateButton_OnlyPreviousElecMeterReadingTextFieldHasValueAfterInitialisation_IsDisabled() {
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1050")
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_OnlyCurrentElecMeterReadingTextFieldHasValueAfterInitialisation_IsDisabled() {
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_OnlyElectricityRatePerUnitTextFieldHasValueAfterInitialisation_IsDisabled() {
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_OnlyWaterFeeTextFieldHasValueAfterInitialisation_IsDisabled() {
+        searchTextField(R.string.water_fee).performTextInput("300")
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_OnlyGarbageFeeTextFieldHasValueAfterInitialisation_IsDisabled() {
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        assertCalculateButtonIsDisabled()
+    }
+
+    @Test
+    fun calculateButton_OnlyRentTextFieldHasValueAfterInitialisation_IsDisabled() {
+        searchTextField(R.string.rent).performTextInput("15000")
+        assertCalculateButtonIsDisabled()
+    }
+
+
+    // Boundary case
+
+    // TODO: Merge the following test with `calculateButton_CalculatesResultProperly()` tests
+    @Test
+    fun calculateButton_allTextFieldHasNoError_calculateButtonIsEnabled() {
+        searchTextField(R.string.previous_elec_meter_reading).performTextInput("1000")
+        searchTextField(R.string.current_elec_meter_reading).performTextInput("1100")
+        searchTextField(R.string.electricity_rate_per_unit).performTextInput("15")
+        searchTextField(R.string.water_fee).performTextInput("300")
+        searchTextField(R.string.garbage_fee).performTextInput("200")
+        searchTextField(R.string.rent).performTextInput("15000")
+
+        calculateButtonSemanticsNodeInteraction().assertIsEnabled()
+    }
 
 }
