@@ -24,3 +24,24 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+
+    - name: Run Unit Tests
+      run: ./gradlew test
+
+    - name: Set up AVD (Android Virtual Device)
+      uses: android-actions/setup-android@v3
+      with:
+        api-level: 35
+        target: default
+        arch: x86_64
+        profile: default
+        emulator-options: "-no-window -no-audio"
+
+    - name: Start AVD
+      run: |
+        $ANDROID_HOME/emulator/emulator -avd test -no-snapshot -no-window &
+        adb wait-for-device
+        adb shell input keyevent 82 &
+
+    - name: Run Instrumentation Tests
+      run: ./gradlew connectedAndroidTest
