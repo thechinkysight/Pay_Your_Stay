@@ -1,10 +1,27 @@
 <resources>
     <string name="app_name">Pay Your Stay</string>
+    <string name="electricity_rate_per_unit">Electricity Rate Per Unit</string>
+    <string name="current_elec_meter_reading">Current Elec. Meter Reading</string>
+    <string name="previous_elec_meter_reading">Previous Elec. Meter Reading</string>
+    <string name="water_fee">Water Fee</string>
+    <string name="garbage_fee">Garbage Fee</string>
+    <string name="rent">Rent</string>
+    <string name="monthly_rent">Monthly Rent</string>
+    <string name="calculate">calculate</string>
+    <string name="calculator">calculator</string>
+    <string name="invoice">Invoice</string>
+    <string name="electricity_meter_reading">Electricity Meter Reading</string>
+    <string name="utilities">Utilities</string>
+    <string name="electricity_expense">Electricity Expense</string>
+    <string name="total">Total</string>
+    <string name="share">Share</string>
 
-    <string name="history">History</string>
-    <string name="settings">Settings</string>
-    <string name="analysis">Analysis</string>
-    <string name="calculator">Calculator</string>
+    <!-- Content description for icons -->
+    <string name="text_field_error_icon">Error icon</string>
+    <string name="back_button">Back</string>
 
+    <!--Error message for text field-->
+    <string name="error_text_field_is_empty">%1$s can\'t be empty.</string>
+    <string name="error_current_elec_meter_reading_is_less_than_previous_elec_meter_reading">Current reading can\'t be less than previous.</string>
 
 </resources>
