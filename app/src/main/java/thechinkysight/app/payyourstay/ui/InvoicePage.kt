@@ -1,5 +1,6 @@
 package thechinkysight.app.payyourstay.ui
 
+import android.content.Intent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +41,7 @@ fun InvoicePage(
 ) {
 
     val currencyFormat = NumberFormat.getCurrencyInstance(Locale("en", "NP"))
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -90,9 +93,27 @@ fun InvoicePage(
         Button(
             modifier = modifier
                 .height(56.dp)
-                .fillMaxWidth(),
-            onClick = { /*TODO*/ },
-            shape = RoundedCornerShape(4.dp)
+                .fillMaxWidth(), onClick = {
+
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "Previous Elec. Meter Reading: ${calculatorViewModel.previousElecMeterReading.value}\n" +
+                                "Current Elec. Meter Reading: ${calculatorViewModel.currentElecMeterReading.value}\n" +
+                                "Electricity Rate Per Unit: ${currencyFormat.format(calculatorViewModel.electricityRatePerUnit.value)}\n" +
+                                "Electricity Expense: ${currencyFormat.format(calculatorViewModel.electricityExpense.value)}\n" +
+                                "Water Fee: ${currencyFormat.format(calculatorViewModel.waterFee.value)}\n" +
+                                "Garbage Fee: ${currencyFormat.format(calculatorViewModel.garbageFee.value)}\n" +
+                                "Monthly Rent: ${currencyFormat.format(calculatorViewModel.rent.value)}\n" +
+                                "Total: ${currencyFormat.format(calculatorViewModel.total.value)}\n"
+                    )
+                    type = "text/plain"
+                }
+
+                context.startActivity(Intent.createChooser(shareIntent, "Share via"))
+
+            }, shape = RoundedCornerShape(4.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
